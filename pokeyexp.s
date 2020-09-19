@@ -16,16 +16,16 @@
 
 ; SHADOW POKEY
 
-shadow_audf1    dta $00         ; $d200
-shadow_audc1    dta $a0         ; $d201
-shadow_audf2    dta $00         ; $d202
-shadow_audc2    dta $a0         ; $d203
-shadow_audf3    dta $00         ; $d204
-shadow_audc3    dta $a0         ; $d205
-shadow_audf4    dta $00         ; $d206
-shadow_audc4    dta $a0         ; $d207
-shadow_audctl   dta $00         ; $d208
-shadow_skctl    dta $00         ; $d20f
+shadow_audf1    dta $12         ; $d200
+shadow_audc1    dta $34         ; $d201
+shadow_audf2    dta $56         ; $d202
+shadow_audc2    dta $78         ; $d203
+shadow_audf3    dta $9a         ; $d204
+shadow_audc3    dta $bc         ; $d205
+shadow_audf4    dta $de         ; $d206
+shadow_audc4    dta $f0         ; $d207
+shadow_audctl   dta $ea         ; $d208
+shadow_skctl    dta $56         ; $d20f
 
 ; ---------------------------------------------------------------------------
 
@@ -42,11 +42,51 @@ main
     mva #>dl $0231
 
 loop
+    jsr display_shadow_pokey
+
     bget 0, 1, keybuf
     jmp loop
 
 keybuf
     dta 0
+
+; ---------------------------------------------------------------------------
+
+print_shadow_hex    .macro register, location
+    lda :register
+    tay
+    lsr
+    lsr
+    lsr
+    lsr
+    tax
+    lda hextab,x
+    sta :location
+    tya
+    and #$0f
+    tax
+    lda hextab,x
+    sta :location+1
+    .mend
+
+display_shadow_pokey
+    print_shadow_hex shadow_audf1  loc_audf1
+    print_shadow_hex shadow_audc1  loc_audc1
+    print_shadow_hex shadow_audf2  loc_audf2
+    print_shadow_hex shadow_audc2  loc_audc2
+    print_shadow_hex shadow_audf3  loc_audf3
+    print_shadow_hex shadow_audc3  loc_audc3
+    print_shadow_hex shadow_audf4  loc_audf4
+    print_shadow_hex shadow_audc4  loc_audc4
+    print_shadow_hex shadow_audctl loc_audctl
+    print_shadow_hex shadow_skctl  loc_skctl
+
+    rts
+
+; ---------------------------------------------------------------------------
+
+hextab
+    dta d'0123456789ABCDEF'
 
 ; ---------------------------------------------------------------------------
 
@@ -171,6 +211,17 @@ clock_channel3_179_line
 
 pokey_values_decoration_top
     dta d'  ', c'QRRRRREQRRRRREQRRRRREQRRRRRE', d'                     '
+
+loc_audf1 = *+3
+loc_audc1 = *+6
+loc_audf2 = *+10
+loc_audc2 = *+13
+loc_audf3 = *+17
+loc_audc3 = *+20
+loc_audf4 = *+24
+loc_audc4 = *+27
+loc_audctl = *+33
+loc_skctl = *+36
 
 pokey_values_line
     dta d'  |00 01||02 03||04 05||06 07|   08 0f  '
