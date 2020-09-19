@@ -102,6 +102,7 @@ display_shadow_pokey
     print_shadow_bit shadow_audctl, $80, poly17_line, poly9_line, loc_poly_line
     print_shadow_bit shadow_audctl, $40, clock_channel1_base_line, clock_channel1_179_line, loc_clock_channel1_line
     print_shadow_bit shadow_audctl, $20, clock_channel3_base_line, clock_channel3_179_line, loc_clock_channel3_line
+    print_shadow_bit shadow_audctl, $01, base_clock64_line, base_clock15_line, loc_base_clock_line
 
     print_shadow_bit shadow_skctl, $08, two_tone_off_line, two_tone_on_line, loc_two_tone_line
 
