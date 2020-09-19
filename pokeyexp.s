@@ -103,6 +103,35 @@ display_shadow_pokey
     print_shadow_bit shadow_audctl, $40, clock_channel1_base_line, clock_channel1_179_line, loc_clock_channel1_line
     print_shadow_bit shadow_audctl, $20, clock_channel3_base_line, clock_channel3_179_line, loc_clock_channel3_line
 
+    ; join channels
+
+    lda shadow_audctl
+    and #$18                ; both
+    cmp #$18
+    beq display_join_both
+
+    cmp #$10
+    beq display_join12
+
+    cmp #$08
+    beq display_join34
+
+    mwa #join00_line loc_join1234_line
+    jmp cont_display_shadow_pokey
+
+display_join12
+    mwa #join12_line loc_join1234_line
+    jmp cont_display_shadow_pokey
+
+display_join34
+    mwa #join34_line loc_join1234_line
+    jmp cont_display_shadow_pokey
+
+display_join_both
+    mwa #join1234_line loc_join1234_line
+
+cont_display_shadow_pokey
+
     print_shadow_bit shadow_audctl, $04, filter13_off_line, filter13_on_line, loc_filter13_line
     print_shadow_bit shadow_audctl, $02, filter24_off_line, filter24_on_line, loc_filter24_line
 
