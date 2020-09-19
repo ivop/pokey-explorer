@@ -52,6 +52,8 @@ keybuf
 
 ; ---------------------------------------------------------------------------
 
+; PRINT macros
+
 print_shadow_hex    .macro register, location
     lda :register
     tay
@@ -69,6 +71,22 @@ print_shadow_hex    .macro register, location
     sta :location+1
     .mend
 
+print_shadow_bit    .macro register, mask, offline, online, location
+    lda :register
+    and #:mask
+    bne bit_on
+
+    mwa #:offline :location
+    jmp bit_done
+
+bit_on
+    mwa #:online :location
+
+bit_done
+    .mend
+
+; ---------------------------------------------------------------------------
+
 display_shadow_pokey
     print_shadow_hex shadow_audf1  loc_audf1
     print_shadow_hex shadow_audc1  loc_audc1
@@ -80,6 +98,12 @@ display_shadow_pokey
     print_shadow_hex shadow_audc4  loc_audc4
     print_shadow_hex shadow_audctl loc_audctl
     print_shadow_hex shadow_skctl  loc_skctl
+
+    print_shadow_bit shadow_audctl, $80, poly17_line, poly9_line, loc_poly_line
+    print_shadow_bit shadow_audctl, $40, clock_channel1_base_line, clock_channel1_179_line, loc_clock_channel1_line
+    print_shadow_bit shadow_audctl, $20, clock_channel3_base_line, clock_channel3_179_line, loc_clock_channel3_line
+
+    print_shadow_bit shadow_skctl, $08, two_tone_off_line, two_tone_on_line, loc_two_tone_line
 
     rts
 
@@ -98,10 +122,13 @@ dl
     dta $70, $70
     dta $47, a(title)
     dta $70
+loc_filter13_line = *+1
     dta $42, a(filter13_line), $02
     dta $30
+loc_filter24_line = *+1
     dta $42, a(filter24_line), $02
     dta $30
+loc_join1234_line = *+1
     dta $42, a(join1234_line), $02
 
     dta $70
@@ -114,14 +141,19 @@ dl
     dta $42, a(down_keys_line)
     dta $70
 
+loc_poly_line = *+1
     dta $42, a(poly9_line)
     dta $00
+loc_base_clock_line = *+1
     dta $42, a(base_clock64_line)
     dta $00
+loc_clock_channel1_line = *+1
     dta $42, a(clock_channel1_base_line)
     dta $00
+loc_clock_channel3_line = *+1
     dta $42, a(clock_channel3_179_line)
     dta $00
+loc_two_tone_line = *+1
     dta $42, a(two_tone_off_line)
     dta $70
     dta $42, a(sweep_line)
