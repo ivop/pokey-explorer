@@ -16,16 +16,16 @@
 
 ; SHADOW POKEY
 
-shadow_audf1    dta $12         ; $d200
-shadow_audc1    dta $34         ; $d201
-shadow_audf2    dta $56         ; $d202
-shadow_audc2    dta $78         ; $d203
-shadow_audf3    dta $9a         ; $d204
-shadow_audc3    dta $bc         ; $d205
-shadow_audf4    dta $de         ; $d206
-shadow_audc4    dta $f0         ; $d207
-shadow_audctl   dta $ea         ; $d208
-shadow_skctl    dta $56         ; $d20f
+shadow_audf1    dta $00         ; $d200
+shadow_audc1    dta $a0         ; $d201
+shadow_audf2    dta $00         ; $d202
+shadow_audc2    dta $a0         ; $d203
+shadow_audf3    dta $00         ; $d204
+shadow_audc3    dta $a0         ; $d205
+shadow_audf4    dta $00         ; $d206
+shadow_audc4    dta $a0         ; $d207
+shadow_audctl   dta $00         ; $d208
+shadow_skctl    dta $00         ; $d20f
 
 ; ---------------------------------------------------------------------------
 
