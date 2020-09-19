@@ -132,11 +132,16 @@ display_join_both
 
 cont_display_shadow_pokey
 
+    ; filter bits
+
     print_shadow_bit shadow_audctl, $04, filter13_off_line, filter13_on_line, loc_filter13_line
     print_shadow_bit shadow_audctl, $02, filter24_off_line, filter24_on_line, loc_filter24_line
 
+    ; base clock
+
     print_shadow_bit shadow_audctl, $01, base_clock64_line, base_clock15_line, loc_base_clock_line
 
+    ; SKCTL two-tone bit
 
     print_shadow_bit shadow_skctl, $08, two_tone_off_line, two_tone_on_line, loc_two_tone_line
 
