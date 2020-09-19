@@ -22,8 +22,8 @@ shadow_audf2    dta $00         ; $d202
 shadow_audc2    dta $a0         ; $d203
 shadow_audf3    dta $00         ; $d204
 shadow_audc3    dta $a0         ; $d205
-shadow_audf4    dta $50         ; $d206
-shadow_audc4    dta $aa         ; $d207
+shadow_audf4    dta $00         ; $d206
+shadow_audc4    dta $a0         ; $d207
 shadow_audctl   dta $00         ; $d208
 shadow_skctl    dta $00         ; $d20f
 
@@ -46,6 +46,8 @@ loop
     jsr play_shadow_pokey
 
     bget 0, 1, keybuf
+    jsr handle_keypress
+
     jmp loop
 
 keybuf
@@ -166,6 +168,11 @@ play_shadow_pokey
     mva shadow_audc4  $d207
     mva shadow_audctl $d208
     mva shadow_skctl  $d20f
+    rts
+
+; ---------------------------------------------------------------------------
+
+handle_keypress
     rts
 
 ; ---------------------------------------------------------------------------
