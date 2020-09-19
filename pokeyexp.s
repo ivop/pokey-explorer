@@ -102,7 +102,12 @@ display_shadow_pokey
     print_shadow_bit shadow_audctl, $80, poly17_line, poly9_line, loc_poly_line
     print_shadow_bit shadow_audctl, $40, clock_channel1_base_line, clock_channel1_179_line, loc_clock_channel1_line
     print_shadow_bit shadow_audctl, $20, clock_channel3_base_line, clock_channel3_179_line, loc_clock_channel3_line
+
+    print_shadow_bit shadow_audctl, $04, filter13_off_line, filter13_on_line, loc_filter13_line
+    print_shadow_bit shadow_audctl, $02, filter24_off_line, filter24_on_line, loc_filter24_line
+
     print_shadow_bit shadow_audctl, $01, base_clock64_line, base_clock15_line, loc_base_clock_line
+
 
     print_shadow_bit shadow_skctl, $08, two_tone_off_line, two_tone_on_line, loc_two_tone_line
 
@@ -124,10 +129,10 @@ dl
     dta $47, a(title)
     dta $70
 loc_filter13_line = *+1
-    dta $42, a(filter13_line), $02
+    dta $42, a(filter13_on_line), $02
     dta $30
 loc_filter24_line = *+1
-    dta $42, a(filter24_line), $02
+    dta $42, a(filter24_on_line), $02
     dta $30
 loc_join1234_line = *+1
     dta $42, a(join1234_line), $02
@@ -179,7 +184,7 @@ filter13_off_line
     dta d' ', d'F'*, d'                                      '
     dta d'                                        '
 
-filter13_line
+filter13_on_line
     dta d' ', d'F'*, d'   ', c'QRRR', d'Filter', c'RRRRE'
     dta d'                    '
     dta d'     1             3                    '
@@ -188,7 +193,7 @@ filter24_off_line
     dta d' ', d'G'*, d'                                      '
     dta d'                                        '
 
-filter24_line
+filter24_on_line
     dta d' ', d'G'*, d'          ', c'QRRR', d'Filter', c'RRRRE'
     dta d'             '
     dta d'            2             4             '
