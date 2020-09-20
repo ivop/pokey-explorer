@@ -10,7 +10,7 @@
 
 ; ---------------------------------------------------------------------------
 
-    org $2200
+    org $2000
 
 ; ---------------------------------------------------------------------------
 
@@ -31,7 +31,7 @@ shadow_skctl    dta $00         ; $d20f
 
 ; MAIN
 
-    org $2400
+    org $2080
 main
 
     close 0
@@ -40,6 +40,9 @@ main
     mva #>font $02f4
     mva #<dl $0230
     mva #>dl $0231
+
+    mva #$ff $02db  ; NOCLIK, disable key click
+    mva #$00 $02be  ; SHFLOK, set lower case
 
 loop
     jsr display_shadow_pokey
@@ -65,25 +68,23 @@ print_shadow_hex    .macro register, location
     lsr
     lsr
     tax
-    lda hextab,x
-    sta :location
+    mva hextab,x :location
     tya
     and #$0f
     tax
-    lda hextab,x
-    sta :location+1
+    mva hextab,x :location+1
     .mend
 
-print_shadow_bit    .macro register, mask, offline, online, location
+print_shadow_bit    .macro register, mask, off_line, on_line, location
     lda :register
     and #:mask
     bne bit_on
 
-    mwa #:offline :location
+    mwa #:off_line :location
     jmp bit_done
 
 bit_on
-    mwa #:online :location
+    mwa #:on_line :location
 
 bit_done
     .mend
@@ -172,7 +173,87 @@ play_shadow_pokey
 
 ; ---------------------------------------------------------------------------
 
+; case macros for keypress handler
+
+case_inc1_key .macro key, register
+    cmp #:key
+    bne nope
+    inc :register
+    rts
+nope
+    .mend
+ 
+case_dec1_key .macro key, register
+    cmp #:key
+    bne nope
+    dec :register
+    rts
+nope
+    .mend
+ 
+case_inc16_key .macro key, register
+    cmp #:key
+    bne nope
+    lda :register
+    clc
+    adc #$10
+    sta :register
+    rts
+nope
+    .mend
+ 
+case_dec16_key .macro key, register
+    cmp #:key
+    bne nope
+    lda :register
+    sec
+    sbc #$10
+    sta :register
+    rts
+nope
+    .mend
+ 
+; ---------------------------------------------------------------------------
+
 handle_keypress
+    lda keybuf
+
+    case_inc1_key '1', shadow_audf1
+    case_inc1_key '2', shadow_audc1
+    case_inc1_key '3', shadow_audf2
+    case_inc1_key '4', shadow_audc2
+    case_inc1_key '5', shadow_audf3
+    case_inc1_key '6', shadow_audc3
+    case_inc1_key '7', shadow_audf4
+    case_inc1_key '8', shadow_audc4
+
+    case_dec1_key 'q', shadow_audf1
+    case_dec1_key 'w', shadow_audc1
+    case_dec1_key 'e', shadow_audf2
+    case_dec1_key 'r', shadow_audc2
+    case_dec1_key 't', shadow_audf3
+    case_dec1_key 'y', shadow_audc3
+    case_dec1_key 'u', shadow_audf4
+    case_dec1_key 'i', shadow_audc4
+
+    case_inc16_key '!', shadow_audf1
+    case_inc16_key '@', shadow_audc1    ; PC Keyboard, use '"' for real ATARI
+    case_inc16_key '#', shadow_audf2
+    case_inc16_key '$', shadow_audc2
+    case_inc16_key '%', shadow_audf3
+    case_inc16_key '^', shadow_audc3
+    case_inc16_key '&', shadow_audf4
+    case_inc16_key '*', shadow_audc4
+
+    case_dec16_key 'Q', shadow_audf1
+    case_dec16_key 'W', shadow_audc1
+    case_dec16_key 'E', shadow_audf2
+    case_dec16_key 'R', shadow_audc2
+    case_dec16_key 'T', shadow_audf3
+    case_dec16_key 'Y', shadow_audc3
+    case_dec16_key 'U', shadow_audf4
+    case_dec16_key 'I', shadow_audc4
+
     rts
 
 ; ---------------------------------------------------------------------------
