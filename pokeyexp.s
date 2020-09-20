@@ -213,6 +213,26 @@ case_dec16_key .macro key, register
 nope
     .mend
  
+case_audctl_toggle_key .macro key, mask
+    cmp #:key
+    bne nope
+    lda shadow_audctl
+    eor #:mask
+    sta shadow_audctl
+    rts
+nope
+    .mend
+
+case_skctl_toggle_key .macro key, mask
+    cmp #:key
+    bne nope
+    lda shadow_skctl
+    eor #:mask
+    sta shadow_skctl
+    rts
+nope
+    .mend
+
 ; ---------------------------------------------------------------------------
 
 handle_keypress
@@ -255,6 +275,27 @@ handle_keypress
     case_dec16_key 'U', shadow_audf4
     case_dec16_key 'I', shadow_audc4
 
+    case_audctl_toggle_key 'c', $01
+    case_audctl_toggle_key 'C', $01
+    case_audctl_toggle_key 'g', $02
+    case_audctl_toggle_key 'G', $02
+    case_audctl_toggle_key 'f', $04
+    case_audctl_toggle_key 'F', $04
+    case_audctl_toggle_key 'k', $08
+    case_audctl_toggle_key 'K', $08
+    case_audctl_toggle_key 'j', $10
+    case_audctl_toggle_key 'J', $10
+    case_audctl_toggle_key 'd', $20
+    case_audctl_toggle_key 'D', $20
+    case_audctl_toggle_key 'a', $40
+    case_audctl_toggle_key 'A', $40
+    case_audctl_toggle_key 'p', $80
+    case_audctl_toggle_key 'P', $80
+
+    case_skctl_toggle_key 'm', $08
+    case_skctl_toggle_key 'M', $08
+
+nope
     rts
 
 ; ---------------------------------------------------------------------------
@@ -301,7 +342,9 @@ loc_clock_channel3_line = *+1
 loc_two_tone_line = *+1
     dta $42, a(two_tone_off_line)
     dta $70
+.if 0
     dta $42, a(sweep_line)
+.fi
 
     dta $41, a(dl)
 
