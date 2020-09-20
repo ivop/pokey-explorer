@@ -34,8 +34,7 @@ shadow_skctl    dta $00         ; $d20f
     org $2080
 main
 
-    close 0
-    open 0, 4, 0, "K"
+    open 1, 4, 0, "K"
 
     mva #>font $02f4
     mva #<dl $0230
@@ -48,7 +47,7 @@ loop
     jsr display_shadow_pokey
     jsr play_shadow_pokey
 
-    bget 0, 1, keybuf
+    bget 1, 1, keybuf
     jsr handle_keypress
 
     jmp loop
