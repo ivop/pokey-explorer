@@ -237,7 +237,8 @@ handle_keypress
     case_dec1_key 'i', shadow_audc4
 
     case_inc16_key '!', shadow_audf1
-    case_inc16_key '@', shadow_audc1    ; PC Keyboard, use '"' for real ATARI
+    case_inc16_key '@', shadow_audc1    ; PC Keyboard
+    case_inc16_key '"', shadow_audc1    ; real ATARI
     case_inc16_key '#', shadow_audf2
     case_inc16_key '$', shadow_audc2
     case_inc16_key '%', shadow_audf3
