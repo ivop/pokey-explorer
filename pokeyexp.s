@@ -33,7 +33,6 @@ shadow_skctl    dta $00         ; $d20f
 
     org $2080
 main
-
     open 1, 4, 0, "K"
 
     mva #>font $02f4
@@ -41,11 +40,12 @@ main
     mva #>dl $0231
 
     mva #$ff $02db  ; NOCLIK, disable key click
-    mva #$00 $02be  ; SHFLOK, set lower case
 
 loop
     jsr display_shadow_pokey
     jsr play_shadow_pokey
+
+    mva #$00 $02be  ; SHFLOK, set lower case, always lower case
 
     bget 1, 1, keybuf
     jsr handle_keypress
