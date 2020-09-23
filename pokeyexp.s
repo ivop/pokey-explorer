@@ -301,27 +301,28 @@ handle_keypress
     .align $0400
 
 dl
-    dta $70, $70
-    dta $47, a(title)
+    dta $70
+    dta $42, a(title)
+    dta $42, a(author)
     dta $70
 loc_filter13_line = *+1
     dta $42, a(filter13_on_line), $02
-    dta $30
+    dta $10
 loc_filter24_line = *+1
     dta $42, a(filter24_on_line), $02
-    dta $30
+    dta $10
 loc_join1234_line = *+1
     dta $42, a(join1234_line), $02
 
-    dta $70
+    dta $30
     dta $42, a(pokey_values_decoration_top)
     dta $42, a(pokey_values_line)
     dta $42, a(pokey_values_decoration_bottom)
-    dta $70
+    dta $30
 
     dta $42, a(up_keys_line)
     dta $42, a(down_keys_line)
-    dta $70
+    dta $30
 
 loc_poly_line = *+1
     dta $42, a(poly9_line)
@@ -337,7 +338,7 @@ loc_clock_channel3_line = *+1
     dta $00
 loc_two_tone_line = *+1
     dta $42, a(two_tone_off_line)
-    dta $70
+    dta $30
 .if 0
     dta $42, a(sweep_line)
 .fi
@@ -351,8 +352,10 @@ loc_two_tone_line = *+1
 ; ---------------------------------------------------------------------------
 
 title
-    dta d'   POKEY EXPLORER   '
+    dta d'             POKEY EXPLORER             '*
 
+author
+    dta d'    by Ivo van Poorten   (C)2020 TGK    '
 empty_line
     dta d'                                        '
 
