@@ -304,25 +304,25 @@ dl
     dta $70
     dta $42, a(title)
     dta $42, a(author)
-    dta $70
+    dta $30
 loc_filter13_line = *+1
     dta $42, a(filter13_on_line), $02
-    dta $10
+    dta $00
 loc_filter24_line = *+1
     dta $42, a(filter24_on_line), $02
-    dta $10
+    dta $00
 loc_join1234_line = *+1
     dta $42, a(join1234_line), $02
 
-    dta $30
+    dta $10
     dta $42, a(pokey_values_decoration_top)
     dta $42, a(pokey_values_line)
     dta $42, a(pokey_values_decoration_bottom)
-    dta $30
+    dta $10
 
     dta $42, a(up_keys_line)
     dta $42, a(down_keys_line)
-    dta $30
+    dta $10
 
 loc_poly_line = *+1
     dta $42, a(poly9_line)
@@ -403,10 +403,10 @@ join1234_line
 ; ---------------------------------------------------------------------------
 
 poly9_line
-    dta d' ', d'P'*, d' Poly counter    : 9-bit              '
+    dta d' ', d'P'*, d' Poly counter    : 9-bit      ', d'['*, d' Reset '
 
 poly17_line
-    dta d' ', d'P'*, d' Poly counter    : 17-bit             '
+    dta d' ', d'P'*, d' Poly counter    : 17-bit     ', d'['*, d' Reset '
 
 base_clock15_line
     dta d' ', d'C'*, d' Clock base      : 15 kHz             '
