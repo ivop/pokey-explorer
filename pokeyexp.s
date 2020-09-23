@@ -429,7 +429,8 @@ clock_channel3_179_line
 ; ---------------------------------------------------------------------------
 
 pokey_values_decoration_top
-    dta d'  ', c'QRRRRREQRRRRREQRRRRREQRRRRRE', d'                     '
+    dta d'  ', c'QRR', d'1', c'RREQRR', d'2', c'RREQRR'
+    dta d'3', c'RREQRR', d'4', c'RRE', d'                     '
 
 loc_audf1 = *+3
 loc_audc1 = *+6
@@ -460,11 +461,11 @@ two_tone_on_line
 
 up_keys_line
     dta d' + ', d'1'*, d'  ', d'2'*, d'   ', d'3'*, d'  ', d'4'*, d'   '
-    dta d'5'*, d'  ', d'6'*, d'   ', d'7'*, d'  ', d'8'*, d'            '
+    dta d'5'*, d'  ', d'6'*, d'   ', d'7'*, d'  ', d'8'*, d'   SHIFT+$10'
 
 down_keys_line
     dta d' -  ', d'Q'*, d'  ', d'W'*, d'   ', d'E'*, d'  ', d'R'*, d'   '
-    dta d'T'*, d'  ', d'Y'*, d'   ', d'U'*, d'  ', d'I'*, d'           '
+    dta d'T'*, d'  ', d'Y'*, d'   ', d'U'*, d'  ', d'I'*, d'  SHIFT-$10'
 
 ; ---------------------------------------------------------------------------
 
