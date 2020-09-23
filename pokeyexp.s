@@ -36,9 +36,7 @@ main
     open 1, 4, 0, "K"
 
     mva #>font $02f4
-    mva #<dl $0230
-    mva #>dl $0231
-
+    mwa #dl $0230   ; display list
     mva #$ff $02db  ; NOCLIK, disable key click
 
 loop
