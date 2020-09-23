@@ -292,6 +292,14 @@ handle_keypress
     case_skctl_toggle_key 'm', $08
     case_skctl_toggle_key 'M', $08
 
+    cmp #'['
+    bne no_polyreset
+
+    lda #$ff
+    sta $d209           ; STIMER
+    rts
+no_polyreset
+
     rts
 
 ; ---------------------------------------------------------------------------
