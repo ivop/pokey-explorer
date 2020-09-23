@@ -293,8 +293,11 @@ handle_keypress
     case_skctl_toggle_key 'M', $08
 
     cmp #'['
+    beq polyreset
+    cmp #'-'
     bne no_polyreset
 
+polyreset
     lda #$ff
     sta $d209           ; STIMER
     rts
