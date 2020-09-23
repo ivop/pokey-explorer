@@ -352,7 +352,7 @@ loc_two_tone_line = *+1
 ; ---------------------------------------------------------------------------
 
 title
-    dta d'             POKEY EXPLORER             '*
+    dta d'             POKEY EXPLORER        v0.1 '*
 
 author
     dta d'    by Ivo van Poorten   (C)2020 TGK    '
