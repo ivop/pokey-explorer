@@ -414,10 +414,10 @@ join1234_line
 ; ---------------------------------------------------------------------------
 
 poly9_line
-    dta d' ', d'P'*, d' Poly counter    : 9-bit      ', d'['*, d' Reset '
+    dta d' ', d'P'*, d' Poly counter    : 9-bit     ', d'-['*, d' Reset '
 
 poly17_line
-    dta d' ', d'P'*, d' Poly counter    : 17-bit     ', d'['*, d' Reset '
+    dta d' ', d'P'*, d' Poly counter    : 17-bit    ', d'-['*, d' Reset '
 
 base_clock15_line
     dta d' ', d'C'*, d' Clock base      : 15 kHz             '
