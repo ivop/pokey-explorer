@@ -430,7 +430,7 @@ clock_channel3_179_line
 
 pokey_values_decoration_top
     dta d'  ', c'QRR', d'1', c'RREQRR', d'2', c'RREQRR'
-    dta d'3', c'RREQRR', d'4', c'RRE', d'                     '
+    dta d'3', c'RREQRR', d'4', c'RRE', d'          '
 
 loc_audf1 = *+3
 loc_audc1 = *+6
@@ -447,7 +447,7 @@ pokey_values_line
     dta d'  |00 01||02 03||04 05||06 07|   08 0f  '
 
 pokey_values_decoration_bottom
-    dta d'  ', c'ZRRRRRCZRRRRRCZRRRRRCZRRRRRC', d'                     '
+    dta d'  ', c'ZRRRRRCZRRRRRCZRRRRRCZRRRRRC', d'          '
 
 ; ---------------------------------------------------------------------------
 
