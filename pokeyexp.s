@@ -25,7 +25,7 @@ shadow_audc3    dta $a0         ; $d205
 shadow_audf4    dta $00         ; $d206
 shadow_audc4    dta $a0         ; $d207
 shadow_audctl   dta $00         ; $d208
-shadow_skctl    dta $00         ; $d20f
+shadow_skctl    dta $03         ; $d20f
 
 ; ---------------------------------------------------------------------------
 
