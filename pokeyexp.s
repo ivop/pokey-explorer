@@ -317,24 +317,23 @@ dl
     dta $42, a(author)
     dta $30
 loc_filter13_line = *+1
-    dta $42, a(filter13_on_line), $02
+    dta $42, a(filter13_on_line)
     dta $00
 loc_filter24_line = *+1
-    dta $42, a(filter24_on_line), $02
+    dta $42, a(filter24_on_line)
     dta $00
 loc_join1234_line = *+1
-    dta $42, a(join1234_line), $02
+    dta $42, a(join1234_line)
 
-    dta $10
+    dta $00
     dta $42, a(pokey_values_decoration_top)
     dta $42, a(pokey_values_line)
     dta $42, a(pokey_values_decoration_bottom)
-    dta $10
-
+    dta $00
     dta $42, a(up_keys_line)
     dta $42, a(down_keys_line)
-    dta $10
 
+    dta $30
 loc_poly_line = *+1
     dta $42, a(poly9_line)
     dta $00
@@ -350,9 +349,9 @@ loc_clock_channel3_line = *+1
 loc_two_tone_line = *+1
     dta $42, a(two_tone_off_line)
     dta $30
-.if 0
     dta $42, a(sweep_line)
-.fi
+    dta $10
+    dta $02, $02, $02, $02, $02, $02, $02, $02, $02
 
     dta $41, a(dl)
 
@@ -363,7 +362,7 @@ loc_two_tone_line = *+1
 ; ---------------------------------------------------------------------------
 
 title
-    dta d'             POKEY EXPLORER        v0.1 '*
+    dta d'             POKEY EXPLORER     v0.2wip '*
 
 author
     dta d'    by Ivo van Poorten   (C)2020 TGK    '
@@ -374,21 +373,17 @@ empty_line
 
 filter13_off_line
     dta d' ', d'F'*, d'                                      '
-    dta d'                                        '
 
 filter13_on_line
     dta d' ', d'F'*, d'   ', c'QRRR', d'Filter', c'RRRRE'
     dta d'                    '
-    dta d'     1             3                    '
 
 filter24_off_line
     dta d' ', d'G'*, d'                                      '
-    dta d'                                        '
 
 filter24_on_line
     dta d' ', d'G'*, d'          ', c'QRRR', d'Filter', c'RRRRE'
     dta d'             '
-    dta d'            2             4             '
 
 ; ---------------------------------------------------------------------------
 
@@ -399,17 +394,14 @@ join00_line
 join12_line
     dta d' ', d'J'*, d'   ', c'QR', d'Join', c'RE', d'                 '
     dta d'K'*, d'         '
-    dta d'     1      2                           '
 
 join34_line
     dta d' ', d'J'*, d'                 ', c'QR', d'Join', c'RE', d'   '
     dta d'K'*, d'         '
-    dta d'                   3      4             '
 
 join1234_line
     dta d' ', d'J'*, d'   ', c'QR', d'Join', c'RE', d'      ', c'QR', d'Join'
     dta c'RE', d'   ', d'K'*, d'         '
-    dta d'     1      2      3      4             '
 
 ; ---------------------------------------------------------------------------
 
@@ -481,7 +473,17 @@ down_keys_line
 ; ---------------------------------------------------------------------------
 
 sweep_line
-    dta d' ', d'S'*, d' Sweep 8-bit     ', d'Z'*, d' Sweep 16-bit       '
+    dta d'         Press ', d' START '*, d' to sweep         '
+    dta d' CTRL-', d'R'*, d' Resolution   : 16 bit           '
+    dta d' CTRL-', d'C'*, d' Channel(s)   : 1+2              '
+    dta d' CTRL-', d'S'*, d' Start value  : 0000             '
+    dta d' CTRL-', d'E'*, d' End value    : FFFF             '
+    dta d' CTRL-', d'I'*, d' Interval     : 01               '
+    dta d' CTRL-', d'L'*, d' LSB/MSB Swap : off              '
+    dta d' CTRL-', d'P'*, d' Play time    : 1s               '
+    dta d' CTRL-', d'G'*, d' Gap time     : 0.1s             '
+    dta d' CTRL-', d'X'*, d' Poly Reset   : once             '
+
 
 ; ---------------------------------------------------------------------------
 
