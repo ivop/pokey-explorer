@@ -27,6 +27,11 @@ shadow_audc4    dta $a0         ; $d207
 shadow_audctl   dta $00         ; $d208
 shadow_skctl    dta $03         ; $d20f
 
+; SHADOW POKEY default values
+
+shadow_default_values
+    dta $00, $a0, $00, $a0, $00, $a0, $00, $a0, $00, $03
+
 ; ---------------------------------------------------------------------------
 
 ; MAIN
@@ -351,7 +356,7 @@ loc_two_tone_line = *+1
     dta $30
     dta $42, a(sweep_line)
     dta $10
-    dta $02, $02, $02, $02, $02, $02, $02, $02, $02
+    dta $02, $02, $02, $02, $02, $02, $02, $02
 
     dta $41, a(dl)
 
@@ -479,7 +484,6 @@ sweep_line
     dta d' CTRL-', d'S'*, d' Start value  : 0000             '
     dta d' CTRL-', d'E'*, d' End value    : FFFF             '
     dta d' CTRL-', d'I'*, d' Interval     : 01               '
-    dta d' CTRL-', d'L'*, d' LSB/MSB Swap : off              '
     dta d' CTRL-', d'P'*, d' Play time    : 1s               '
     dta d' CTRL-', d'G'*, d' Gap time     : 0.1s             '
     dta d' CTRL-', d'X'*, d' Poly Reset   : once             '
