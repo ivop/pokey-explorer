@@ -100,7 +100,7 @@ copyloop
     bne copyloop
     .mend
 
-print_shadow_bit2   .macro register, mask, offstring, onstring, location, length
+print_shadow_bit   .macro register, mask, offstring, onstring, location, length
     lda :register
     and #:mask
     bne bit_on
@@ -129,10 +129,10 @@ display_shadow_pokey
     print_shadow_hex shadow_audctl loc_audctl
     print_shadow_hex shadow_skctl  loc_skctl
 
-    print_shadow_bit2 shadow_audctl, $80, poly17_string, poly9_string, loc_poly_string, 6
+    print_shadow_bit shadow_audctl, $80, poly17_string, poly9_string, loc_poly_string, 6
 
-    print_shadow_bit2 shadow_audctl, $40, channel_clock_base_string, channel_clock_179_string, loc_channel1_clock_string, 8
-    print_shadow_bit2 shadow_audctl, $20, channel_clock_base_string, channel_clock_179_string, loc_channel3_clock_string, 8
+    print_shadow_bit shadow_audctl, $40, channel_clock_base_string, channel_clock_179_string, loc_channel1_clock_string, 8
+    print_shadow_bit shadow_audctl, $20, channel_clock_base_string, channel_clock_179_string, loc_channel3_clock_string, 8
 
     ; join channels
 
@@ -161,16 +161,16 @@ cont_display_shadow_pokey
 
     ; filter bits
 
-    print_shadow_bit2 shadow_audctl, $04, filter_off_string, filter_on_string, loc_filter13_string, 15
-    print_shadow_bit2 shadow_audctl, $02, filter_off_string, filter_on_string, loc_filter24_string, 15
+    print_shadow_bit shadow_audctl, $04, filter_off_string, filter_on_string, loc_filter13_string, 15
+    print_shadow_bit shadow_audctl, $02, filter_off_string, filter_on_string, loc_filter24_string, 15
 
     ; base clock
 
-    print_shadow_bit2 shadow_audctl, $01, base_clock64_string, base_clock15_string, loc_base_clock_string, 6
+    print_shadow_bit shadow_audctl, $01, base_clock64_string, base_clock15_string, loc_base_clock_string, 6
 
     ; SKCTL two-tone bit
 
-    print_shadow_bit2 shadow_skctl, $08, two_tone_off_string, two_tone_on_string, loc_two_tone_string, 3
+    print_shadow_bit shadow_skctl, $08, two_tone_off_string, two_tone_on_string, loc_two_tone_string, 3
 
     rts
 
@@ -382,7 +382,7 @@ dl
 ; ---------------------------------------------------------------------------
 
 title
-    dta d'             POKEY EXPLORER     v0.2wip '*
+    dta d'             POKEY EXPLORER   v0.2beta2 '*
 
 author
     dta d'    by Ivo van Poorten   (C)2020 TGK    '
