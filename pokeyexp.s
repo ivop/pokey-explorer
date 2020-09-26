@@ -179,8 +179,8 @@ cont_display_shadow_pokey
 
     ; filter bits
 
-    print_shadow_bit shadow_audctl, $04, filter13_off_line, filter13_on_line, loc_filter13_line
-    print_shadow_bit shadow_audctl, $02, filter24_off_line, filter24_on_line, loc_filter24_line
+    print_shadow_bit2 shadow_audctl, $04, filter_off_string, filter_on_string, loc_filter13_string, 15
+    print_shadow_bit2 shadow_audctl, $02, filter_off_string, filter_on_string, loc_filter24_string, 15
 
     ; base clock
 
@@ -360,11 +360,9 @@ dl
     dta $42, a(title)
     dta $42, a(author)
     dta $30
-loc_filter13_line = *+1
-    dta $42, a(filter13_on_line)
+    dta $42, a(filter13_line)
     dta $00
-loc_filter24_line = *+1
-    dta $42, a(filter24_on_line)
+    dta $42, a(filter24_line)
     dta $00
 loc_join1234_line = *+1
     dta $42, a(join1234_line)
@@ -412,19 +410,20 @@ empty_line
 
 ; ---------------------------------------------------------------------------
 
-filter13_off_line
-    dta d' ', d'F'*, d'                                      '
+filter13_line
+    dta d' ', d'F'*, d'   '
+loc_filter13_string
+    dta d'                                   '
 
-filter13_on_line
-    dta d' ', d'F'*, d'   ', c'QRRR', d'Filter', c'RRRRE'
-    dta d'                    '
+filter_off_string
+    dta d'               '
+filter_on_string
+    dta c'QRRR', d'Filter', c'RRRRE'    ; 15
 
-filter24_off_line
-    dta d' ', d'G'*, d'                                      '
-
-filter24_on_line
-    dta d' ', d'G'*, d'          ', c'QRRR', d'Filter', c'RRRRE'
-    dta d'             '
+filter24_line
+    dta d' ', d'G'*, d'          '
+loc_filter24_string
+    dta d'                            '
 
 ; ---------------------------------------------------------------------------
 
