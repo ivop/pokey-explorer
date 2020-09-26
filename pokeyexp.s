@@ -171,7 +171,7 @@ cont_display_shadow_pokey
 
     ; base clock
 
-    print_shadow_bit shadow_audctl, $01, base_clock64_line, base_clock15_line, loc_base_clock_line
+    print_shadow_bit2 shadow_audctl, $01, base_clock15_string, base_clock64_string, loc_base_clock_string, 6
 
     ; SKCTL two-tone bit
 
@@ -368,7 +368,7 @@ loc_join1234_line = *+1
     dta $42, a(poly_line)
     dta $00
 loc_base_clock_line = *+1
-    dta $42, a(base_clock64_line)
+    dta $42, a(base_clock_line)
     dta $00
 loc_clock_channel1_line = *+1
     dta $42, a(clock_channel1_base_line)
@@ -447,11 +447,15 @@ poly9_string
 poly17_string
     dta d'17-bit'
 
-base_clock15_line
-    dta d' ', d'C'*, d' Clock base      : 15 kHz             '
+base_clock_line
+    dta d' ', d'C'*, d' Clock base      : '
+loc_base_clock_string
+    dta d'15 kHz             '
 
-base_clock64_line
-    dta d' ', d'C'*, d' Clock base      : 64 kHz             '
+base_clock15_string
+    dta d'15 kHz'
+base_clock64_string
+    dta d'64 kHz'
 
 clock_channel1_base_line
     dta d' ', d'A'*, d' channel 1 clock : base               '
