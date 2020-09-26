@@ -91,6 +91,31 @@ bit_on
 bit_done
     .mend
 
+memcpyshort  .macro src, dst, len
+    ldx #0
+copyloop
+    lda :src,x
+    sta :dst,x
+    inx
+    cpx #:len
+    bne copyloop
+    .mend
+
+print_shadow_bit2   .macro register, mask, offstring, onstring, location, length
+    lda :register
+    and #:mask
+    bne bit_on
+
+    memcpyshort :offstring :location :length
+
+    jmp bit_done
+
+bit_on
+    memcpyshort :onstring :location :length
+
+bit_done
+    .mend
+
 ; ---------------------------------------------------------------------------
 
 display_shadow_pokey
@@ -105,7 +130,8 @@ display_shadow_pokey
     print_shadow_hex shadow_audctl loc_audctl
     print_shadow_hex shadow_skctl  loc_skctl
 
-    print_shadow_bit shadow_audctl, $80, poly17_line, poly9_line, loc_poly_line
+    print_shadow_bit2 shadow_audctl, $80, poly17_string, poly9_string, loc_poly_string, 6
+
     print_shadow_bit shadow_audctl, $40, clock_channel1_base_line, clock_channel1_179_line, loc_clock_channel1_line
     print_shadow_bit shadow_audctl, $20, clock_channel3_base_line, clock_channel3_179_line, loc_clock_channel3_line
 
@@ -339,8 +365,7 @@ loc_join1234_line = *+1
     dta $42, a(down_keys_line)
 
     dta $30
-loc_poly_line = *+1
-    dta $42, a(poly9_line)
+    dta $42, a(poly_line)
     dta $00
 loc_base_clock_line = *+1
     dta $42, a(base_clock64_line)
@@ -410,11 +435,15 @@ join1234_line
 
 ; ---------------------------------------------------------------------------
 
-poly9_line
-    dta d' ', d'P'*, d' Poly counter    : 9-bit     ', d'-['*, d' Reset '
+poly_line
+    dta d' ', d'P'*, d' Poly counter    : '
+loc_poly_string
+    dta d'17-bit    ', d'-['*, d' Reset '
 
-poly17_line
-    dta d' ', d'P'*, d' Poly counter    : 17-bit    ', d'-['*, d' Reset '
+poly9_string
+    dta d'9-bit '
+poly17_string
+    dta d'17-bit'
 
 base_clock15_line
     dta d' ', d'C'*, d' Clock base      : 15 kHz             '
