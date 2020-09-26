@@ -175,7 +175,7 @@ cont_display_shadow_pokey
 
     ; SKCTL two-tone bit
 
-    print_shadow_bit shadow_skctl, $08, two_tone_off_line, two_tone_on_line, loc_two_tone_line
+    print_shadow_bit2 shadow_skctl, $08, two_tone_off_string, two_tone_on_string, loc_two_tone_string, 3
 
     rts
 
@@ -373,8 +373,7 @@ loc_join1234_line = *+1
     dta $00
     dta $42, a(channel3_clock_line)
     dta $00
-loc_two_tone_line = *+1
-    dta $42, a(two_tone_off_line)
+    dta $42, a(two_tone_line)
 .if 0
     dta $30
     dta $42, a(sweep_line)
@@ -494,11 +493,15 @@ pokey_values_decoration_bottom
 
 ; ---------------------------------------------------------------------------
 
-two_tone_off_line
-    dta d' ', d'M'*, d' two-tone Mode   : off                ' 
+two_tone_line
+    dta d' ', d'M'*, d' two-tone Mode   : '
+loc_two_tone_string
+    dta d'off                ' 
 
-two_tone_on_line
-    dta d' ', d'M'*, d' two-tone Mode   : on                 ' 
+two_tone_off_string
+    dta d'off' 
+two_tone_on_string
+    dta d'on ' 
 
 ; ---------------------------------------------------------------------------
 
