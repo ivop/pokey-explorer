@@ -90,20 +90,6 @@ print_shadow_hex    .macro register, location
     mva hextab,x :location+1
     .mend
 
-print_shadow_bit    .macro register, mask, off_line, on_line, location
-    lda :register
-    and #:mask
-    bne bit_on
-
-    mwa #:off_line :location
-    jmp bit_done
-
-bit_on
-    mwa #:on_line :location
-
-bit_done
-    .mend
-
 memcpyshort  .macro src, dst, len
     ldx #0
 copyloop
@@ -151,29 +137,25 @@ display_shadow_pokey
     ; join channels
 
     lda shadow_audctl
-    and #$18                ; both
-    cmp #$18
-    beq display_join_both
+    and #$10
+    bne do_join12_on
 
-    cmp #$10
-    beq display_join12
+    memcpyshort join_off_string, loc_join12_string, 8
+    jmp handle_join34
 
-    cmp #$08
-    beq display_join34
+do_join12_on
+    memcpyshort join_on_string, loc_join12_string, 8
 
-    mwa #join00_line loc_join1234_line
+handle_join34
+    lda shadow_audctl
+    and #$08
+    bne do_join34_on
+
+    memcpyshort join_off_string, loc_join34_string, 8
     jmp cont_display_shadow_pokey
 
-display_join12
-    mwa #join12_line loc_join1234_line
-    jmp cont_display_shadow_pokey
-
-display_join34
-    mwa #join34_line loc_join1234_line
-    jmp cont_display_shadow_pokey
-
-display_join_both
-    mwa #join1234_line loc_join1234_line
+do_join34_on
+    memcpyshort join_on_string, loc_join34_string, 8
 
 cont_display_shadow_pokey
 
@@ -364,8 +346,7 @@ dl
     dta $00
     dta $42, a(filter24_line)
     dta $00
-loc_join1234_line = *+1
-    dta $42, a(join1234_line)
+    dta $42, a(join_line)
 
     dta $00
     dta $42, a(pokey_values_decoration_top)
@@ -427,21 +408,17 @@ loc_filter24_string
 
 ; ---------------------------------------------------------------------------
 
-join00_line
-    dta d' ', d'J'*, d'                            ', d'K'*, d'         '
-    dta d'                                        '
+join_line
+    dta d' ', d'J'*, d'   '
+loc_join12_string
+    dta d'              '
+loc_join34_string
+    dta d'           ', d'K'*, d'         '
 
-join12_line
-    dta d' ', d'J'*, d'   ', c'QR', d'Join', c'RE', d'                 '
-    dta d'K'*, d'         '
-
-join34_line
-    dta d' ', d'J'*, d'                 ', c'QR', d'Join', c'RE', d'   '
-    dta d'K'*, d'         '
-
-join1234_line
-    dta d' ', d'J'*, d'   ', c'QR', d'Join', c'RE', d'      ', c'QR', d'Join'
-    dta c'RE', d'   ', d'K'*, d'         '
+join_off_string
+    dta d'        '
+join_on_string
+    dta c'QR', d'Join', c'RE'       ; 8
 
 ; ---------------------------------------------------------------------------
 
