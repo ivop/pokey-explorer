@@ -132,8 +132,8 @@ display_shadow_pokey
 
     print_shadow_bit2 shadow_audctl, $80, poly17_string, poly9_string, loc_poly_string, 6
 
-    print_shadow_bit shadow_audctl, $40, clock_channel1_base_line, clock_channel1_179_line, loc_clock_channel1_line
-    print_shadow_bit shadow_audctl, $20, clock_channel3_base_line, clock_channel3_179_line, loc_clock_channel3_line
+    print_shadow_bit2 shadow_audctl, $40, channel_clock_base_string, channel_clock_179_string, loc_channel1_clock_string, 8
+    print_shadow_bit2 shadow_audctl, $20, channel_clock_base_string, channel_clock_179_string, loc_channel3_clock_string, 8
 
     ; join channels
 
@@ -171,7 +171,7 @@ cont_display_shadow_pokey
 
     ; base clock
 
-    print_shadow_bit2 shadow_audctl, $01, base_clock15_string, base_clock64_string, loc_base_clock_string, 6
+    print_shadow_bit2 shadow_audctl, $01, base_clock64_string, base_clock15_string, loc_base_clock_string, 6
 
     ; SKCTL two-tone bit
 
@@ -367,14 +367,11 @@ loc_join1234_line = *+1
     dta $30
     dta $42, a(poly_line)
     dta $00
-loc_base_clock_line = *+1
     dta $42, a(base_clock_line)
     dta $00
-loc_clock_channel1_line = *+1
-    dta $42, a(clock_channel1_base_line)
+    dta $42, a(channel1_clock_line)
     dta $00
-loc_clock_channel3_line = *+1
-    dta $42, a(clock_channel3_179_line)
+    dta $42, a(channel3_clock_line)
     dta $00
 loc_two_tone_line = *+1
     dta $42, a(two_tone_off_line)
@@ -457,17 +454,20 @@ base_clock15_string
 base_clock64_string
     dta d'64 kHz'
 
-clock_channel1_base_line
-    dta d' ', d'A'*, d' channel 1 clock : base               '
+channel1_clock_line
+    dta d' ', d'A'*, d' channel 1 clock : '
+loc_channel1_clock_string
+    dta d'1.79 MHz           '
+
+channel3_clock_line
+    dta d' ', d'D'*, d' channel 3 clock : '
+loc_channel3_clock_string
+    dta d'base               '
  
-clock_channel1_179_line
-    dta d' ', d'A'*, d' channel 1 clock : 1.79 MHz           '
-
-clock_channel3_base_line
-    dta d' ', d'D'*, d' channel 3 clock : base               '
-
-clock_channel3_179_line
-    dta d' ', d'D'*, d' channel 3 clock : 1.79 MHz           '
+channel_clock_base_string
+    dta d'base    '
+channel_clock_179_string
+    dta d'1.79 MHz'
 
 ; ---------------------------------------------------------------------------
 
