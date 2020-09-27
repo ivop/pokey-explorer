@@ -48,11 +48,18 @@ shadow_default_values
 ; Sweep Variables
 
 var_sweep_resolution    dta $00
+var_sweep_channels      dta $00
+var_sweep_start_value   dta $00
+var_sweep_end_value     dta $ff
+var_sweep_interval      dta $01
+var_sweep_play_time     dta $00
+var_sweep_gap_time      dta $00
+var_sweep_poly_reset    dta $00
 
 ; Sweep Variables default values
 
 var_sweep_default_values
-    dta $00
+    dta $00, $00, $00, $ff, $01, $00, $00, $00
 
 ; ---------------------------------------------------------------------------
 
