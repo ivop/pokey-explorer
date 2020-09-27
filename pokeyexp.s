@@ -67,6 +67,7 @@ main
     mva #$ff $02db  ; NOCLIK, disable key click
 
 loop
+    jsr display_sweep_variables
     jsr display_shadow_pokey
     jsr play_shadow_pokey
 
@@ -206,6 +207,27 @@ hextab
 
 ; ---------------------------------------------------------------------------
 
+display_sweep_variables
+    lda var_sweep_resolution
+    beq display_sweep_8bit
+    cmp #1
+    beq display_sweep_16bit
+
+    memcpyshort sweep_reverse16bit_string loc_sweep_resolution_string 14
+    jmp done_sweep
+
+display_sweep_16bit
+    memcpyshort sweep_16bit_string loc_sweep_resolution_string 14
+    jmp done_sweep
+
+display_sweep_8bit
+    memcpyshort sweep_8bit_string loc_sweep_resolution_string 14
+
+done_sweep
+    rts
+
+; ---------------------------------------------------------------------------
+
 play_shadow_pokey
     mva shadow_audf1  $d200
     mva shadow_audc1  $d201
@@ -293,7 +315,6 @@ case_sweep_var_ctrl_key .macro key, var, max
     mva #0 :var
 
 done
-    mva #$ff $d01a
     rts
 nope
     .mend
@@ -562,11 +583,11 @@ loc_sweep_resolution_string
     dta d' CTRL-', d'G'*, d' Gap time     : 0.1s             '
     dta d' CTRL-', d'X'*, d' Poly Reset   : once             '
 
-loc_sweep_8bit_string
+sweep_8bit_string
     dta d'8-bit         '   ; 14
-loc_sweep_16bit_string
+sweep_16bit_string
     dta d'16-bit        '
-loc_sweep_reverse16bit_string
+sweep_reverse16bit_string
     dta d'Reverse 16-bit'
 
 ; ---------------------------------------------------------------------------
