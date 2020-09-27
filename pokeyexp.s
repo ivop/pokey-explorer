@@ -235,16 +235,27 @@ nope
 display_sweep_variables
     lda var_sweep_resolution
 
-    case_sweep 0, loc_sweep_resolution_string, \
+    case_sweep 0, loc_sweep_resolution_string,  \
                   sweep_resolution_8bit_string, \
                   sweep_resolution_strlen
-    case_sweep 1, loc_sweep_resolution_string, \
+    case_sweep 1, loc_sweep_resolution_string,   \
                   sweep_resolution_16bit_string, \
                   sweep_resolution_strlen
-    case_sweep 2, loc_sweep_resolution_string, \
+    case_sweep 2, loc_sweep_resolution_string,          \
                   sweep_resolution_reverse16bit_string, \
                   sweep_resolution_strlen
 
+    lda var_sweep_poly_reset
+
+    case_sweep 0, loc_sweep_poly_reset_string, \
+                  sweep_poly_reset_off_string, \
+                  sweep_poly_reset_strlen
+    case_sweep 1, loc_sweep_poly_reset_string,  \
+                  sweep_poly_reset_once_string, \
+                  sweep_poly_reset_strlen
+    case_sweep 2, loc_sweep_poly_reset_string,  \
+                  sweep_poly_reset_each_string, \
+                  sweep_poly_reset_strlen
     rts
 
 ; ---------------------------------------------------------------------------
@@ -415,6 +426,7 @@ polyreset
 no_polyreset
 
     case_sweep_var_ctrl_key 'R', var_sweep_resolution, 2
+    case_sweep_var_ctrl_key 'X', var_sweep_poly_reset, 2
     rts
 
 ; ---------------------------------------------------------------------------
@@ -604,12 +616,18 @@ loc_sweep_resolution_string
 
     dta d' CTRL-', d'C'*, d' Channel(s)   : '
     dta d'1+2              '
+
     dta d' CTRL-', d'S'*, d' Start value  : 0000             '
     dta d' CTRL-', d'E'*, d' End value    : FFFF             '
     dta d' CTRL-', d'I'*, d' Interval     : 01               '
+
     dta d' CTRL-', d'P'*, d' Play time    : 1s               '
+
     dta d' CTRL-', d'G'*, d' Gap time     : 0.1s             '
-    dta d' CTRL-', d'X'*, d' Poly Reset   : once             '
+
+    dta d' CTRL-', d'X'*, d' Poly Reset   : '
+loc_sweep_poly_reset_string
+    dta d'once             '
 
 sweep_resolution_8bit_string
     dta d'8-bit         '
@@ -618,6 +636,14 @@ sweep_resolution_16bit_string
 sweep_resolution_reverse16bit_string
     dta d'Reverse 16-bit'
 sweep_resolution_strlen = *-sweep_resolution_reverse16bit_string
+
+sweep_poly_reset_off_string
+    dta d'off '
+sweep_poly_reset_once_string
+    dta d'once'
+sweep_poly_reset_each_string
+    dta d'each'
+sweep_poly_reset_strlen = *-sweep_poly_reset_each_string
 
 ; ---------------------------------------------------------------------------
 
