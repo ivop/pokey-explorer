@@ -141,15 +141,18 @@ display_shadow_pokey
 
     print_shadow_bit shadow_audctl, $80, poly17_string, \
                                          poly9_string,  \
-                                         loc_poly_string, 6
+                                         loc_poly_string, \
+                                         poly_strlen 
 
     print_shadow_bit shadow_audctl, $40, channel_clock_base_string, \
                                          channel_clock_179_string,  \
-                                         loc_channel1_clock_string, 8
+                                         loc_channel1_clock_string, \
+                                         channel_clock_strlen 
 
     print_shadow_bit shadow_audctl, $20, channel_clock_base_string, \
                                          channel_clock_179_string,  \
-                                         loc_channel3_clock_string, 8
+                                         loc_channel3_clock_string, \
+                                         channel_clock_strlen
 
     ; join channels
 
@@ -157,46 +160,50 @@ display_shadow_pokey
     and #$10
     bne do_join12_on
 
-    memcpyshort join_off_string, loc_join12_string, 8
+    memcpyshort join_off_string, loc_join12_string, join_strlen
     jmp handle_join34
 
 do_join12_on
-    memcpyshort join_on_string, loc_join12_string, 8
+    memcpyshort join_on_string, loc_join12_string, join_strlen
 
 handle_join34
     lda shadow_audctl
     and #$08
     bne do_join34_on
 
-    memcpyshort join_off_string, loc_join34_string, 8
+    memcpyshort join_off_string, loc_join34_string, join_strlen
     jmp cont_display_shadow_pokey
 
 do_join34_on
-    memcpyshort join_on_string, loc_join34_string, 8
+    memcpyshort join_on_string, loc_join34_string, join_strlen
 
 cont_display_shadow_pokey
 
     ; filter bits
 
-    print_shadow_bit shadow_audctl, $04, filter_off_string, \
-                                         filter_on_string,  \
-                                         loc_filter13_string, 15
+    print_shadow_bit shadow_audctl, $04, filter_off_string,   \
+                                         filter_on_string,    \
+                                         loc_filter13_string, \
+                                         filter_strlen
 
-    print_shadow_bit shadow_audctl, $02, filter_off_string, \
-                                         filter_on_string,  \
-                                         loc_filter24_string, 15
+    print_shadow_bit shadow_audctl, $02, filter_off_string,   \
+                                         filter_on_string,    \
+                                         loc_filter24_string, \
+                                         filter_strlen
 
     ; base clock
 
-    print_shadow_bit shadow_audctl, $01, base_clock64_string, \
-                                         base_clock15_string, \
-                                         loc_base_clock_string, 6
+    print_shadow_bit shadow_audctl, $01, base_clock64_string,   \
+                                         base_clock15_string,   \
+                                         loc_base_clock_string, \
+                                         base_clock_strlen
 
     ; SKCTL two-tone bit
 
     print_shadow_bit shadow_skctl, $08, two_tone_off_string, \
                                         two_tone_on_string,  \
-                                        loc_two_tone_string, 3
+                                        loc_two_tone_string, \
+                                        two_tone_strlen
 
     rts
 
@@ -462,7 +469,8 @@ loc_filter13_string
 filter_off_string
     dta d'               '
 filter_on_string
-    dta c'QRRR', d'Filter', c'RRRRE'    ; 15
+    dta c'QRRR', d'Filter', c'RRRRE'
+filter_strlen = *-filter_on_string
 
 filter24_line
     dta d' ', d'G'*, d'          '
@@ -481,7 +489,8 @@ loc_join34_string
 join_off_string
     dta d'        '
 join_on_string
-    dta c'QR', d'Join', c'RE'       ; 8
+    dta c'QR', d'Join', c'RE'
+join_strlen = *-join_on_string
 
 ; ---------------------------------------------------------------------------
 
@@ -494,6 +503,7 @@ poly9_string
     dta d'9-bit '
 poly17_string
     dta d'17-bit'
+poly_strlen = *-poly17_string
 
 base_clock_line
     dta d' ', d'C'*, d' Clock base      : '
@@ -504,6 +514,7 @@ base_clock15_string
     dta d'15 kHz'
 base_clock64_string
     dta d'64 kHz'
+base_clock_strlen = *-base_clock64_string
 
 channel1_clock_line
     dta d' ', d'A'*, d' channel 1 clock : '
@@ -519,6 +530,7 @@ channel_clock_base_string
     dta d'base    '
 channel_clock_179_string
     dta d'1.79 MHz'
+channel_clock_strlen = *-channel_clock_179_string
 
 ; ---------------------------------------------------------------------------
 
@@ -554,6 +566,7 @@ two_tone_off_string
     dta d'off' 
 two_tone_on_string
     dta d'on ' 
+two_tone_strlen = *-two_tone_on_string
 
 ; ---------------------------------------------------------------------------
 
