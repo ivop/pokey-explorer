@@ -236,13 +236,13 @@ display_sweep_variables
     lda var_sweep_resolution
 
     case_sweep 0, loc_sweep_resolution_string, \
-                  sweep_8bit_string, \
+                  sweep_resolution_8bit_string, \
                   sweep_resolution_strlen
     case_sweep 1, loc_sweep_resolution_string, \
-                  sweep_16bit_string, \
+                  sweep_resolution_16bit_string, \
                   sweep_resolution_strlen
     case_sweep 2, loc_sweep_resolution_string, \
-                  sweep_reverse16bit_string, \
+                  sweep_resolution_reverse16bit_string, \
                   sweep_resolution_strlen
 
     rts
@@ -611,13 +611,13 @@ loc_sweep_resolution_string
     dta d' CTRL-', d'G'*, d' Gap time     : 0.1s             '
     dta d' CTRL-', d'X'*, d' Poly Reset   : once             '
 
-sweep_8bit_string
+sweep_resolution_8bit_string
     dta d'8-bit         '
-sweep_16bit_string
+sweep_resolution_16bit_string
     dta d'16-bit        '
-sweep_reverse16bit_string
+sweep_resolution_reverse16bit_string
     dta d'Reverse 16-bit'
-sweep_resolution_strlen = *-sweep_reverse16bit_string
+sweep_resolution_strlen = *-sweep_resolution_reverse16bit_string
 
 ; ---------------------------------------------------------------------------
 
