@@ -214,23 +214,20 @@ hextab
 
 ; ---------------------------------------------------------------------------
 
+case_sweep_resolution   .macro val, string, len
+    cmp #:val
+    bne nope
+    memcpyshort :string loc_sweep_resolution_string :len
+nope
+    .mend
+
 display_sweep_variables
     lda var_sweep_resolution
-    beq display_sweep_8bit
-    cmp #1
-    beq display_sweep_16bit
 
-    memcpyshort sweep_reverse16bit_string loc_sweep_resolution_string 14
-    jmp done_sweep
+    case_sweep_resolution 0, sweep_8bit_string, 14
+    case_sweep_resolution 1, sweep_16bit_string, 14
+    case_sweep_resolution 2, sweep_reverse16bit_string, 14
 
-display_sweep_16bit
-    memcpyshort sweep_16bit_string loc_sweep_resolution_string 14
-    jmp done_sweep
-
-display_sweep_8bit
-    memcpyshort sweep_8bit_string loc_sweep_resolution_string 14
-
-done_sweep
     rts
 
 ; ---------------------------------------------------------------------------
