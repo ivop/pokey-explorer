@@ -214,19 +214,25 @@ hextab
 
 ; ---------------------------------------------------------------------------
 
-case_sweep_resolution   .macro val, string, len
+case_sweep  .macro val, dst, string, len
     cmp #:val
     bne nope
-    memcpyshort :string loc_sweep_resolution_string :len
+    memcpyshort :string :dst :len
 nope
     .mend
 
 display_sweep_variables
     lda var_sweep_resolution
 
-    case_sweep_resolution 0, sweep_8bit_string, sweep_resolution_strlen
-    case_sweep_resolution 1, sweep_16bit_string, sweep_resolution_strlen
-    case_sweep_resolution 2, sweep_reverse16bit_string, sweep_resolution_strlen
+    case_sweep 0, loc_sweep_resolution_string, \
+                  sweep_8bit_string, \
+                  sweep_resolution_strlen
+    case_sweep 1, loc_sweep_resolution_string, \
+                  sweep_16bit_string, \
+                  sweep_resolution_strlen
+    case_sweep 2, loc_sweep_resolution_string, \
+                  sweep_reverse16bit_string, \
+                  sweep_resolution_strlen
 
     rts
 
