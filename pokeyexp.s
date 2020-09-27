@@ -221,12 +221,16 @@ hextab
 
 ; ---------------------------------------------------------------------------
 
+; SWEEP macros
+
 case_sweep  .macro val, dst, string, len
     cmp #:val
     bne nope
     memcpyshort :string :dst :len
 nope
     .mend
+
+; ---------------------------------------------------------------------------
 
 display_sweep_variables
     lda var_sweep_resolution
