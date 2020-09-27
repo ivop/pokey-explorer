@@ -45,6 +45,15 @@ shadow_skctl    dta $03         ; $d20f
 shadow_default_values
     dta $00, $a0, $00, $a0, $00, $a0, $00, $a0, $00, $03
 
+; Sweep Variables
+
+var_sweep_resolution    dta $00
+
+; Sweep Variables default values
+
+var_sweep_default_values
+    dta $00
+
 ; ---------------------------------------------------------------------------
 
 ; MAIN
@@ -272,6 +281,24 @@ case_skctl_toggle_key .macro key, mask
 nope
     .mend
 
+case_sweep_var_ctrl_key .macro key, var, max
+    cmp #:key-64
+    bne nope
+
+    inc :var
+    lda :var
+    cmp #:max+1
+    bne done
+
+    mva #0 :var
+
+done
+    mva #$ff $d01a
+    rts
+nope
+    .mend
+
+
 ; ---------------------------------------------------------------------------
 
 handle_keypress
@@ -345,6 +372,7 @@ polyreset
     rts
 no_polyreset
 
+    case_sweep_var_ctrl_key 'R', var_sweep_resolution, 2
     rts
 
 ; ---------------------------------------------------------------------------
@@ -382,12 +410,10 @@ dl
     dta $42, a(channel3_clock_line)
     dta $00
     dta $42, a(two_tone_line)
-.if 0
     dta $30
     dta $42, a(sweep_line)
     dta $10
     dta $02, $02, $02, $02, $02, $02, $02, $02
-.fi
 
     dta $41, a(dl)
 
@@ -520,10 +546,14 @@ down_keys_line
 
 ; ---------------------------------------------------------------------------
 
-.if 0
 sweep_line
-    dta d'         Press ', d' START '*, d' to sweep         '
-    dta d' CTRL-', d'R'*, d' Resolution   : 16 bit           '
+;    dta d'         Press ', d' START '*, d' to sweep         '
+    dta d'            Sweep Parameters            '
+
+    dta d' CTRL-', d'R'*, d' Resolution   : '
+loc_sweep_resolution_string
+    dta d'Reverse 16-bit   '
+
     dta d' CTRL-', d'C'*, d' Channel(s)   : 1+2              '
     dta d' CTRL-', d'S'*, d' Start value  : 0000             '
     dta d' CTRL-', d'E'*, d' End value    : FFFF             '
@@ -531,7 +561,13 @@ sweep_line
     dta d' CTRL-', d'P'*, d' Play time    : 1s               '
     dta d' CTRL-', d'G'*, d' Gap time     : 0.1s             '
     dta d' CTRL-', d'X'*, d' Poly Reset   : once             '
-.fi
+
+loc_sweep_8bit_string
+    dta d'8-bit         '   ; 14
+loc_sweep_16bit_string
+    dta d'16-bit        '
+loc_sweep_reverse16bit_string
+    dta d'Reverse 16-bit'
 
 ; ---------------------------------------------------------------------------
 
