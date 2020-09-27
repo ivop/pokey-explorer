@@ -224,9 +224,9 @@ nope
 display_sweep_variables
     lda var_sweep_resolution
 
-    case_sweep_resolution 0, sweep_8bit_string, 14
-    case_sweep_resolution 1, sweep_16bit_string, 14
-    case_sweep_resolution 2, sweep_reverse16bit_string, 14
+    case_sweep_resolution 0, sweep_8bit_string, sweep_resolution_strlen
+    case_sweep_resolution 1, sweep_16bit_string, sweep_resolution_strlen
+    case_sweep_resolution 2, sweep_reverse16bit_string, sweep_resolution_strlen
 
     rts
 
@@ -585,7 +585,8 @@ sweep_line
 loc_sweep_resolution_string
     dta d'Reverse 16-bit   '
 
-    dta d' CTRL-', d'C'*, d' Channel(s)   : 1+2              '
+    dta d' CTRL-', d'C'*, d' Channel(s)   : '
+    dta d'1+2              '
     dta d' CTRL-', d'S'*, d' Start value  : 0000             '
     dta d' CTRL-', d'E'*, d' End value    : FFFF             '
     dta d' CTRL-', d'I'*, d' Interval     : 01               '
@@ -594,11 +595,12 @@ loc_sweep_resolution_string
     dta d' CTRL-', d'X'*, d' Poly Reset   : once             '
 
 sweep_8bit_string
-    dta d'8-bit         '   ; 14
+    dta d'8-bit         '
 sweep_16bit_string
     dta d'16-bit        '
 sweep_reverse16bit_string
     dta d'Reverse 16-bit'
+sweep_resolution_strlen = *-sweep_reverse16bit_string
 
 ; ---------------------------------------------------------------------------
 
