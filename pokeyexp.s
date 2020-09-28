@@ -689,10 +689,13 @@ loc_sweep_channels_string
     dta d'                 '
 
     dta d' CTRL-', d'S'*, d' Start value  : '
+loc_sweep_start_value_string
     dta d'0000             '
     dta d' CTRL-', d'E'*, d' End value    : '
+loc_sweep_end_value_string
     dta d'FFFF             '
     dta d' CTRL-', d'I'*, d' Interval     : '
+loc_sweep_interval_string
     dta d'01               '
 
     dta d' CTRL-', d'P'*, d' Play time    : '
