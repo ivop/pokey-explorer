@@ -548,7 +548,7 @@ dl
 ; ---------------------------------------------------------------------------
 
 title
-    dta d'             POKEY EXPLORER   v0.2beta2 '*
+    dta d'             POKEY EXPLORER   v0.2beta3 '*
 
 author
     dta d'    by Ivo van Poorten   (C)2020 TGK    '
