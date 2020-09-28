@@ -92,7 +92,7 @@ keybuf
 
 ; PRINT macros
 
-print_shadow_hex    .macro register, location
+print_byte_to_hex    .macro register, location
     lda :register
     tay
     lsr
@@ -135,16 +135,16 @@ bit_done
 ; ---------------------------------------------------------------------------
 
 display_shadow_pokey
-    print_shadow_hex shadow_audf1  loc_audf1
-    print_shadow_hex shadow_audc1  loc_audc1
-    print_shadow_hex shadow_audf2  loc_audf2
-    print_shadow_hex shadow_audc2  loc_audc2
-    print_shadow_hex shadow_audf3  loc_audf3
-    print_shadow_hex shadow_audc3  loc_audc3
-    print_shadow_hex shadow_audf4  loc_audf4
-    print_shadow_hex shadow_audc4  loc_audc4
-    print_shadow_hex shadow_audctl loc_audctl
-    print_shadow_hex shadow_skctl  loc_skctl
+    print_byte_to_hex shadow_audf1  loc_audf1
+    print_byte_to_hex shadow_audc1  loc_audc1
+    print_byte_to_hex shadow_audf2  loc_audf2
+    print_byte_to_hex shadow_audc2  loc_audc2
+    print_byte_to_hex shadow_audf3  loc_audf3
+    print_byte_to_hex shadow_audc3  loc_audc3
+    print_byte_to_hex shadow_audf4  loc_audf4
+    print_byte_to_hex shadow_audc4  loc_audc4
+    print_byte_to_hex shadow_audctl loc_audctl
+    print_byte_to_hex shadow_skctl  loc_skctl
 
     print_shadow_bit shadow_audctl, $80, poly17_string, \
                                          poly9_string,  \
@@ -280,6 +280,8 @@ do_8bit_channels
                   sweep_channels_strlen
 
 channels_done
+
+    print_byte_to_hex var_sweep_interval, loc_sweep_interval_string
 
     lda var_sweep_poly_reset
 
@@ -696,7 +698,7 @@ loc_sweep_end_value_string
     dta d'FFFF             '
     dta d' CTRL-', d'I'*, d' Interval     : '
 loc_sweep_interval_string
-    dta d'01               '
+    dta d'                 '
 
     dta d' CTRL-', d'P'*, d' Play time    : '
 loc_sweep_play_time_string
