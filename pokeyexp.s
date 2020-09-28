@@ -420,7 +420,6 @@ done
 nope
     .mend
 
-
 ; ---------------------------------------------------------------------------
 
 handle_keypress
@@ -499,6 +498,11 @@ no_polyreset
     case_sweep_var_ctrl_key 'X', var_sweep_poly_reset, 2
     case_sweep_var_ctrl_key 'P', var_sweep_play_time, 3
     case_sweep_var_ctrl_key 'G', var_sweep_gap_time, 3
+
+    ; KEY-64 equals CTRL-KEY
+    case_inc1_key 'I'-64, var_sweep_interval
+    case_dec1_key 'O'-64, var_sweep_interval
+
     rts
 
 ; ---------------------------------------------------------------------------
@@ -698,7 +702,7 @@ loc_sweep_end_value_string
     dta d'FFFF             '
     dta d' CTRL-', d'I'*, d' Interval     : '
 loc_sweep_interval_string
-    dta d'                 '
+    dta d'          CTRL-', d'O'*, d' '
 
     dta d' CTRL-', d'P'*, d' Play time    : '
 loc_sweep_play_time_string
