@@ -250,16 +250,16 @@ display_sweep_variables
 
 do_16bit_channels
     lda var_sweep_channels
-    case_sweep 0, loc_sweep_channels_string,    \
+    case_sweep 0, loc_sweep_channels_string,     \
                   sweep_16bit_channels_0_string, \
                   sweep_channels_strlen
-    case_sweep 1, loc_sweep_channels_string,    \
+    case_sweep 1, loc_sweep_channels_string,     \
                   sweep_16bit_channels_1_string, \
                   sweep_channels_strlen
-    case_sweep 2, loc_sweep_channels_string,    \
+    case_sweep 2, loc_sweep_channels_string,     \
                   sweep_16bit_channels_2_string, \
                   sweep_channels_strlen
-    case_sweep 3, loc_sweep_channels_string,    \
+    case_sweep 3, loc_sweep_channels_string,     \
                   sweep_16bit_channels_3_string, \
                   sweep_channels_strlen
     jmp channels_done
