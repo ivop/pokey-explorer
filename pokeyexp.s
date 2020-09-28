@@ -682,27 +682,30 @@ sweep_line
 
     dta d' CTRL-', d'R'*, d' Resolution   : '
 loc_sweep_resolution_string
-    dta d'Reverse 16-bit   '
+    dta d'                 '
 
     dta d' CTRL-', d'C'*, d' Channel(s)   : '
 loc_sweep_channels_string
-    dta d'1+2              '
+    dta d'                 '
 
-    dta d' CTRL-', d'S'*, d' Start value  : 0000             '
-    dta d' CTRL-', d'E'*, d' End value    : FFFF             '
-    dta d' CTRL-', d'I'*, d' Interval     : 01               '
+    dta d' CTRL-', d'S'*, d' Start value  : '
+    dta d'0000             '
+    dta d' CTRL-', d'E'*, d' End value    : '
+    dta d'FFFF             '
+    dta d' CTRL-', d'I'*, d' Interval     : '
+    dta d'01               '
 
     dta d' CTRL-', d'P'*, d' Play time    : '
 loc_sweep_play_time_string
-    dta d'1s               '
+    dta d'                 '
 
     dta d' CTRL-', d'G'*, d' Gap time     : '
 loc_sweep_gap_time_string
-    dta d'0.1s             '
+    dta d'                 '
 
     dta d' CTRL-', d'X'*, d' Poly Reset   : '
 loc_sweep_poly_reset_string
-    dta d'once             '
+    dta d'                 '
 
 sweep_resolution_8bit_string
     dta d'8-bit         '
