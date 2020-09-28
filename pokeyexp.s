@@ -70,7 +70,7 @@ main
     open 1, 4, 0, "K"
 
     mva #>font $02f4
-    mwa #dl $0230   ; display list
+    mwa #display_list $0230
     mva #$ff $02db  ; NOCLIK, disable key click
 
 loop
@@ -90,7 +90,7 @@ keybuf
 
 ; ---------------------------------------------------------------------------
 
-; PRINT macros
+; PRINT MACROS
 
 print_byte_to_hex    .macro register, location
     lda :register
@@ -133,6 +133,8 @@ bit_done
     .mend
 
 ; ---------------------------------------------------------------------------
+
+; DISPLAY SHADOW POKEY
 
 display_shadow_pokey
     print_byte_to_hex shadow_audf1  loc_audf1
@@ -221,7 +223,7 @@ hextab
 
 ; ---------------------------------------------------------------------------
 
-; SWEEP display macros
+; SWEEP DISPLAY MACROS
 
 case_sweep  .macro val, dst, string, len
     cmp #:val
@@ -231,6 +233,8 @@ nope
     .mend
 
 ; ---------------------------------------------------------------------------
+
+; DISPLAY SWEEP VARIABLES
 
 display_sweep_variables
     lda var_sweep_resolution
@@ -339,6 +343,8 @@ start_value_done
 
 ; ---------------------------------------------------------------------------
 
+; PLAY SHADOW POKEY
+
 play_shadow_pokey
     mva shadow_audf1  $d200
     mva shadow_audc1  $d201
@@ -432,6 +438,8 @@ nope
 
 ; ---------------------------------------------------------------------------
 
+; HANDLE KEY PRESS
+
 handle_keypress
     lda keybuf
 
@@ -521,7 +529,7 @@ no_polyreset
 
     org $3000
 
-dl
+display_list
     dta $70
     dta $42, a(title)
     dta $42, a(author)
@@ -555,7 +563,7 @@ dl
     dta $10
     dta $02, $02, $02, $02, $02, $02, $02, $02
 
-    dta $41, a(dl)
+    dta $41, a(display_list)
 
 ; ---------------------------------------------------------------------------
 
