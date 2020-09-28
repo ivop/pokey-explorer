@@ -49,17 +49,17 @@ shadow_default_values
 
 var_sweep_resolution    dta $00
 var_sweep_channels      dta $00
-var_sweep_start_value   dta $00
-var_sweep_end_value     dta $ff
+var_sweep_start_value   dta $00, $00
+var_sweep_end_value     dta $ff, $ff
 var_sweep_interval      dta $01
 var_sweep_play_time     dta $00
-var_sweep_gap_time      dta $00
+var_sweep_gap_time      dta $01
 var_sweep_poly_reset    dta $00
 
 ; Sweep Variables default values
 
 var_sweep_default_values
-    dta $00, $00, $00, $ff, $01, $00, $00, $00
+    dta $00, $00, $00, $ff, $01, $00, $01, $00
 
 ; ---------------------------------------------------------------------------
 
@@ -221,7 +221,7 @@ hextab
 
 ; ---------------------------------------------------------------------------
 
-; SWEEP macros
+; SWEEP display macros
 
 case_sweep  .macro val, dst, string, len
     cmp #:val
@@ -256,6 +256,37 @@ display_sweep_variables
     case_sweep 2, loc_sweep_poly_reset_string,  \
                   sweep_poly_reset_each_string, \
                   sweep_poly_reset_strlen
+
+    lda var_sweep_play_time
+
+    case_sweep 0, loc_sweep_play_time_string, \
+                  sweep_play_time_0_string,   \
+                  sweep_play_time_strlen
+    case_sweep 1, loc_sweep_play_time_string, \
+                  sweep_play_time_1_string,   \
+                  sweep_play_time_strlen
+    case_sweep 2, loc_sweep_play_time_string, \
+                  sweep_play_time_2_string,   \
+                  sweep_play_time_strlen
+    case_sweep 3, loc_sweep_play_time_string, \
+                  sweep_play_time_3_string,   \
+                  sweep_play_time_strlen
+
+    lda var_sweep_gap_time
+
+    case_sweep 0, loc_sweep_gap_time_string, \
+                  sweep_gap_time_0_string,   \
+                  sweep_gap_time_strlen
+    case_sweep 1, loc_sweep_gap_time_string, \
+                  sweep_gap_time_1_string,   \
+                  sweep_gap_time_strlen
+    case_sweep 2, loc_sweep_gap_time_string, \
+                  sweep_gap_time_2_string,   \
+                  sweep_gap_time_strlen
+    case_sweep 3, loc_sweep_gap_time_string, \
+                  sweep_gap_time_3_string,   \
+                  sweep_gap_time_strlen
+
     rts
 
 ; ---------------------------------------------------------------------------
@@ -427,6 +458,8 @@ no_polyreset
 
     case_sweep_var_ctrl_key 'R', var_sweep_resolution, 2
     case_sweep_var_ctrl_key 'X', var_sweep_poly_reset, 2
+    case_sweep_var_ctrl_key 'P', var_sweep_play_time, 3
+    case_sweep_var_ctrl_key 'G', var_sweep_gap_time, 3
     rts
 
 ; ---------------------------------------------------------------------------
@@ -621,9 +654,13 @@ loc_sweep_resolution_string
     dta d' CTRL-', d'E'*, d' End value    : FFFF             '
     dta d' CTRL-', d'I'*, d' Interval     : 01               '
 
-    dta d' CTRL-', d'P'*, d' Play time    : 1s               '
+    dta d' CTRL-', d'P'*, d' Play time    : '
+loc_sweep_play_time_string
+    dta d'1s               '
 
-    dta d' CTRL-', d'G'*, d' Gap time     : 0.1s             '
+    dta d' CTRL-', d'G'*, d' Gap time     : '
+loc_sweep_gap_time_string
+    dta d'0.1s             '
 
     dta d' CTRL-', d'X'*, d' Poly Reset   : '
 loc_sweep_poly_reset_string
@@ -644,6 +681,26 @@ sweep_poly_reset_once_string
 sweep_poly_reset_each_string
     dta d'each'
 sweep_poly_reset_strlen = *-sweep_poly_reset_each_string
+
+sweep_play_time_0_string
+    dta d'1s  '
+sweep_play_time_1_string
+    dta d'2s  '
+sweep_play_time_2_string
+    dta d'3s  '
+sweep_play_time_3_string
+    dta d'4s  '
+sweep_play_time_strlen = *-sweep_play_time_3_string
+
+sweep_gap_time_0_string
+    dta d'0s  '
+sweep_gap_time_1_string
+    dta d'0.1s'
+sweep_gap_time_2_string
+    dta d'0.5s'
+sweep_gap_time_3_string
+    dta d'1s  '
+sweep_gap_time_strlen = *-sweep_gap_time_3_string
 
 ; ---------------------------------------------------------------------------
 
