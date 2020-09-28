@@ -245,6 +245,42 @@ display_sweep_variables
                   sweep_resolution_reverse16bit_string, \
                   sweep_resolution_strlen
 
+    lda var_sweep_resolution
+    beq do_8bit_channels
+
+do_16bit_channels
+    lda var_sweep_channels
+    case_sweep 0, loc_sweep_channels_string,    \
+                  sweep_16bit_channels_0_string, \
+                  sweep_channels_strlen
+    case_sweep 1, loc_sweep_channels_string,    \
+                  sweep_16bit_channels_1_string, \
+                  sweep_channels_strlen
+    case_sweep 2, loc_sweep_channels_string,    \
+                  sweep_16bit_channels_2_string, \
+                  sweep_channels_strlen
+    case_sweep 3, loc_sweep_channels_string,    \
+                  sweep_16bit_channels_3_string, \
+                  sweep_channels_strlen
+    jmp channels_done
+
+do_8bit_channels
+    lda var_sweep_channels
+    case_sweep 0, loc_sweep_channels_string,    \
+                  sweep_8bit_channels_0_string, \
+                  sweep_channels_strlen
+    case_sweep 1, loc_sweep_channels_string,    \
+                  sweep_8bit_channels_1_string, \
+                  sweep_channels_strlen
+    case_sweep 2, loc_sweep_channels_string,    \
+                  sweep_8bit_channels_2_string, \
+                  sweep_channels_strlen
+    case_sweep 3, loc_sweep_channels_string,    \
+                  sweep_8bit_channels_3_string, \
+                  sweep_channels_strlen
+
+channels_done
+
     lda var_sweep_poly_reset
 
     case_sweep 0, loc_sweep_poly_reset_string, \
@@ -457,6 +493,7 @@ polyreset
 no_polyreset
 
     case_sweep_var_ctrl_key 'R', var_sweep_resolution, 2
+    case_sweep_var_ctrl_key 'C', var_sweep_channels, 3
     case_sweep_var_ctrl_key 'X', var_sweep_poly_reset, 2
     case_sweep_var_ctrl_key 'P', var_sweep_play_time, 3
     case_sweep_var_ctrl_key 'G', var_sweep_gap_time, 3
@@ -648,6 +685,7 @@ loc_sweep_resolution_string
     dta d'Reverse 16-bit   '
 
     dta d' CTRL-', d'C'*, d' Channel(s)   : '
+loc_sweep_channels_string
     dta d'1+2              '
 
     dta d' CTRL-', d'S'*, d' Start value  : 0000             '
@@ -673,6 +711,25 @@ sweep_resolution_16bit_string
 sweep_resolution_reverse16bit_string
     dta d'Reverse 16-bit'
 sweep_resolution_strlen = *-sweep_resolution_reverse16bit_string
+
+sweep_8bit_channels_0_string
+    dta d'1  '
+sweep_8bit_channels_1_string
+    dta d'2  '
+sweep_8bit_channels_2_string
+    dta d'3  '
+sweep_8bit_channels_3_string
+    dta d'4  '
+
+sweep_16bit_channels_0_string
+    dta d'1+2'
+sweep_16bit_channels_1_string
+    dta d'3+4'
+sweep_16bit_channels_2_string
+    dta d'1+3'
+sweep_16bit_channels_3_string
+    dta d'2+4'
+sweep_channels_strlen = *-sweep_16bit_channels_3_string
 
 sweep_poly_reset_off_string
     dta d'off '
