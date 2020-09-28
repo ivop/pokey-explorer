@@ -188,8 +188,6 @@ do_join34_on
 
 cont_display_shadow_pokey
 
-    ; filter bits
-
     print_shadow_bit shadow_audctl, $04, filter_off_string,   \
                                          filter_on_string,    \
                                          loc_filter13_string, \
@@ -200,14 +198,10 @@ cont_display_shadow_pokey
                                          loc_filter24_string, \
                                          filter_strlen
 
-    ; base clock
-
     print_shadow_bit shadow_audctl, $01, base_clock64_string,   \
                                          base_clock15_string,   \
                                          loc_base_clock_string, \
                                          base_clock_strlen
-
-    ; SKCTL two-tone bit
 
     print_shadow_bit shadow_skctl, $08, two_tone_off_string, \
                                         two_tone_on_string,  \
