@@ -281,6 +281,16 @@ do_8bit_channels
 
 channels_done
 
+    lda var_sweep_resolution
+    beq do_8bit_start_value
+
+do_16bit_start_value
+    jmp start_value_done
+
+do_8bit_start_value
+
+start_value_done
+
     print_byte_to_hex var_sweep_interval, loc_sweep_interval_string
 
     lda var_sweep_poly_reset
@@ -509,7 +519,7 @@ no_polyreset
 
 ; DISPLAY LIST
 
-    .align $0400
+    org $3000
 
 dl
     dta $70
@@ -696,10 +706,11 @@ loc_sweep_channels_string
 
     dta d' CTRL-', d'S'*, d' Start value  : '
 loc_sweep_start_value_string
-    dta d'0000             '
-    dta d' CTRL-', d'E'*, d' End value    : '
+    dta d'XXXX      CTRL-D '
+    dta d' CTRL-', d'W'*, d' End value    : '
 loc_sweep_end_value_string
-    dta d'FFFF             '
+    dta d'XXXX      CTRL-E '
+
     dta d' CTRL-', d'I'*, d' Interval     : '
 loc_sweep_interval_string
     dta d'          CTRL-', d'O'*, d' '
