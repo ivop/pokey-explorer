@@ -283,11 +283,29 @@ channels_done
     beq do_8bit_start_value
 
 do_16bit_start_value
+    print_byte_to_hex var_sweep_start_value, loc_sweep_start_value_string+2
+    print_byte_to_hex var_sweep_start_value+1, loc_sweep_start_value_string
     jmp start_value_done
 
 do_8bit_start_value
+    print_byte_to_hex var_sweep_start_value, loc_sweep_start_value_string
+    memcpyshort two_spaces, loc_sweep_start_value_string+2, 2
 
 start_value_done
+
+    lda var_sweep_resolution
+    beq do_8bit_end_value
+
+do_16bit_end_value
+    print_byte_to_hex var_sweep_end_value, loc_sweep_end_value_string+2
+    print_byte_to_hex var_sweep_end_value+1, loc_sweep_end_value_string
+    jmp end_value_done
+
+do_8bit_end_value
+    print_byte_to_hex var_sweep_end_value, loc_sweep_end_value_string
+    memcpyshort two_spaces, loc_sweep_end_value_string+2, 2
+
+end_value_done
 
     print_byte_to_hex var_sweep_interval, loc_sweep_interval_string
 
@@ -364,9 +382,32 @@ case_inc1_key .macro key, register
 nope
     .mend
  
+case_inc1_16bit_key .macro key, register
+    cmp #:key
+    bne nope
+    inc :register
+    bne done
+    inc :register+1
+done
+    rts
+nope
+    .mend
+ 
 case_dec1_key .macro key, register
     cmp #:key
     bne nope
+    dec :register
+    rts
+nope
+    .mend
+ 
+case_dec1_16bit_key .macro key, register
+    cmp #:key
+    bne nope
+    lda :register
+    bne just_lsb
+    dec :register+1
+just_lsb
     dec :register
     rts
 nope
@@ -515,6 +556,12 @@ no_polyreset
     case_inc1_key 'I'-64, var_sweep_interval
     case_dec1_key 'O'-64, var_sweep_interval
 
+    case_inc1_16bit_key 'S'-64, var_sweep_start_value
+    case_dec1_16bit_key 'D'-64, var_sweep_start_value
+
+    case_inc1_16bit_key 'W'-64, var_sweep_end_value
+    case_dec1_16bit_key 'E'-64, var_sweep_end_value
+
     rts
 
 ; ---------------------------------------------------------------------------
@@ -570,6 +617,7 @@ title
 
 author
     dta d'    by Ivo van Poorten   (C)2020 TGK    '
+two_spaces
 empty_line
     dta d'                                        '
 
@@ -708,10 +756,10 @@ loc_sweep_channels_string
 
     dta d' CTRL-', d'S'*, d' Start value  : '
 loc_sweep_start_value_string
-    dta d'XXXX      CTRL-D '
+    dta d'          CTRL-', d'D'*, d' '
     dta d' CTRL-', d'W'*, d' End value    : '
 loc_sweep_end_value_string
-    dta d'XXXX      CTRL-E '
+    dta d'          CTRL-', d'E'*, d' '
 
     dta d' CTRL-', d'I'*, d' Interval     : '
 loc_sweep_interval_string
