@@ -38,12 +38,12 @@ shadow_audc3    dta $a0         ; $d205
 shadow_audf4    dta $00         ; $d206
 shadow_audc4    dta $a0         ; $d207
 shadow_audctl   dta $00         ; $d208
-shadow_skctl    dta $03         ; $d20f
+shadow_skctl    dta $83         ; $d20f
 
 ; SHADOW POKEY default values
 
 shadow_default_values
-    dta $00, $a0, $00, $a0, $00, $a0, $00, $a0, $00, $03
+    dta $00, $a0, $00, $a0, $00, $a0, $00, $a0, $00, $83
 
 ; Sweep Variables
 
