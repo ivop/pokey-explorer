@@ -23,6 +23,11 @@
 
 ; ---------------------------------------------------------------------------
 
+    SDLSTL = $0230
+    SSKCTL = $0232
+    NOCLIK = $02db
+    CHBAS  = $02f4
+
     AUDF1  = $d200
     AUDC1  = $d201
     AUDF2  = $d202
@@ -82,9 +87,9 @@ var_sweep_default_values
 main
     open 1, 4, 0, "K"
 
-    mva #>font $02f4
-    mwa #display_list $0230
-    mva #$ff $02db  ; NOCLIK, disable key click
+    mva #>font        CHBAS
+    mwa #display_list SDLSTL
+    mva #$ff          NOCLIK
 
 loop
     jsr display_sweep_variables
