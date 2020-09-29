@@ -79,6 +79,16 @@ var_sweep_poly_reset    dta $00
 var_sweep_default_values
     dta $00, $00, $00, $ff, $01, $00, $01, $00
 
+; Sweep UI Variables
+
+var_sweep_ui_updown
+    dta $00
+
+; Sweep UI Variables default values
+
+var_sweep_ui_default_values
+    dta $00
+
 ; ---------------------------------------------------------------------------
 
 ; MAIN
@@ -369,6 +379,21 @@ end_value_done
                   sweep_gap_time_3_string,   \
                   sweep_gap_time_strlen
 
+    lda var_sweep_ui_updown
+
+    case_sweep 0, loc_sweep_ui_updown_string, \
+                  sweep_ui_updown_0_string,   \
+                  sweep_ui_updown_strlen
+    case_sweep 1, loc_sweep_ui_updown_string, \
+                  sweep_ui_updown_1_string,   \
+                  sweep_ui_updown_strlen
+    case_sweep 2, loc_sweep_ui_updown_string, \
+                  sweep_ui_updown_2_string,   \
+                  sweep_ui_updown_strlen
+    case_sweep 3, loc_sweep_ui_updown_string, \
+                  sweep_ui_updown_3_string,   \
+                  sweep_ui_updown_strlen
+
     rts
 
 ; ---------------------------------------------------------------------------
@@ -570,6 +595,7 @@ no_polyreset
     case_sweep_var_ctrl_key 'X', var_sweep_poly_reset, 2
     case_sweep_var_ctrl_key 'P', var_sweep_play_time, 3
     case_sweep_var_ctrl_key 'G', var_sweep_gap_time, 3
+    case_sweep_var_ctrl_key 'U', var_sweep_ui_updown, 3
 
     ; KEY-64 equals CTRL-KEY
     case_inc1_key 'I'-64, var_sweep_interval
@@ -590,7 +616,7 @@ no_polyreset
     org $3000
 
 display_list
-    dta $70
+    dta $10
     dta $42, a(title)
     dta $42, a(author)
     dta $30
@@ -623,6 +649,11 @@ display_list
     dta $10
     dta $02, $02, $02, $02, $02, $02, $02, $02
 
+    dta $10
+    dta $42, a(sweep_ui_updown_line)
+    dta $10
+    dta $42, a(tuning_line)
+
     dta $41, a(display_list)
 
 ; ---------------------------------------------------------------------------
@@ -632,7 +663,7 @@ display_list
 ; ---------------------------------------------------------------------------
 
 title
-    dta d'             POKEY EXPLORER   v0.2beta3 '*
+    dta d'             POKEY EXPLORER   v0.2beta4 '*
 
 author
     dta d'    by Ivo van Poorten   (C)2020 TGK    '
@@ -850,6 +881,28 @@ sweep_gap_time_2_string
 sweep_gap_time_3_string
     dta d'1s  '
 sweep_gap_time_strlen = *-sweep_gap_time_3_string
+
+; ---------------------------------------------------------------------------
+
+sweep_ui_updown_line
+    dta d' CTRL-', d'U'*, d' Up/down sweep value step : '
+loc_sweep_ui_updown_string
+    dta d'xxxx '
+
+sweep_ui_updown_0_string
+    dta d'0001'
+sweep_ui_updown_1_string
+    dta d'0010'
+sweep_ui_updown_2_string
+    dta d'0100'
+sweep_ui_updown_3_string
+    dta d'1000'
+sweep_ui_updown_strlen = *-sweep_ui_updown_3_string
+
+; ---------------------------------------------------------------------------
+
+tuning_line
+    dta d' CTRL-', d'T'*, d' Tuning screen                   '
 
 ; ---------------------------------------------------------------------------
 
