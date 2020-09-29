@@ -426,32 +426,9 @@ case_inc1_key .macro key, register
 nope
     .mend
  
-case_inc1_16bit_key .macro key, register
-    cmp #:key
-    bne nope
-    inc :register
-    bne done
-    inc :register+1
-done
-    rts
-nope
-    .mend
- 
 case_dec1_key .macro key, register
     cmp #:key
     bne nope
-    dec :register
-    rts
-nope
-    .mend
- 
-case_dec1_16bit_key .macro key, register
-    cmp #:key
-    bne nope
-    lda :register
-    bne just_lsb
-    dec :register+1
-just_lsb
     dec :register
     rts
 nope
@@ -515,6 +492,31 @@ done
 nope
     .mend
 
+; 16-bit variables keys
+
+case_inc_16bit_key .macro key, register
+    cmp #:key
+    bne nope
+    inc :register
+    bne done
+    inc :register+1
+done
+    rts
+nope
+    .mend
+ 
+case_dec_16bit_key .macro key, register
+    cmp #:key
+    bne nope
+    lda :register
+    bne just_lsb
+    dec :register+1
+just_lsb
+    dec :register
+    rts
+nope
+    .mend
+ 
 ; ---------------------------------------------------------------------------
 
 ; HANDLE KEY PRESS
@@ -601,11 +603,11 @@ no_polyreset
     case_inc1_key 'I'-64, var_sweep_interval
     case_dec1_key 'O'-64, var_sweep_interval
 
-    case_inc1_16bit_key 'S'-64, var_sweep_start_value
-    case_dec1_16bit_key 'D'-64, var_sweep_start_value
+    case_inc_16bit_key 'S'-64, var_sweep_start_value
+    case_dec_16bit_key 'D'-64, var_sweep_start_value
 
-    case_inc1_16bit_key 'W'-64, var_sweep_end_value
-    case_dec1_16bit_key 'E'-64, var_sweep_end_value
+    case_inc_16bit_key 'W'-64, var_sweep_end_value
+    case_dec_16bit_key 'E'-64, var_sweep_end_value
 
     rts
 
