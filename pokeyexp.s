@@ -497,6 +497,36 @@ nope
 case_inc_16bit_key .macro key, register
     cmp #:key
     bne nope
+
+    lda var_sweep_ui_updown
+    beq do_0001
+    cmp #1
+    beq do_0010
+    cmp #2
+    beq do_0100
+
+do_1000
+    lda :register+1
+    clc
+    adc #$10
+    sta :register+1
+    rts
+
+do_0100
+    inc :register+1
+    rts
+
+do_0010
+    lda :register
+    clc
+    adc #$10
+    sta :register
+    lda :register+1
+    adc #0
+    sta :register+1
+    rts
+
+do_0001
     inc :register
     bne done
     inc :register+1
@@ -508,12 +538,41 @@ nope
 case_dec_16bit_key .macro key, register
     cmp #:key
     bne nope
+
+    lda var_sweep_ui_updown
+    beq do_0001
+    cmp #1
+    beq do_0010
+    cmp #2
+    beq do_0100
+
+do_1000
+    lda :register+1
+    sec
+    sbc #$10
+    sta :register+1
+    rts
+
+do_0100
+    dec :register+1
+    rts
+
+do_0010
+    lda :register
+    sec
+    sbc #$10
+    sta :register
+    lda :register+1
+    sbc #0
+    sta :register+1
+    rts
+
+do_0001
     lda :register
     bne just_lsb
     dec :register+1
 just_lsb
     dec :register
-    rts
 nope
     .mend
  
