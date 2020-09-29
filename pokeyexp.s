@@ -385,6 +385,7 @@ play_shadow_pokey
     mva shadow_audf4  AUDF4
     mva shadow_audc4  AUDC4
     mva shadow_audctl AUDCTL
+    mva shadow_skctl  SSKCTL
     mva shadow_skctl  SKCTL
     rts
 
