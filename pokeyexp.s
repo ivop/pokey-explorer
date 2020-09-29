@@ -23,6 +23,19 @@
 
 ; ---------------------------------------------------------------------------
 
+    AUDF1  = $d200
+    AUDC1  = $d201
+    AUDF2  = $d202
+    AUDC2  = $d203
+    AUDF3  = $d204
+    AUDC3  = $d205
+    AUDF4  = $d206
+    AUDC4  = $d207
+    AUDCTL = $d208
+    SKCTL  = $d20f
+
+; ---------------------------------------------------------------------------
+
     org $2000
 
 ; ---------------------------------------------------------------------------
@@ -358,16 +371,16 @@ end_value_done
 ; PLAY SHADOW POKEY
 
 play_shadow_pokey
-    mva shadow_audf1  $d200
-    mva shadow_audc1  $d201
-    mva shadow_audf2  $d202
-    mva shadow_audc2  $d203
-    mva shadow_audf3  $d204
-    mva shadow_audc3  $d205
-    mva shadow_audf4  $d206
-    mva shadow_audc4  $d207
-    mva shadow_audctl $d208
-    mva shadow_skctl  $d20f
+    mva shadow_audf1  AUDF1
+    mva shadow_audc1  AUDC1
+    mva shadow_audf2  AUDF2
+    mva shadow_audc2  AUDC2
+    mva shadow_audf3  AUDF3
+    mva shadow_audc3  AUDC3
+    mva shadow_audf4  AUDF4
+    mva shadow_audc4  AUDC4
+    mva shadow_audctl AUDCTL
+    mva shadow_skctl  SKCTL
     rts
 
 ; ---------------------------------------------------------------------------
