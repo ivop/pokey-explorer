@@ -548,9 +548,9 @@ handle_keypress
     case_skctl_toggle_key 'm', $08
     case_skctl_toggle_key 'M', $08
 
-    cmp #'['
+    cmp #'['            ; PC keyboard
     beq polyreset
-    cmp #'-'
+    cmp #'-'            ; ATARI Keyboard
     bne no_polyreset
 
 polyreset
