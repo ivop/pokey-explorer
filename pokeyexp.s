@@ -668,6 +668,12 @@ no_polyreset
     case_inc_16bit_key 'W'-64, var_sweep_end_value
     case_dec_16bit_key 'E'-64, var_sweep_end_value
 
+    cmp #'T'-64
+    bne dont_switch_to_tuning_screen
+
+    mva #$34 $d01a
+
+dont_switch_to_tuning_screen
     rts
 
 ; ---------------------------------------------------------------------------
