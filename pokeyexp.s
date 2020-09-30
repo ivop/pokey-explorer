@@ -90,6 +90,7 @@ shadow_pokey_storage
 ; Sweep Variables
 
 var_sweep_resolution    dta $00
+var_sweep_channel
 var_sweep_channels      dta $00
 var_sweep_start_value   dta $00, $00
 var_sweep_end_value     dta $ff, $ff
@@ -240,7 +241,7 @@ wait_for_release
     wait_number_of_frames FRAMES_PER_SECOND     ; 1 second
 
     lda var_sweep_resolution
-    bne do_16bit_check
+    jne do_16bit_check
 
 do_8bit_check
 
@@ -272,16 +273,33 @@ do_8bit_sweep
 
     wait_number_of_frames FRAMES_PER_SECOND     ; 1 second
 
-    ; set shadow start value
+    ; it's all about var_sweep_value
 
-    ; shadow_pokey display <--- loop
+    ; set shadow start value
+    mva var_sweep_start_value var_sweep_value
+    mva 0 var_sweep_value+1
+
+loop_8bit_sweep
+    ; set sweep value to shadow_pokey channel
+    lda var_sweep_channel       ; 0,1,2,3
+    lsr                         ; 0,2,4,6
+    tax
+
+    lda var_sweep_value
+    sta shadow_pokey,x
+
+    ; shadow_pokey display
+    jsr display_shadow_pokey
+
     ; shadow_pokey play
+    jsr play_shadow_pokey
+
     ; wait play_time
     ; if gap_time != 0 --> mute real pokey
     ; wait gap_time
     ; increase shadow_pokey value by interval
-    ; check greater than end_value or overflow
-    ; loop or exit
+    ; check overflow or greater than end_value, in that order
+    ; loop to loop_8bit_sweep or exit
 
     mwa #sweep_done sweep_line_dl_location
 
