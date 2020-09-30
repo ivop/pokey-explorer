@@ -275,7 +275,7 @@ do_8bit_sweep
 
     ; it's all about var_sweep_value
 
-    ; set shadow start value
+    ; initialize start sweep value
     mva var_sweep_start_value var_sweep_value
     mva 0 var_sweep_value+1
 
@@ -295,13 +295,44 @@ loop_8bit_sweep
     jsr play_shadow_pokey
 
     ; wait play_time
+    lda var_sweep_play_time
+    ; NOT IMPL YET
+
     ; if gap_time != 0 --> mute real pokey
+    lda var_sweep_gap_time
+    bne dont_mute_real_pokey
+
+    jsr mute_real_pokey
+
+dont_mute_real_pokey
+
     ; wait gap_time
-    ; increase shadow_pokey value by interval
+    lda var_sweep_gap_time
+    ; NOT IMPL YET
+
+    ; increase var_sweep_value by interval
+    lda var_sweep_value
+    clc
+    adc var_sweep_interval
+    sta var_sweep_value
+    lda var_sweep_value+1
+    adc #0
+    sta var_sweep_value+1
+
     ; check overflow or greater than end_value, in that order
+    lda var_sweep_value+1           ; superfluous load
+    bne done_8bit_sweep
+
+    lda var_sweep_value
+    cmp var_sweep_end_value
+    bcc loop_8bit_sweep             ; less than end_value
+    beq loop_8bit_sweep             ; equal, but play end_value, too
+
     ; loop to loop_8bit_sweep or exit
 
+done_8bit_sweep
     mwa #sweep_done sweep_line_dl_location
+    jsr mute_real_pokey                 ; SHUT UP, WHEN I'M TALKING TO YOU!?!
 
     ; restore pre-sweep settings
     memcpyshort shadow_pokey_storage shadow_pokey shadow_pokey_length
