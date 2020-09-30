@@ -19,10 +19,20 @@
 
 ; ---------------------------------------------------------------------------
 
+; Timing has to be different on PAL and NTSC
+
+    PAL    = 0
+    NTSC   = 1
+
+; use mads -d:SYSTEM=system -o:pokeyexp.xex pokeyexp.s
+
+; ---------------------------------------------------------------------------
+
     icl 'cio.s'
 
 ; ---------------------------------------------------------------------------
 
+    RTCLOK = $0012
     SDLSTL = $0230
     SSKCTL = $0232
     NOCLIK = $02db
@@ -94,7 +104,9 @@ var_sweep_ui_default_values
 ; MAIN
 
     org $2080
-main
+
+main    .proc
+
     open 1, 4, 0, "K"
 
     mva #>font        CHBAS
@@ -113,8 +125,35 @@ loop
 
     jmp loop
 
+    .endp
+
+; ---------------------------------------------------------------------------
+
+; MAIN data
+
 keybuf
     dta 0
+
+; ---------------------------------------------------------------------------
+
+; SWEEP Timing Macros
+
+wait_for_vertical_black .macro
+    lda RTCLOK+2
+wait
+    cmp RTCLOK+2
+    bne wait
+    .endm
+
+wait_number_of_frames   .macro  number
+    ldx #:number
+    beq done
+wait
+    wait_for_vertical_blank
+    dex
+    bne wait
+done
+    .endm
 
 ; ---------------------------------------------------------------------------
 
@@ -713,7 +752,8 @@ display_list
     dta $30
     dta $42, a(sweep_line)
     dta $10
-    dta $02, $02, $02, $02, $02, $02, $02, $02
+    dta $42, a(sweep_parameters_lines)
+    dta $02, $02, $02, $02, $02, $02, $02
 
     dta $10
     dta $42, a(sweep_ui_updown_line)
@@ -729,7 +769,7 @@ display_list
 ; ---------------------------------------------------------------------------
 
 title
-    dta d'             POKEY EXPLORER   v0.2beta4 '*
+    dta d'             POKEY EXPLORER   v0.2beta5 '*
 
 author
     dta d'    by Ivo van Poorten   (C)2020 TGK    '
@@ -859,9 +899,13 @@ down_keys_line
 ; ---------------------------------------------------------------------------
 
 sweep_line
-;    dta d'         Press ', d' START '*, d' to sweep         '
-    dta d'            Sweep Parameters            '
+    dta d'         Press ', d' START '*, d' to sweep         '
+sweep_error
+    dta d' Sweep Error: Start is greater than End  '
+sweep_busy
+    dta d'             Executing Sweep             '
 
+sweep_parameters_lines
     dta d' CTRL-', d'R'*, d' Resolution   : '
 loc_sweep_resolution_string
     dta d'                 '
