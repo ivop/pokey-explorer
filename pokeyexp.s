@@ -176,7 +176,20 @@ done
 ; SWEEP Code
 
 handle_start_key .proc
+
+wait_for_release
+    lda CONSOL
+    cmp #7
+    bne wait_for_release
+
     mva #$ff $d01a
+
+; Check, depending on resolution, Start <= End
+; if not, error out
+
+; Start sweep, display shadow pokey each time
+; Stop at Pos >= End or when Pos overflows because of the interval
+
     rts
     .endp
 
