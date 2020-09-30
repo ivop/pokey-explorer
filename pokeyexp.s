@@ -109,6 +109,11 @@ var_sweep_ui_updown
 var_sweep_ui_default_values
     dta $00
 
+; Sweep Temporary Values
+
+var_sweep_value
+    dta $00, $00
+
 ; ---------------------------------------------------------------------------
 
 ; MAIN
@@ -187,7 +192,7 @@ done
 
 ; GTIA BUZZERS
 
-gtia_buzzer_count_down .proc
+gtia_buzzer_countdown .proc
     ldy #FRAMES_PER_SECOND/5
 
 buzz
@@ -202,11 +207,11 @@ buzz
     .endp
 
 gtia_buzzer_error .proc
-    ldy #25
+    ldy #FRAMES_PER_SECOND
 
 buzz
     mva #0 CONSOL
-    wait_number_of_frames 2
+    wait_number_of_frames 2         ; 2 seconds to read the error message
     dey
     bne buzz
 
@@ -230,34 +235,38 @@ wait_for_release
 
     wait_number_of_frames FRAMES_PER_SECOND     ; 1 second
 
-;    jsr gtia_buzzer_error
-
-; Check, depending on resolution, Start <= End
-; if not, error out with buzzer_error
-
     lda var_sweep_resolution
-    bne do_16bit_checks
+    bne do_16bit_check
 
-do_8bit_checks
+do_8bit_check
 
-    ; do what label says or error out
+    ; check start <= end
 
-do_16bit_checks
+    lda var_sweep_start_value
+    cmp var_sweep_end_value
+    bcc do_8bit_sweep
+    beq do_8bit_sweep
 
-    ; do what label says or error out
+    mwa #sweep_error sweep_line_dl_location
 
-    mwa #sweep_countdown sweep_line_dl_location
-
-    jsr gtia_buzzer_count_down
-    jsr gtia_buzzer_count_down
-    jsr gtia_buzzer_count_down
-    jsr gtia_buzzer_count_down
-
-; Start sweep, display shadow pokey each time
-; Stop at Pos >= End or when Pos overflows because of the interval
-
+    jsr gtia_buzzer_error
     rts
+
+do_8bit_sweep
+    mwa #sweep_countdown sweep_line_dl_location
+    jsr gtia_buzzer_countdown
+    jsr gtia_buzzer_countdown
+    jsr gtia_buzzer_countdown
+    jsr gtia_buzzer_countdown
+    rts
+
+do_16bit_check
+    ; implement later
+    rts
+
     .endp
+
+; ---------------------------------------------------------------------------
 
 mute_real_pokey .proc
     ldx #8
@@ -1027,11 +1036,11 @@ down_keys_line
 sweep_line
     dta d'         Press ', d' START '*, d' to sweep         '
 sweep_error
-    dta d' Sweep Error: Start is greater than End  '
+    dta d' Sweep Error: Start is greater than End  '*
 sweep_countdown
-    dta d' Sweep Countdown... 4... 3... 2... 1...  '
+    dta d' Sweep Countdown... 4... 3... 2... 1...  '*
 sweep_busy
-    dta d'             Executing Sweep             '
+    dta d'             Executing Sweep             '*
 
 sweep_parameters_lines
     dta d' CTRL-', d'R'*, d' Resolution   : '
