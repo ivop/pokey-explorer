@@ -68,6 +68,7 @@ shadow_audc3    dta $a0         ; $d205
 shadow_audf4    dta $00         ; $d206
 shadow_audc4    dta $a0         ; $d207
 shadow_audctl   dta $00         ; $d208
+
 shadow_skctl    dta $83         ; $d20f
 
 ; SHADOW POKEY default values
@@ -130,6 +131,7 @@ no_key_yet
     bne no_start_key
 
     jsr handle_start_key
+    jmp loop
 
 no_start_key
     lda CH
@@ -154,11 +156,11 @@ keybuf
 
 ; SWEEP Timing Macros
 
-wait_for_vertical_black .macro
+wait_for_vertical_blank .macro
     lda RTCLOK+2
 wait
     cmp RTCLOK+2
-    bne wait
+    beq wait
     .endm
 
 wait_number_of_frames   .macro  number
@@ -182,7 +184,9 @@ wait_for_release
     cmp #7
     bne wait_for_release
 
-; need mute_real_pokey for a while
+    jsr mute_real_pokey
+
+    wait_number_of_frames 50
 
 ; need gtia buzzer tones to count down or BZZRZRZRZ Error :)
 
@@ -196,6 +200,18 @@ wait_for_release
 
     rts
     .endp
+
+mute_real_pokey .proc
+    ldx #8
+loop
+    lda shadow_default_values,x
+    sta AUDF1,x
+    dex
+    bpl loop
+; leave SKCTL alone
+    rts
+    .endp
+
 
 ; ---------------------------------------------------------------------------
 
