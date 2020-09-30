@@ -186,8 +186,8 @@ done
 
 ; GTIA BUZZERS
 
-gtia_buzzer1 .proc
-    ldy #FRAMES_PER_SECOND
+gtia_buzzer_count_down .proc
+    ldy #FRAMES_PER_SECOND/5
 
 buzz
     mva #0 CONSOL
@@ -195,10 +195,12 @@ buzz
     dey
     bne buzz
 
+    wait_number_of_frames (FRAMES_PER_SECOND/5*4)
+
     rts
     .endp
 
-gtia_buzzer2 .proc
+gtia_buzzer_error .proc
     ldy #25
 
 buzz
@@ -225,14 +227,19 @@ wait_for_release
 
     wait_number_of_frames FRAMES_PER_SECOND
 
-    jsr gtia_buzzer1
+    jsr gtia_buzzer_count_down
+    jsr gtia_buzzer_count_down
+    jsr gtia_buzzer_count_down
+    jsr gtia_buzzer_count_down
+    jsr gtia_buzzer_error
+    jsr gtia_buzzer_count_down
+    jsr gtia_buzzer_error
 
     wait_number_of_frames FRAMES_PER_SECOND
 
-; need gtia buzzer tones to count down or BZZRZRZRZ Error :)
-
 ; Check, depending on resolution, Start <= End
-; if not, error out
+; if not, error out with buzzer_error
+
 
     mva #$ff $d01a
 
