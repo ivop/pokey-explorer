@@ -127,6 +127,7 @@ loop
     jsr display_sweep_variables
     jsr display_shadow_pokey
     jsr play_shadow_pokey
+    mwa #sweep_line sweep_line_dl_location
 
     mva #$00 $02be  ; SHFLOK, set lower case, always lower case
 
@@ -225,6 +226,8 @@ wait_for_release
 
     jsr mute_real_pokey                         ; SHUT UP!
 
+    mwa #empty_line sweep_line_dl_location
+
     wait_number_of_frames FRAMES_PER_SECOND     ; 1 second
 
 ;    jsr gtia_buzzer_error
@@ -243,7 +246,7 @@ do_16bit_checks
 
     ; do what label says or error out
 
-    mva #$ff $d01a
+    mwa #sweep_countdown sweep_line_dl_location
 
     jsr gtia_buzzer_count_down
     jsr gtia_buzzer_count_down
@@ -266,7 +269,6 @@ loop
 ; leave SKCTL alone
     rts
     .endp
-
 
 ; ---------------------------------------------------------------------------
 
@@ -866,7 +868,9 @@ display_list
     dta $00
     dta $42, a(two_tone_line)
     dta $30
-    dta $42, a(sweep_line)
+    dta $42
+sweep_line_dl_location
+    dta a(0)                    ; MUST be set by MAIN
     dta $10
     dta $42, a(sweep_parameters_lines)
     dta $02, $02, $02, $02, $02, $02, $02
@@ -1024,6 +1028,8 @@ sweep_line
     dta d'         Press ', d' START '*, d' to sweep         '
 sweep_error
     dta d' Sweep Error: Start is greater than End  '
+sweep_countdown
+    dta d' Sweep Countdown... 4... 3... 2... 1...  '
 sweep_busy
     dta d'             Executing Sweep             '
 
