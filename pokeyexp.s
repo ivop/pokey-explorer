@@ -182,10 +182,14 @@ wait_for_release
     cmp #7
     bne wait_for_release
 
-    mva #$ff $d01a
+; need mute_real_pokey for a while
+
+; need gtia buzzer tones to count down or BZZRZRZRZ Error :)
 
 ; Check, depending on resolution, Start <= End
 ; if not, error out
+
+    mva #$ff $d01a
 
 ; Start sweep, display shadow pokey each time
 ; Stop at Pos >= End or when Pos overflows because of the interval
@@ -335,7 +339,7 @@ nope
 
 ; DISPLAY SWEEP VARIABLES
 
-display_sweep_variables
+display_sweep_variables .proc
     lda var_sweep_resolution
 
     case_sweep 0, loc_sweep_resolution_string,  \
@@ -472,12 +476,13 @@ end_value_done
                   sweep_ui_updown_strlen
 
     rts
+    .endp
 
 ; ---------------------------------------------------------------------------
 
 ; PLAY SHADOW POKEY
 
-play_shadow_pokey
+play_shadow_pokey .proc
     mva shadow_audf1  AUDF1
     mva shadow_audc1  AUDC1
     mva shadow_audf2  AUDF2
@@ -490,6 +495,7 @@ play_shadow_pokey
     mva shadow_skctl  SSKCTL
     mva shadow_skctl  SKCTL
     rts
+    .endp
 
 ; ---------------------------------------------------------------------------
 
@@ -656,7 +662,7 @@ nope
 
 ; HANDLE KEY PRESS
 
-handle_keypress
+handle_keypress .proc
     lda keybuf
 
     case_inc1_key '1', shadow_audf1
@@ -751,6 +757,7 @@ no_polyreset
 
 dont_switch_to_tuning_screen
     rts
+    .endp
 
 ; ---------------------------------------------------------------------------
 
