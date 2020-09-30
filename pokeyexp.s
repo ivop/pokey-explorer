@@ -82,6 +82,10 @@ shadow_skctl    dta $83         ; $d20f
 
 shadow_pokey_default_values
     dta $00, $a0, $00, $a0, $00, $a0, $00, $a0, $00, $83
+shadow_pokey_length = * - shadow_pokey_default_values
+
+shadow_pokey_storage
+    dta $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
 
 ; Sweep Variables
 
@@ -253,11 +257,20 @@ do_8bit_check
     rts
 
 do_8bit_sweep
+    ; save pre-sweep settings
+    memcpyshort shadow_pokey shadow_pokey_storage shadow_pokey_length
+
     mwa #sweep_countdown sweep_line_dl_location
     jsr gtia_buzzer_countdown
     jsr gtia_buzzer_countdown
     jsr gtia_buzzer_countdown
     jsr gtia_buzzer_countdown
+
+    ; DO 8-BIT SWEEP
+    ; ....
+
+    ; restore pre-sweep settings
+    memcpyshort shadow_pokey_storage shadow_pokey shadow_pokey_length
     mwa #sweep_busy sweep_line_dl_location
     jsr gtia_buzzer_countdown
     jsr gtia_buzzer_countdown
