@@ -775,7 +775,7 @@ join_strlen = *-join_on_string
 poly_line
     dta d' ', d'P'*, d' Poly counter    : '
 loc_poly_string
-    dta d'17-bit    ', d'-['*, d' Reset '
+    dta d'          ', d'-['*, d' Reset '
 
 poly9_string
     dta d'9-bit '
@@ -786,7 +786,7 @@ poly_strlen = *-poly17_string
 base_clock_line
     dta d' ', d'C'*, d' Clock base      : '
 loc_base_clock_string
-    dta d'15 kHz             '
+    dta d'                   '
 
 base_clock15_string
     dta d'15 kHz'
@@ -797,12 +797,12 @@ base_clock_strlen = *-base_clock64_string
 channel1_clock_line
     dta d' ', d'A'*, d' channel 1 clock : '
 loc_channel1_clock_string
-    dta d'1.79 MHz           '
+    dta d'                   '
 
 channel3_clock_line
     dta d' ', d'D'*, d' channel 3 clock : '
 loc_channel3_clock_string
-    dta d'base               '
+    dta d'                   '
  
 channel_clock_base_string
     dta d'base    '
