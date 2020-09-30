@@ -116,7 +116,7 @@ var_sweep_ui_default_values
 ; Sweep Temporary Values
 
 var_sweep_value
-    dta $00, $00
+    dta $00, $00, $00   ; 24-bit LE for easily detecting 16-bit overflow
 
 ; ---------------------------------------------------------------------------
 
@@ -267,11 +267,26 @@ do_8bit_sweep
     jsr gtia_buzzer_countdown
 
     ; DO 8-BIT SWEEP
-    ; ....
+
+    mwa #sweep_busy sweep_line_dl_location
+
+    wait_number_of_frames FRAMES_PER_SECOND     ; 1 second
+
+    ; set shadow start value
+
+    ; shadow_pokey display <--- loop
+    ; shadow_pokey play
+    ; wait play_time
+    ; if gap_time != 0 --> mute real pokey
+    ; wait gap_time
+    ; increase shadow_pokey value by interval
+    ; check greater than end_value or overflow
+    ; loop or exit
+
+    mwa #sweep_done sweep_line_dl_location
 
     ; restore pre-sweep settings
     memcpyshort shadow_pokey_storage shadow_pokey shadow_pokey_length
-    mwa #sweep_busy sweep_line_dl_location
     jsr gtia_buzzer_countdown
     jsr gtia_buzzer_countdown
     jsr gtia_buzzer_countdown
@@ -1060,6 +1075,8 @@ sweep_countdown
     dta d' Sweep Countdown... 4... 3... 2... 1...  '*
 sweep_busy
     dta d'             Executing Sweep             '*
+sweep_done
+    dta d'             Sweep Finished!             '*
 
 sweep_parameters_lines
     dta d' CTRL-', d'R'*, d' Resolution   : '
