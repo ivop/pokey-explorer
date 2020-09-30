@@ -223,25 +223,32 @@ wait_for_release
     cmp #7
     bne wait_for_release
 
-    jsr mute_real_pokey
+    jsr mute_real_pokey                         ; SHUT UP!
 
-    wait_number_of_frames FRAMES_PER_SECOND
+    wait_number_of_frames FRAMES_PER_SECOND     ; 1 second
 
-    jsr gtia_buzzer_count_down
-    jsr gtia_buzzer_count_down
-    jsr gtia_buzzer_count_down
-    jsr gtia_buzzer_count_down
-    jsr gtia_buzzer_error
-    jsr gtia_buzzer_count_down
-    jsr gtia_buzzer_error
-
-    wait_number_of_frames FRAMES_PER_SECOND
+;    jsr gtia_buzzer_error
 
 ; Check, depending on resolution, Start <= End
 ; if not, error out with buzzer_error
 
+    lda var_sweep_resolution
+    bne do_16bit_checks
+
+do_8bit_checks
+
+    ; do what label says or error out
+
+do_16bit_checks
+
+    ; do what label says or error out
 
     mva #$ff $d01a
+
+    jsr gtia_buzzer_count_down
+    jsr gtia_buzzer_count_down
+    jsr gtia_buzzer_count_down
+    jsr gtia_buzzer_count_down
 
 ; Start sweep, display shadow pokey each time
 ; Stop at Pos >= End or when Pos overflows because of the interval
