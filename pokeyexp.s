@@ -37,7 +37,9 @@
     SSKCTL = $0232
     NOCLIK = $02db
     CHBAS  = $02f4
+    CH     = $02fc
 
+    CONSOL = $d01f
     AUDF1  = $d200
     AUDC1  = $d201
     AUDF2  = $d202
@@ -120,6 +122,20 @@ loop
 
     mva #$00 $02be  ; SHFLOK, set lower case, always lower case
 
+    mva #$ff CH
+
+no_key_yet
+    lda CONSOL
+    cmp #6
+    bne no_start_key
+
+    jsr handle_start_key
+
+no_start_key
+    lda CH
+    cmp #$ff
+    beq no_key_yet
+
     bget 1, 1, keybuf
     jsr handle_keypress
 
@@ -154,6 +170,15 @@ wait
     bne wait
 done
     .endm
+
+; ---------------------------------------------------------------------------
+
+; SWEEP Code
+
+handle_start_key .proc
+    mva #$ff $d01a
+    rts
+    .endp
 
 ; ---------------------------------------------------------------------------
 
