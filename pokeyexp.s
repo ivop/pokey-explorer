@@ -521,9 +521,8 @@ do_0010
     clc
     adc #$10
     sta :register
-    lda :register+1
-    adc #0
-    sta :register+1
+    bcc done
+    inc :register+1
     rts
 
 do_0001
@@ -562,9 +561,9 @@ do_0010
     sec
     sbc #$10
     sta :register
-    lda :register+1
-    sbc #0
-    sta :register+1
+    bcs done
+    dec :register+1
+done
     rts
 
 do_0001
