@@ -24,7 +24,13 @@
     PAL    = 0
     NTSC   = 1
 
-; use mads -d:SYSTEM=system -o:pokeyexp.xex pokeyexp.s
+; use mads -d:SYSTEM=0 -o:pokeyexp.xex pokeyexp.s
+
+    .if SYSTEM == PAL
+        FRAMES_PER_SECOND = 50
+    .else
+        FRAMES_PER_SECOND = 60
+    .fi
 
 ; ---------------------------------------------------------------------------
 
@@ -50,6 +56,7 @@
     AUDC4  = $d207
     AUDCTL = $d208
     SKCTL  = $d20f
+    WSYNC  = $d40a
 
 ; ---------------------------------------------------------------------------
 
@@ -154,8 +161,9 @@ keybuf
 
 ; ---------------------------------------------------------------------------
 
-; SWEEP Timing Macros
+; SWEEP and BUZZER timing macros
 
+; clobbers A
 wait_for_vertical_blank .macro
     lda RTCLOK+2
 wait
@@ -163,6 +171,7 @@ wait
     beq wait
     .endm
 
+; clobbers X and A
 wait_number_of_frames   .macro  number
     ldx #:number
     beq done
@@ -172,6 +181,34 @@ wait
     bne wait
 done
     .endm
+
+; ---------------------------------------------------------------------------
+
+; GTIA BUZZERS
+
+gtia_buzzer1 .proc
+    ldy #FRAMES_PER_SECOND
+
+buzz
+    mva #0 CONSOL
+    wait_number_of_frames 1
+    dey
+    bne buzz
+
+    rts
+    .endp
+
+gtia_buzzer2 .proc
+    ldy #25
+
+buzz
+    mva #0 CONSOL
+    wait_number_of_frames 2
+    dey
+    bne buzz
+
+    rts
+    .endp
 
 ; ---------------------------------------------------------------------------
 
@@ -186,7 +223,11 @@ wait_for_release
 
     jsr mute_real_pokey
 
-    wait_number_of_frames 50
+    wait_number_of_frames FRAMES_PER_SECOND
+
+    jsr gtia_buzzer1
+
+    wait_number_of_frames FRAMES_PER_SECOND
 
 ; need gtia buzzer tones to count down or BZZRZRZRZ Error :)
 
@@ -830,7 +871,13 @@ display_list
 ; ---------------------------------------------------------------------------
 
 title
-    dta d'             POKEY EXPLORER   v0.2beta5 '*
+    dta d' '*
+    .if SYSTEM == PAL
+        dta d'PAL '*
+    .else
+        dta d'NTSC'*
+    .fi
+    dta d'        POKEY EXPLORER   v0.2beta5 '*
 
 author
     dta d'    by Ivo van Poorten   (C)2020 TGK    '
