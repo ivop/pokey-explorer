@@ -66,6 +66,7 @@
 
 ; SHADOW POKEY
 
+shadow_pokey
 shadow_audf1    dta $00         ; $d200
 shadow_audc1    dta $a0         ; $d201
 shadow_audf2    dta $00         ; $d202
@@ -75,12 +76,11 @@ shadow_audc3    dta $a0         ; $d205
 shadow_audf4    dta $00         ; $d206
 shadow_audc4    dta $a0         ; $d207
 shadow_audctl   dta $00         ; $d208
-
 shadow_skctl    dta $83         ; $d20f
 
 ; SHADOW POKEY default values
 
-shadow_default_values
+shadow_pokey_default_values
     dta $00, $a0, $00, $a0, $00, $a0, $00, $a0, $00, $83
 
 ; Sweep Variables
@@ -258,6 +258,12 @@ do_8bit_sweep
     jsr gtia_buzzer_countdown
     jsr gtia_buzzer_countdown
     jsr gtia_buzzer_countdown
+    mwa #sweep_busy sweep_line_dl_location
+    jsr gtia_buzzer_countdown
+    jsr gtia_buzzer_countdown
+    jsr gtia_buzzer_countdown
+    jsr gtia_buzzer_countdown
+
     rts
 
 do_16bit_check
@@ -271,7 +277,7 @@ do_16bit_check
 mute_real_pokey .proc
     ldx #8
 loop
-    lda shadow_default_values,x
+    lda shadow_pokey_default_values,x
     sta AUDF1,x
     dex
     bpl loop
