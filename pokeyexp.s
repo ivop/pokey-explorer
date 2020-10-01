@@ -321,8 +321,6 @@ do_sweep_play_time_3
 
 play_time_done
 
-    mva #$ff $d01a
-
     ; wait gap_time
     lda var_sweep_gap_time
     beq do_sweep_gap_time_0
@@ -385,7 +383,8 @@ done_8bit_sweep
     rts
 
 do_16bit_check
-    ; implement later
+    ; implement tomorrow :)
+    mva #$ff $d01a
     rts
 
     .endp
