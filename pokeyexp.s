@@ -246,6 +246,8 @@ wait_for_release
     lda var_sweep_resolution
     jne do_16bit_check
 
+; ----- 8-BIT SWEEP -----
+
 do_8bit_check
 
     ; check start <= end
@@ -392,7 +394,32 @@ done_8bit_sweep
 
     rts
 
+; ----- 16-BIT SWEEP -----
+
 do_16bit_check
+
+    ; check start <= end
+
+    lda var_sweep_start_value+1
+    cmp var_sweep_end_value+1
+    bcc do_16bit_sweep                  ; start is less than end
+    bne msb_is_not_equal_so_error_out   ; definitely higher
+
+msb_is_equal_so_check_lsb
+    lda var_sweep_start_value
+    cmp var_sweep_end_value
+    bcc do_16bit_sweep      ; less than
+    beq do_16bit_sweep      ; equal
+
+    ; fall through
+
+msb_is_not_equal_so_error_out
+    mwa #sweep_error sweep_line_dl_location
+
+    jsr gtia_buzzer_error
+    rts
+
+do_16bit_sweep
     ; implement tomorrow :)
     mva #$ff $d01a
     rts
