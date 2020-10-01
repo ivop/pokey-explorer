@@ -282,7 +282,7 @@ do_8bit_sweep
 loop_8bit_sweep
     ; set sweep value to shadow_pokey channel
     lda var_sweep_channel       ; 0,1,2,3
-    lsr                         ; 0,2,4,6
+    asl                         ; 0,2,4,6
     tax
 
     lda var_sweep_value
