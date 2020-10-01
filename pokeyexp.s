@@ -275,8 +275,6 @@ do_8bit_sweep
 
     mwa #sweep_busy sweep_line_dl_location
 
-    wait_number_of_frames FRAMES_PER_SECOND     ; 1 second
-
     ; it's all about var_sweep_value
 
     ; initialize start sweep value
