@@ -698,14 +698,23 @@ end_value_done
 ; PLAY SHADOW POKEY
 
 play_shadow_pokey .proc
-    mva shadow_audf1  AUDF1
-    mva shadow_audc1  AUDC1
-    mva shadow_audf2  AUDF2
-    mva shadow_audc2  AUDC2
-    mva shadow_audf3  AUDF3
-    mva shadow_audc3  AUDC3
-    mva shadow_audf4  AUDF4
-    mva shadow_audc4  AUDC4
+    lda shadow_audf1
+    ldx shadow_audc1
+    sta AUDF1
+    stx AUDC1
+    lda shadow_audf2
+    ldx shadow_audc2
+    sta AUDF2
+    stx AUDC2
+    lda shadow_audf3
+    ldx shadow_audc3
+    sta AUDF3
+    stx AUDC3
+    lda shadow_audf4
+    ldx shadow_audc4
+    sta AUDF4
+    stx AUDC4
+
     mva shadow_audctl AUDCTL
     mva shadow_skctl  SSKCTL
     mva shadow_skctl  SKCTL
@@ -1036,7 +1045,7 @@ title
     .else
         dta d'NTSC'*
     .fi
-    dta d'        POKEY EXPLORER   v0.2beta5 '*
+    dta d'        POKEY EXPLORER   v0.2beta6 '*
 
 author
     dta d'    by Ivo van Poorten   (C)2020 TGK    '
