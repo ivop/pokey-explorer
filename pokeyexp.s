@@ -296,20 +296,61 @@ loop_8bit_sweep
 
     ; wait play_time
     lda var_sweep_play_time
-    ; NOT IMPL YET
+    beq do_sweep_play_time_0
+    cmp #1
+    beq do_sweep_play_time_1
+    cmp #2
+    beq do_sweep_play_time_2
+    bne do_sweep_play_time_3
 
-    ; if gap_time != 0 --> mute real pokey
-    lda var_sweep_gap_time
-    bne dont_mute_real_pokey
+do_sweep_play_time_0
+    wait_number_of_frames FRAMES_PER_SECOND     ; 1 second
+    jmp play_time_done
 
-    jsr mute_real_pokey
+do_sweep_play_time_1
+    wait_number_of_frames FRAMES_PER_SECOND*2   ; 2 seconds
+    jmp play_time_done
 
-dont_mute_real_pokey
+do_sweep_play_time_2
+    wait_number_of_frames FRAMES_PER_SECOND*3   ; 3 seconds
+    jmp play_time_done
+
+do_sweep_play_time_3
+    wait_number_of_frames FRAMES_PER_SECOND*4   ; 4 seconds
+    jmp play_time_done
+
+play_time_done
+
+    mva #$ff $d01a
 
     ; wait gap_time
     lda var_sweep_gap_time
-    ; NOT IMPL YET
+    beq do_sweep_gap_time_0
+    cmp #1
+    beq do_sweep_gap_time_1
+    cmp #2
+    beq do_sweep_gap_time_2
+    bne do_sweep_gap_time_3
 
+do_sweep_gap_time_0
+    jmp gap_time_done                           ; 0 seconds
+
+do_sweep_gap_time_1
+    jsr mute_real_pokey
+    wait_number_of_frames FRAMES_PER_SECOND/10  ; 0.1 seconds
+    jmp gap_time_done
+
+do_sweep_gap_time_2
+    jsr mute_real_pokey
+    wait_number_of_frames FRAMES_PER_SECOND/2   ; 0.5 seconds
+    jmp gap_time_done
+
+do_sweep_gap_time_3
+    jsr mute_real_pokey
+    wait_number_of_frames FRAMES_PER_SECOND     ; 1 second
+    jmp gap_time_done
+
+gap_time_done
     ; increase var_sweep_value by interval
     lda var_sweep_value
     clc
@@ -325,8 +366,8 @@ dont_mute_real_pokey
 
     lda var_sweep_value
     cmp var_sweep_end_value
-    bcc loop_8bit_sweep             ; less than end_value
-    beq loop_8bit_sweep             ; equal, but play end_value, too
+    jcc loop_8bit_sweep             ; less than end_value
+    jeq loop_8bit_sweep             ; equal, but play end_value, too
 
     ; loop to loop_8bit_sweep or exit
 
