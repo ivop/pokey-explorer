@@ -978,7 +978,7 @@ no_polyreset
     cmp #'T'-64
     bne dont_switch_to_tuning_screen
 
-    mva #$34 $d01a
+    ; switch to tuning screen here
 
 dont_switch_to_tuning_screen
     rts
@@ -1294,7 +1294,8 @@ sweep_ui_updown_strlen = *-sweep_ui_updown_3_string
 ; ---------------------------------------------------------------------------
 
 tuning_line
-    dta d' CTRL-', d'T'*, d' Tuning screen                   '
+;    dta d' CTRL-', d'T'*, d' Tuning screen                   '
+    dta d'   This line intentionally left blank   '
 
 ; ---------------------------------------------------------------------------
 
