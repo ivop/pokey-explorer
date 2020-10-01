@@ -55,6 +55,7 @@
     AUDF4  = $d206
     AUDC4  = $d207
     AUDCTL = $d208
+    STIMER = $d209
     SKCTL  = $d20f
     WSYNC  = $d40a
 
@@ -116,6 +117,8 @@ var_sweep_ui_default_values
 
 ; Sweep Temporary Values
 
+var_sweep_poly_reset_copy
+    dta $00
 var_sweep_value
     dta $00, $00, $00   ; 24-bit LE for easily detecting 16-bit overflow
 
@@ -260,6 +263,7 @@ do_8bit_check
 do_8bit_sweep
     ; save pre-sweep settings
     memcpyshort shadow_pokey shadow_pokey_storage shadow_pokey_length
+    mva var_sweep_poly_reset var_sweep_poly_reset_copy
 
     mwa #sweep_countdown sweep_line_dl_location
     jsr gtia_buzzer_countdown
@@ -293,6 +297,21 @@ loop_8bit_sweep
 
     ; shadow_pokey play
     jsr play_shadow_pokey
+
+    ; check poly reset
+    lda var_sweep_poly_reset_copy
+    beq sweep_poly_reset_none
+    cmp #2
+    beq sweep_poly_reset_each
+
+    ; fall through, must be 1 (once)
+    dec var_sweep_poly_reset_copy
+    ; fall though again and do one Polycounter Reset
+
+sweep_poly_reset_each
+    mva #$ff STIMER         ; OK for now. Later more stable reset for Timbres
+
+sweep_poly_reset_none
 
     ; wait play_time
     lda var_sweep_play_time
@@ -375,6 +394,8 @@ done_8bit_sweep
 
     ; restore pre-sweep settings
     memcpyshort shadow_pokey_storage shadow_pokey shadow_pokey_length
+    mva var_sweep_poly_reset_copy var_sweep_poly_reset
+
     jsr gtia_buzzer_countdown
     jsr gtia_buzzer_countdown
     jsr gtia_buzzer_countdown
@@ -933,8 +954,7 @@ handle_keypress .proc
     bne no_polyreset
 
 polyreset
-    lda #$ff
-    sta $d209           ; STIMER
+    mva #$ff STIMER
     rts
 no_polyreset
 
