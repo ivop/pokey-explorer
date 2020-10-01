@@ -279,7 +279,7 @@ do_8bit_sweep
 
     ; initialize start sweep value
     mva var_sweep_start_value var_sweep_value
-    mva 0 var_sweep_value+1
+    mva #0 var_sweep_value+1
 
 loop_8bit_sweep
     ; set sweep value to shadow_pokey channel
