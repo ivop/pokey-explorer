@@ -237,7 +237,7 @@ wait_for_release
     cmp #7
     bne wait_for_release
 
-    jsr mute_real_pokey                         ; SHUT UP!
+    jsr mute_real_pokey
 
     mwa #empty_line sweep_line_dl_location
 
@@ -275,8 +275,6 @@ do_8bit_sweep
 
     mwa #sweep_busy sweep_line_dl_location
 
-    ; it's all about var_sweep_value
-
     ; initialize start sweep value
     mva var_sweep_start_value var_sweep_value
     mva #0 var_sweep_value+1
@@ -290,13 +288,10 @@ loop_8bit_sweep
     lda var_sweep_value
     sta shadow_pokey,x
 
-    ; shadow_pokey display
     jsr display_shadow_pokey
 
-    ; shadow_pokey play
     jsr play_shadow_pokey
 
-    ; check poly reset
     lda var_sweep_poly_reset_copy
     beq sweep_poly_reset_none
     cmp #2
@@ -311,7 +306,6 @@ sweep_poly_reset_each
 
 sweep_poly_reset_none
 
-    ; wait play_time
     lda var_sweep_play_time
     beq do_sweep_play_time_0
     cmp #1
@@ -321,24 +315,23 @@ sweep_poly_reset_none
     bne do_sweep_play_time_3
 
 do_sweep_play_time_0
-    wait_number_of_frames FRAMES_PER_SECOND/10  ; 1 second
+    wait_number_of_frames FRAMES_PER_SECOND/10  ; 0.1s
     jmp play_time_done
 
 do_sweep_play_time_1
-    wait_number_of_frames FRAMES_PER_SECOND*1   ; 1 seconds
+    wait_number_of_frames FRAMES_PER_SECOND*1   ; 1s
     jmp play_time_done
 
 do_sweep_play_time_2
-    wait_number_of_frames FRAMES_PER_SECOND*2   ; 2 seconds
+    wait_number_of_frames FRAMES_PER_SECOND*2   ; 2s
     jmp play_time_done
 
 do_sweep_play_time_3
-    wait_number_of_frames FRAMES_PER_SECOND*4   ; 4 seconds
+    wait_number_of_frames FRAMES_PER_SECOND*4   ; 4s
     jmp play_time_done
 
 play_time_done
 
-    ; wait gap_time
     lda var_sweep_gap_time
     beq do_sweep_gap_time_0
     cmp #1
@@ -348,21 +341,21 @@ play_time_done
     bne do_sweep_gap_time_3
 
 do_sweep_gap_time_0
-    jmp gap_time_done                           ; 0 seconds
+    jmp gap_time_done                           ; 0s
 
 do_sweep_gap_time_1
     jsr mute_real_pokey
-    wait_number_of_frames FRAMES_PER_SECOND/10  ; 0.1 seconds
+    wait_number_of_frames FRAMES_PER_SECOND/10  ; 0.1s
     jmp gap_time_done
 
 do_sweep_gap_time_2
     jsr mute_real_pokey
-    wait_number_of_frames FRAMES_PER_SECOND/2   ; 0.5 seconds
+    wait_number_of_frames FRAMES_PER_SECOND/2   ; 0.5s
     jmp gap_time_done
 
 do_sweep_gap_time_3
     jsr mute_real_pokey
-    wait_number_of_frames FRAMES_PER_SECOND     ; 1 second
+    wait_number_of_frames FRAMES_PER_SECOND     ; 1s
     jmp gap_time_done
 
 gap_time_done
@@ -384,11 +377,9 @@ gap_time_done
     jcc loop_8bit_sweep             ; less than end_value
     jeq loop_8bit_sweep             ; equal, but play end_value, too
 
-    ; loop to loop_8bit_sweep or exit
-
 done_8bit_sweep
     mwa #sweep_done sweep_line_dl_location
-    jsr mute_real_pokey                 ; SHUT UP, WHEN I'M TALKING TO YOU!?!
+    jsr mute_real_pokey
 
     ; restore pre-sweep settings
     memcpyshort shadow_pokey_storage shadow_pokey shadow_pokey_length
