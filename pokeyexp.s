@@ -96,14 +96,14 @@ var_sweep_channels      dta $00
 var_sweep_start_value   dta $00, $00
 var_sweep_end_value     dta $ff, $ff
 var_sweep_interval      dta $01
-var_sweep_play_time     dta $00
+var_sweep_play_time     dta $01
 var_sweep_gap_time      dta $01
 var_sweep_poly_reset    dta $00
 
 ; Sweep Variables default values
 
 var_sweep_default_values
-    dta $00, $00, $00, $ff, $01, $00, $01, $00
+    dta $00, $00, $00, $ff, $01, $01, $01, $00
 
 ; Sweep UI Variables
 
@@ -323,15 +323,15 @@ sweep_poly_reset_none
     bne do_sweep_play_time_3
 
 do_sweep_play_time_0
-    wait_number_of_frames FRAMES_PER_SECOND     ; 1 second
+    wait_number_of_frames FRAMES_PER_SECOND/10  ; 1 second
     jmp play_time_done
 
 do_sweep_play_time_1
-    wait_number_of_frames FRAMES_PER_SECOND*2   ; 2 seconds
+    wait_number_of_frames FRAMES_PER_SECOND*1   ; 1 seconds
     jmp play_time_done
 
 do_sweep_play_time_2
-    wait_number_of_frames FRAMES_PER_SECOND*3   ; 3 seconds
+    wait_number_of_frames FRAMES_PER_SECOND*2   ; 2 seconds
     jmp play_time_done
 
 do_sweep_play_time_3
@@ -1255,11 +1255,11 @@ sweep_poly_reset_each_string
 sweep_poly_reset_strlen = *-sweep_poly_reset_each_string
 
 sweep_play_time_0_string
-    dta d'1s  '
+    dta d'0.1s'
 sweep_play_time_1_string
-    dta d'2s  '
+    dta d'1s  '
 sweep_play_time_2_string
-    dta d'3s  '
+    dta d'2s  '
 sweep_play_time_3_string
     dta d'4s  '
 sweep_play_time_strlen = *-sweep_play_time_3_string
