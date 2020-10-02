@@ -475,7 +475,6 @@ do_sweep_channels_1     ; 3+4
 do_sweep_channels_2     ; 1+3
     ldx #0
     ldy #4
-    bne channels_selection_done
 
 channels_selection_done
 
