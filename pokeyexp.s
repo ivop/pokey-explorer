@@ -446,7 +446,41 @@ do_16bit_sweep
     mva #0 var_sweep_value+2
 
 loop_16bit_sweep
-    ; - determine channels to write to (might be better out of loop?)
+    ; - determine channels to write to
+    ; X and Y are AUDF offsets for specific channel combinations
+    ; v=(x-1)*2
+
+    lda var_sweep_channel           ; four options
+    beq do_sweep_channels_0
+    cmp #1
+    beq do_sweep_channels_1
+    cmp #2
+    beq do_sweep_channels_2
+
+do_sweep_channels_3     ; 2+4
+    ldx #2
+    ldy #6
+    bne channels_selection_done
+
+do_sweep_channels_0     ; 1+2
+    ldx #0
+    ldy #2
+    bne channels_selection_done
+
+do_sweep_channels_1     ; 3+4
+    ldx #4
+    ldy #6
+    bne channels_selection_done
+
+do_sweep_channels_2     ; 1+3
+    ldx #0
+    ldy #4
+    bne channels_selection_done
+
+channels_selection_done
+
+    ; and 16-bit or reverse 16-bit (swap X and Y)
+
     ; - write sweep value to shadow pokey
 
     jsr display_shadow_pokey
@@ -460,8 +494,19 @@ loop_16bit_sweep
     jsr wait_sweep_gap_time
 
     ; - do sweep increment
+    lda var_sweep_value
+    clc
+    adc var_sweep_interval
+    sta var_sweep_value
+    lda var_sweep_value+1
+    adc var_sweep_interval+1
+    sta var_sweep_value+1
+    lda var_sweep_value+2
+    adc #0
+    sta var_sweep_value+2
+
     ; - check overflow or end
-    ; - loop
+    ; - loop_16bit_sweep
 
 done_16bit_sweep
 done_whatever_sweep
