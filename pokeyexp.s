@@ -411,7 +411,7 @@ do_16bit_check
     lda var_sweep_start_value+1
     cmp var_sweep_end_value+1
     bcc do_16bit_sweep                  ; start is less than end
-    bne msb_is_not_equal_so_error_out   ; definitely higher
+    bne msb_is_not_equal_so_error_out   ; not equal, so definitely higher
 
 msb_is_equal_so_check_lsb
     lda var_sweep_start_value
@@ -523,9 +523,18 @@ no_reverse_16_bit
     lda var_sweep_value+2           ; superfluous load
     bne done_16bit_sweep
 
-    ; loop on less than, and equal (play end value, too)
-    ; for now, loop until overflow
-    jmp loop_16bit_sweep
+    ; 16-bit unsigned compare between var_sweep_value and var_sweep_end_value
+    lda var_sweep_value+1
+    cmp var_sweep_end_value+1
+    bcc loop_16bit_sweep               ; value is less than end
+    bne done_16bit_sweep               ; not equal, so definitely higher
+
+    lda var_sweep_value
+    cmp var_sweep_end_value
+    jcc loop_16bit_sweep      ; less than
+    jeq loop_16bit_sweep      ; equal, but play end_value, too
+
+    ; fall through
 
 done_16bit_sweep
 done_whatever_sweep
