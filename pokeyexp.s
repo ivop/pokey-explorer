@@ -428,12 +428,14 @@ do_16bit_sweep
 loop_16bit_sweep
     ; - determine channels to write to (might be better out of loop?)
     ; - write sweep value to shadow pokey
-    ; - display shadow pokey
-    ; - play shadow pokey
+
+    jsr display_shadow_pokey
+
+    jsr play_shadow_pokey
+
     ; - poly reset stuff        ; same as 8-bit sweep
     ; - wait play time          ; same as 8-bit sweep
-    ; - mute pokey
-    ; - wait gap time           ; same as 8-bit sweep
+    ; - wait gap time           ; same as 8-bit sweep (mute is done here)
     ; - do sweep increment
     ; - check overflow or end
     ; - loop
