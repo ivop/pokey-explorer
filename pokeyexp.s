@@ -446,8 +446,8 @@ do_16bit_sweep
     mva #0 var_sweep_value+2
 
 loop_16bit_sweep
-    ; - determine channels to write to
-    ; X and Y are AUDF offsets for specific channel combinations
+
+    ; X and Y become AUDF offsets for specific channel combinations
     ; v=(x-1)*2
 
     lda var_sweep_channel           ; four options
@@ -479,9 +479,23 @@ do_sweep_channels_2     ; 1+3
 
 channels_selection_done
 
-    ; and 16-bit or reverse 16-bit (swap X and Y)
+    lda var_sweep_resolution
+    cmp #2                          ; reverse 16-bit!
+    bne no_reverse_16_bit
 
-    ; - write sweep value to shadow pokey
+    txa             ; Swap X and Y
+    pha
+    tya
+    tax
+    pla
+    tay
+
+no_reverse_16_bit
+
+    lda var_sweep_value
+    sta shadow_pokey,x
+    lda var_sweep_value+1
+    sta shadow_pokey,y
 
     jsr display_shadow_pokey
 
