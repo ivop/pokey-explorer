@@ -33,7 +33,9 @@
     .fi
 
     WAIT_TIME_100ms = FRAMES_PER_SECOND/10
+    WAIT_TIME_200ms = FRAMES_PER_SECOND/5
     WAIT_TIME_500ms = FRAMES_PER_SECOND/2
+    WAIT_TIME_800ms = (WAIT_TIME_1s)-(WAIT_TIME_200ms)
     WAIT_TIME_1s    = FRAMES_PER_SECOND
     WAIT_TIME_2s    = FRAMES_PER_SECOND*2
     WAIT_TIME_4s    = FRAMES_PER_SECOND*4
@@ -207,7 +209,7 @@ done
 ; GTIA BUZZERS
 
 gtia_buzzer_countdown .proc
-    ldy #FRAMES_PER_SECOND/5
+    ldy #WAIT_TIME_200ms
 
 buzz
     mva #0 CONSOL
@@ -215,13 +217,13 @@ buzz
     dey
     bne buzz
 
-    wait_number_of_frames #(FRAMES_PER_SECOND/5*4)
+    wait_number_of_frames #WAIT_TIME_800ms
 
     rts
     .endp
 
 gtia_buzzer_error .proc
-    ldy #FRAMES_PER_SECOND
+    ldy #WAIT_TIME_1s
 
 buzz
     mva #0 CONSOL
@@ -263,19 +265,19 @@ wait_sweep_play_time .proc
     bne do_sweep_play_time_3
 
 do_sweep_play_time_0
-    wait_number_of_frames #WAIT_TIME_100ms       ; 0.1s
+    wait_number_of_frames #WAIT_TIME_100ms
     jmp play_time_done
 
 do_sweep_play_time_1
-    wait_number_of_frames #WAIT_TIME_1s          ; 1s
+    wait_number_of_frames #WAIT_TIME_1s
     jmp play_time_done
 
 do_sweep_play_time_2
-    wait_number_of_frames #WAIT_TIME_2s          ; 2s
+    wait_number_of_frames #WAIT_TIME_2s
     jmp play_time_done
 
 do_sweep_play_time_3
-    wait_number_of_frames #WAIT_TIME_4s          ; 4s
+    wait_number_of_frames #WAIT_TIME_4s
     jmp play_time_done
 
 play_time_done
@@ -296,17 +298,17 @@ do_sweep_gap_time_0
 
 do_sweep_gap_time_1
     jsr mute_real_pokey
-    wait_number_of_frames #WAIT_TIME_100ms       ; 0.1s
+    wait_number_of_frames #WAIT_TIME_100ms
     jmp gap_time_done
 
 do_sweep_gap_time_2
     jsr mute_real_pokey
-    wait_number_of_frames #WAIT_TIME_500ms       ; 0.5s
+    wait_number_of_frames #WAIT_TIME_500ms
     jmp gap_time_done
 
 do_sweep_gap_time_3
     jsr mute_real_pokey
-    wait_number_of_frames #WAIT_TIME_1s          ; 1s
+    wait_number_of_frames #WAIT_TIME_1s
     jmp gap_time_done
 
 gap_time_done
@@ -328,7 +330,7 @@ wait_for_release
 
     mwa #empty_line sweep_line_dl_location
 
-    wait_number_of_frames #FRAMES_PER_SECOND     ; 1 second
+    wait_number_of_frames #WAIT_TIME_1s
 
     lda var_sweep_resolution
     jne do_16bit_check
