@@ -422,7 +422,9 @@ do_16bit_sweep
 
     mwa #sweep_busy sweep_line_dl_location
 
-    ; - init sweep value
+    mwa var_sweep_start_value var_sweep_value
+    mva #0 var_sweep_value+2
+
 loop_16bit_sweep
     ; - determine channels to write to (might be better out of loop?)
     ; - write sweep value to shadow pokey
