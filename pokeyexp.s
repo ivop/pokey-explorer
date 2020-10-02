@@ -483,7 +483,7 @@ channels_selection_done
     cmp #2                          ; reverse 16-bit!
     bne no_reverse_16_bit
 
-    txa             ; Swap X and Y
+    txa             ; swap X and Y
     pha
     tya
     tax
@@ -519,8 +519,13 @@ no_reverse_16_bit
     adc #0
     sta var_sweep_value+2
 
-    ; - check overflow or end
-    ; - loop_16bit_sweep
+    ; - check overflow
+    lda var_sweep_value+2           ; superfluous load
+    bne done_16bit_sweep
+
+    ; loop on less than, and equal (play end value, too)
+    ; for now, loop until overflow
+    jmp loop_16bit_sweep
 
 done_16bit_sweep
 done_whatever_sweep
