@@ -380,19 +380,7 @@ gap_time_done
     jeq loop_8bit_sweep             ; equal, but play end_value, too
 
 done_8bit_sweep
-    mwa #sweep_done sweep_line_dl_location
-    jsr mute_real_pokey
-
-    ; restore pre-sweep settings
-    memcpyshort shadow_pokey_storage shadow_pokey shadow_pokey_length
-    mva var_sweep_poly_reset_copy var_sweep_poly_reset
-
-    jsr gtia_buzzer_countdown
-    jsr gtia_buzzer_countdown
-    jsr gtia_buzzer_countdown
-    jsr gtia_buzzer_countdown
-
-    rts
+    jmp done_whatever_sweep
 
 ; ----- 16-BIT SWEEP -----
 
@@ -420,10 +408,49 @@ msb_is_not_equal_so_error_out
     rts
 
 do_16bit_sweep
-    ; implement tomorrow :)
-    mva #$ff $d01a
-    rts
+    ; save pre-sweep settings
+    memcpyshort shadow_pokey shadow_pokey_storage shadow_pokey_length
+    mva var_sweep_poly_reset var_sweep_poly_reset_copy
 
+    mwa #sweep_countdown sweep_line_dl_location
+    jsr gtia_buzzer_countdown
+    jsr gtia_buzzer_countdown
+    jsr gtia_buzzer_countdown
+    jsr gtia_buzzer_countdown
+
+    ; DO 16-BIT SWEEP
+
+    mwa #sweep_busy sweep_line_dl_location
+
+    ; - init sweep value
+loop_16bit_sweep
+    ; - determine channels to write to (might be better out of loop?)
+    ; - write sweep value to shadow pokey
+    ; - display shadow pokey
+    ; - play shadow pokey
+    ; - poly reset stuff
+    ; - wait play time
+    ; - mute pokey
+    ; - wait gap time
+    ; - do sweep increment
+    ; - check overflow or end
+    ; - loop
+
+done_16bit_sweep
+done_whatever_sweep
+    mwa #sweep_done sweep_line_dl_location
+    jsr mute_real_pokey
+
+    ; restore pre-sweep settings
+    memcpyshort shadow_pokey_storage shadow_pokey shadow_pokey_length
+    mva var_sweep_poly_reset_copy var_sweep_poly_reset
+
+    jsr gtia_buzzer_countdown
+    jsr gtia_buzzer_countdown
+    jsr gtia_buzzer_countdown
+    jsr gtia_buzzer_countdown
+
+    rts
     .endp
 
 ; ---------------------------------------------------------------------------
