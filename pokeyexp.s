@@ -228,7 +228,88 @@ buzz
 
 ; ---------------------------------------------------------------------------
 
-; SWEEP Code
+; SWEEP helper code
+
+do_poly_reset_if_necessary .proc
+    lda var_sweep_poly_reset_copy
+    beq sweep_poly_reset_none
+    cmp #2
+    beq sweep_poly_reset_each
+
+    ; fall through, must be 1 (once)
+    dec var_sweep_poly_reset_copy
+    ; fall though again and do one Polycounter Reset
+
+sweep_poly_reset_each
+    mva #$ff STIMER         ; OK for now. Later more stable reset for Timbres
+
+sweep_poly_reset_none
+    rts
+    .endp
+
+wait_sweep_play_time .proc
+    lda var_sweep_play_time
+    beq do_sweep_play_time_0
+    cmp #1
+    beq do_sweep_play_time_1
+    cmp #2
+    beq do_sweep_play_time_2
+    bne do_sweep_play_time_3
+
+do_sweep_play_time_0
+    wait_number_of_frames FRAMES_PER_SECOND/10  ; 0.1s
+    jmp play_time_done
+
+do_sweep_play_time_1
+    wait_number_of_frames FRAMES_PER_SECOND*1   ; 1s
+    jmp play_time_done
+
+do_sweep_play_time_2
+    wait_number_of_frames FRAMES_PER_SECOND*2   ; 2s
+    jmp play_time_done
+
+do_sweep_play_time_3
+    wait_number_of_frames FRAMES_PER_SECOND*4   ; 4s
+    jmp play_time_done
+
+play_time_done
+    rts
+    .endp
+
+wait_sweep_gap_time .proc
+    lda var_sweep_gap_time
+    beq do_sweep_gap_time_0
+    cmp #1
+    beq do_sweep_gap_time_1
+    cmp #2
+    beq do_sweep_gap_time_2
+    bne do_sweep_gap_time_3
+
+do_sweep_gap_time_0
+    jmp gap_time_done                           ; 0s
+
+do_sweep_gap_time_1
+    jsr mute_real_pokey
+    wait_number_of_frames FRAMES_PER_SECOND/10  ; 0.1s
+    jmp gap_time_done
+
+do_sweep_gap_time_2
+    jsr mute_real_pokey
+    wait_number_of_frames FRAMES_PER_SECOND/2   ; 0.5s
+    jmp gap_time_done
+
+do_sweep_gap_time_3
+    jsr mute_real_pokey
+    wait_number_of_frames FRAMES_PER_SECOND     ; 1s
+    jmp gap_time_done
+
+gap_time_done
+    rts
+    .endp
+
+; ---------------------------------------------------------------------------
+
+; SWEEP code
 
 handle_start_key .proc
 
@@ -294,73 +375,12 @@ loop_8bit_sweep
 
     jsr play_shadow_pokey
 
-    lda var_sweep_poly_reset_copy
-    beq sweep_poly_reset_none
-    cmp #2
-    beq sweep_poly_reset_each
+    jsr do_poly_reset_if_necessary
 
-    ; fall through, must be 1 (once)
-    dec var_sweep_poly_reset_copy
-    ; fall though again and do one Polycounter Reset
+    jsr wait_sweep_play_time
 
-sweep_poly_reset_each
-    mva #$ff STIMER         ; OK for now. Later more stable reset for Timbres
+    jsr wait_sweep_gap_time
 
-sweep_poly_reset_none
-
-    lda var_sweep_play_time
-    beq do_sweep_play_time_0
-    cmp #1
-    beq do_sweep_play_time_1
-    cmp #2
-    beq do_sweep_play_time_2
-    bne do_sweep_play_time_3
-
-do_sweep_play_time_0
-    wait_number_of_frames FRAMES_PER_SECOND/10  ; 0.1s
-    jmp play_time_done
-
-do_sweep_play_time_1
-    wait_number_of_frames FRAMES_PER_SECOND*1   ; 1s
-    jmp play_time_done
-
-do_sweep_play_time_2
-    wait_number_of_frames FRAMES_PER_SECOND*2   ; 2s
-    jmp play_time_done
-
-do_sweep_play_time_3
-    wait_number_of_frames FRAMES_PER_SECOND*4   ; 4s
-    jmp play_time_done
-
-play_time_done
-
-    lda var_sweep_gap_time
-    beq do_sweep_gap_time_0
-    cmp #1
-    beq do_sweep_gap_time_1
-    cmp #2
-    beq do_sweep_gap_time_2
-    bne do_sweep_gap_time_3
-
-do_sweep_gap_time_0
-    jmp gap_time_done                           ; 0s
-
-do_sweep_gap_time_1
-    jsr mute_real_pokey
-    wait_number_of_frames FRAMES_PER_SECOND/10  ; 0.1s
-    jmp gap_time_done
-
-do_sweep_gap_time_2
-    jsr mute_real_pokey
-    wait_number_of_frames FRAMES_PER_SECOND/2   ; 0.5s
-    jmp gap_time_done
-
-do_sweep_gap_time_3
-    jsr mute_real_pokey
-    wait_number_of_frames FRAMES_PER_SECOND     ; 1s
-    jmp gap_time_done
-
-gap_time_done
     ; increase var_sweep_value by interval
     lda var_sweep_value
     clc
@@ -433,9 +453,12 @@ loop_16bit_sweep
 
     jsr play_shadow_pokey
 
-    ; - poly reset stuff        ; same as 8-bit sweep
-    ; - wait play time          ; same as 8-bit sweep
-    ; - wait gap time           ; same as 8-bit sweep (mute is done here)
+    jsr do_poly_reset_if_necessary
+
+    jsr wait_sweep_play_time 
+
+    jsr wait_sweep_gap_time
+
     ; - do sweep increment
     ; - check overflow or end
     ; - loop
