@@ -428,10 +428,10 @@ loop_16bit_sweep
     ; - write sweep value to shadow pokey
     ; - display shadow pokey
     ; - play shadow pokey
-    ; - poly reset stuff
-    ; - wait play time
+    ; - poly reset stuff        ; same as 8-bit sweep
+    ; - wait play time          ; same as 8-bit sweep
     ; - mute pokey
-    ; - wait gap time
+    ; - wait gap time           ; same as 8-bit sweep
     ; - do sweep increment
     ; - check overflow or end
     ; - loop
