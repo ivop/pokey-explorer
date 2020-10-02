@@ -32,6 +32,12 @@
         FRAMES_PER_SECOND = 60
     .fi
 
+    WAIT_TIME_100ms = FRAMES_PER_SECOND/10
+    WAIT_TIME_500ms = FRAMES_PER_SECOND/2
+    WAIT_TIME_1s    = FRAMES_PER_SECOND
+    WAIT_TIME_2s    = FRAMES_PER_SECOND*2
+    WAIT_TIME_4s    = FRAMES_PER_SECOND*4
+
 ; ---------------------------------------------------------------------------
 
     icl 'cio.s'
@@ -257,19 +263,19 @@ wait_sweep_play_time .proc
     bne do_sweep_play_time_3
 
 do_sweep_play_time_0
-    wait_number_of_frames FRAMES_PER_SECOND/10  ; 0.1s
+    wait_number_of_frames WAIT_TIME_100ms       ; 0.1s
     jmp play_time_done
 
 do_sweep_play_time_1
-    wait_number_of_frames FRAMES_PER_SECOND*1   ; 1s
+    wait_number_of_frames WAIT_TIME_1s          ; 1s
     jmp play_time_done
 
 do_sweep_play_time_2
-    wait_number_of_frames FRAMES_PER_SECOND*2   ; 2s
+    wait_number_of_frames WAIT_TIME_2s          ; 2s
     jmp play_time_done
 
 do_sweep_play_time_3
-    wait_number_of_frames FRAMES_PER_SECOND*4   ; 4s
+    wait_number_of_frames WAIT_TIME_4s          ; 4s
     jmp play_time_done
 
 play_time_done
@@ -290,17 +296,17 @@ do_sweep_gap_time_0
 
 do_sweep_gap_time_1
     jsr mute_real_pokey
-    wait_number_of_frames FRAMES_PER_SECOND/10  ; 0.1s
+    wait_number_of_frames WAIT_TIME_100ms       ; 0.1s
     jmp gap_time_done
 
 do_sweep_gap_time_2
     jsr mute_real_pokey
-    wait_number_of_frames FRAMES_PER_SECOND/2   ; 0.5s
+    wait_number_of_frames WAIT_TIME_500ms       ; 0.5s
     jmp gap_time_done
 
 do_sweep_gap_time_3
     jsr mute_real_pokey
-    wait_number_of_frames FRAMES_PER_SECOND     ; 1s
+    wait_number_of_frames WAIT_TIME_1s          ; 1s
     jmp gap_time_done
 
 gap_time_done
