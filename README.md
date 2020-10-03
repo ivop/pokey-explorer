@@ -31,3 +31,6 @@ C toggles the base clock frequency between 15kHz and 64kHz.
 A and D toggle the clock for channel 1 and 3 respectively, between the base clock and 1.79MHz.
 
 M enables/disables two-tone mode. The only key that influences SKCTL.
+
+Pressing - (minus) or \[ resets the poly counter by storing a non-zero value to STIMER.
+
