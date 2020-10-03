@@ -35,8 +35,25 @@ To the right of the four rectangles are two hexadecimal values. The first is AUD
 Pressing **-** (minus) or **\[** resets the poly counter by storing a non-zero value to STIMER.
 
 
+Automated Sweeps
+----------------
 
-**AUTOMATED SWEEPS**
+By pressing START, you can start an automated sweep of either an 8-bit value or 16-bit value. The settings are described below.
 
+**CTRL-R** Selects the **R**esolution. 8-bit, 16-bit or reverse 16-bit, where the LSB and MSB are swapped.
 
+**CTRL-C** Selects the **C**hannels that are sweeped. Depending on the resolution, it's either 1, 2, 3, 4, or relevant 16-bit pairs, which are 1+2, 3+4, 1+3 and 2+4.
 
+**CTRL-S** and **CTRL-D**
+
+**CTRL-W** and **CTRL-E**
+
+**CTRL-I** and **CTRL-O**
+
+**CTRL-P**
+
+**CTRL-G**
+
+**CTRL-X**
+
+**CTRL-U**
