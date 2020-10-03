@@ -18,7 +18,7 @@ There are four rectangles that contain the current values of all AUDF and AUDC r
 
 Below are two lines with INVERSE video characters that indicate which keys you can press to influence the values. The upper line keys increase the value by one, and the lower line keys decrease the value by one. If you hold shift, you can increase or decrease the specific value by $10 (16).
 
-To the right of the four rectangles are two hexadecimal values. The first is AUDCTL. The second is SKCTL. Both can be influenced a lot of keys that are described below.
+To the right of the four rectangles are two hexadecimal values. The first is AUDCTL. The second is SKCTL. Both can be influenced by a lot of keys that are described below.
 
 F and G toggle the filter bits.
 
