@@ -50,10 +50,10 @@ By pressing **START**, you can start an automated sweep of either an 8-bit value
 
 **CTRL-I** and **CTRL-O** Increase and decrease the interval, i.e. step size during the sweep. See CTRL-U.
 
-**CTRL-P** Selects how long the tone is heard. 0.1s, 1s, 2s or 4s
+**CTRL-P** Selects how long the tone is heard. 0.1s, 1s, 2s or 4s.
 
-**CTRL-G** Selects the length of the silent pause between each tone. 0s, 0.1s, 0.5s or 1s
+**CTRL-G** Selects the length of the silent pause between each tone. 0s, 0.1s, 0.5s or 1s.
 
 **CTRL-X** Selects whether the poly counter is reset by writing a non-zero value to STIMER. Can be off, once (at the start of the sweep), or each (each new tone).
 
-**CTRL-U** Selects the step size for increasing and decreasing sweep values. Can be $0001, $0010, $0100 or $1000. The last two have no effect on the interval.
+**CTRL-U** Selects the step size for increasing and decreasing sweep values. This can greatly reduce the time to reach a value like $7654 :) Step size can be $0001, $0010, $0100 or $1000. The last two have no effect on the interval.
