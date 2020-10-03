@@ -44,16 +44,16 @@ By pressing START, you can start an automated sweep of either an 8-bit value or 
 
 **CTRL-C** Selects the **C**hannels that are sweeped. Depending on the resolution, it's either 1, 2, 3, 4, or relevant 16-bit pairs, which are 1+2, 3+4, 1+3 and 2+4.
 
-**CTRL-S** and **CTRL-D**
+**CTRL-S** and **CTRL-D** Increase and decrease the start value of the sweep. See CTRL-U.
 
-**CTRL-W** and **CTRL-E**
+**CTRL-W** and **CTRL-E** Increase and decrease the end value of the sweep. See CTRL-U.
 
-**CTRL-I** and **CTRL-O**
+**CTRL-I** and **CTRL-O** Increase and decrease the interval, i.e. step size during the sweep. See CTRL-U.
 
-**CTRL-P**
+**CTRL-P** Selects how long the tone is heard. 0.1s, 1s, 2s or 4s
 
-**CTRL-G**
+**CTRL-G** Selects the length of the silent pause between each tone. 0s, 0.1s, 0.5s or 1s
 
-**CTRL-X**
+**CTRL-X** Selects whether the poly counter is reset by writing a non-zero value to STIMER. Can be off, once (at the start of the sweep), or each (each new tone).
 
-**CTRL-U**
+**CTRL-U** Selects the step size for increasing and decreasing sweep values. Can be $0001, $0010, $0100 or $1000. The last two have no effect on the interval.
