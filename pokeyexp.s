@@ -24,8 +24,6 @@
     PAL    = 0
     NTSC   = 1
 
-; use mads -d:SYSTEM=0 -o:pokeyexp.xex pokeyexp.s
-
     .if SYSTEM == PAL
         FRAMES_PER_SECOND = 50
     .else
