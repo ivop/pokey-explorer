@@ -40,9 +40,9 @@ Automated Sweeps
 
 By pressing **START**, you can start an automated sweep of either an 8-bit value or a 16-bit value. The settings are described below.
 
-**CTRL-R** Selects the Resolution. 8-bit, 16-bit or reverse 16-bit, where the LSB and MSB are swapped.
+**CTRL-R** Selects the resolution. 8-bit, 16-bit or reverse 16-bit, where the LSB and MSB are swapped.
 
-**CTRL-C** Selects the Channels that are sweeped. Depending on the resolution, it's either 1, 2, 3, 4, or relevant 16-bit pairs, which are 1+2, 3+4, 1+3 and 2+4.
+**CTRL-C** Selects the channels that are sweeped. Depending on the resolution, it's either 1, 2, 3, 4, or relevant 16-bit pairs, which are 1+2, 3+4, 1+3 and 2+4.
 
 **CTRL-S** and **CTRL-D** Increase and decrease the start value of the sweep. See CTRL-U.
 
