@@ -40,22 +40,22 @@ Automated Sweeps
 
 By pressing **START**, you can start an automated sweep of either an 8-bit value or 16-bit value. The settings are described below.
 
-**CTRL-R** Selects the **R**esolution. 8-bit, 16-bit or reverse 16-bit, where the LSB and MSB are swapped.
+**CTRL-R** Selects the Resolution. 8-bit, 16-bit or reverse 16-bit, where the LSB and MSB are swapped.
 
-**CTRL-C** Selects the **C**hannels that are sweeped. Depending on the resolution, it's either 1, 2, 3, 4, or relevant 16-bit pairs, which are 1+2, 3+4, 1+3 and 2+4.
+**CTRL-C** Selects the Channels that are sweeped. Depending on the resolution, it's either 1, 2, 3, 4, or relevant 16-bit pairs, which are 1+2, 3+4, 1+3 and 2+4.
 
-**CTRL-S** and **CTRL-D** Increase and decrease the **s**tart value of the sweep. See CTRL-U.
+**CTRL-S** and **CTRL-D** Increase and decrease the start value of the sweep. See CTRL-U.
 
-**CTRL-W** and **CTRL-E** Increase and decrease the **e**nd value of the sweep. See CTRL-U.
+**CTRL-W** and **CTRL-E** Increase and decrease the end value of the sweep. See CTRL-U.
 
-**CTRL-I** and **CTRL-O** Increase and decrease the **i**nterval, i.e. step size during the sweep. See CTRL-U.
+**CTRL-I** and **CTRL-O** Increase and decrease the interval, i.e. step size during the sweep. See CTRL-U.
 
-**CTRL-P** Selects how long the tone is heard. 0.1s, 1s, 2s or 4s. **P**lay time.
+**CTRL-P** Selects how long the tone is heard. 0.1s, 1s, 2s or 4s. Play time.
 
-**CTRL-G** Selects the length of the silent pause between each tone. 0s, 0.1s, 0.5s or 1s. **G**ap time.
+**CTRL-G** Selects the length of the silent pause between each tone. 0s, 0.1s, 0.5s or 1s. Gap time.
 
 **CTRL-X** Selects whether the poly counter is reset by writing a non-zero value to STIMER. Can be off, once (at the start of the sweep), or each (each new tone).
 
 **CTRL-U** Selects the step size for increasing and decreasing sweep values. This can greatly reduce the time to reach a value like $7654 :) Step size can be $0001, $0010, $0100 or $1000. The last two have no effect on the interval.
 
-Sweeps can be recorded on real hardware or with an emulator. If the **P**lay time is at least 1 second, one can automate frecuency detection, for example with aubiopitch of the [aubio](https://aubio.org/) project.
+Sweeps can be recorded on real hardware or with an emulator. If the Play time is at least 1 second, one can automate frecuency detection, for example with aubiopitch of the [aubio](https://aubio.org/) project.
