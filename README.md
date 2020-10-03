@@ -38,7 +38,7 @@ Pressing **-** (minus) or **\[** resets the poly counter by storing a non-zero v
 Automated Sweeps
 ----------------
 
-By pressing START, you can start an automated sweep of either an 8-bit value or 16-bit value. The settings are described below.
+By pressing **START**, you can start an automated sweep of either an 8-bit value or 16-bit value. The settings are described below.
 
 **CTRL-R** Selects the **R**esolution. 8-bit, 16-bit or reverse 16-bit, where the LSB and MSB are swapped.
 
