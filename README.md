@@ -34,3 +34,8 @@ M enables/disables two-tone mode. The only key that influences SKCTL.
 
 Pressing - (minus) or \[ resets the poly counter by storing a non-zero value to STIMER.
 
+
+**AUTOMATED SWEEPS**
+
+
+
