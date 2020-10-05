@@ -1148,14 +1148,12 @@ dont_switch_to_tuning_screen
     org $3000
 
 display_list
-    dta $10
+    dta $00
     dta $42, a(title)
     dta $42, a(author)
-    dta $30
+    dta $10
     dta $42, a(filter13_line)
-    dta $00
     dta $42, a(filter24_line)
-    dta $00
     dta $42, a(join_line)
 
     dta $00
@@ -1166,28 +1164,25 @@ display_list
     dta $42, a(up_keys_line)
     dta $42, a(down_keys_line)
 
-    dta $30
+    dta $00
     dta $42, a(poly_line)
-    dta $00
     dta $42, a(base_clock_line)
-    dta $00
     dta $42, a(channel1_clock_line)
-    dta $00
     dta $42, a(channel3_clock_line)
-    dta $00
     dta $42, a(two_tone_line)
-    dta $30
+    dta $10
     dta $42
 sweep_line_dl_location
     dta a(0)                    ; MUST be set by MAIN
-    dta $10
+    dta $00
     dta $42, a(sweep_parameters_lines)
     dta $02, $02, $02, $02, $02, $02, $02
 
-    dta $10
+    dta $00
     dta $42, a(sweep_ui_updown_line)
     dta $10
     dta $42, a(tuning_line)
+    dta $02, $02
 
     dta $41, a(display_list)
 
@@ -1204,7 +1199,7 @@ title
     .else
         dta d'NTSC'*
     .fi
-    dta d'        POKEY EXPLORER   v0.2beta6 '*
+    dta d'        POKEY EXPLORER   v0.2beta7 '*
 
 author
     dta d'    by Ivo van Poorten   (C)2020 TGK    '
@@ -1451,7 +1446,10 @@ sweep_ui_updown_strlen = *-sweep_ui_updown_3_string
 ; ---------------------------------------------------------------------------
 
 tuning_line
-;    dta d' CTRL-', d'T'*, d' Tuning screen                   '
+    dta d'   This line intentionally left blank   '
+tuning_disabled_line
+    dta d' No 2nd Pokey detected, tuning disabled '
+tuning_enabled_line
     dta d'   This line intentionally left blank   '
 
 ; ---------------------------------------------------------------------------
