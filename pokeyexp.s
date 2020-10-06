@@ -1371,11 +1371,11 @@ two_tone_strlen = *-two_tone_on_string
 
 up_keys_line
     dta d' + ', d'1'*, d'  ', d'2'*, d'   ', d'3'*, d'  ', d'4'*, d'   '
-    dta d'5'*, d'  ', d'6'*, d'   ', d'7'*, d'  ', d'8'*, d'   SHIFT+$10'
+    dta d'5'*, d'  ', d'6'*, d'   ', d'7'*, d'  ', d'8'*, d'  SHIFT+$10 '
 
 down_keys_line
     dta d' -  ', d'Q'*, d'  ', d'W'*, d'   ', d'E'*, d'  ', d'R'*, d'   '
-    dta d'T'*, d'  ', d'Y'*, d'   ', d'U'*, d'  ', d'I'*, d'  SHIFT-$10'
+    dta d'T'*, d'  ', d'Y'*, d'   ', d'U'*, d'  ', d'I'*, d' SHIFT-$10 '
 
 ; ---------------------------------------------------------------------------
 
@@ -1503,7 +1503,7 @@ tuning_enabled_line
 tuning_volume_line
     dta d' CTRL-', d'V'*, d' Tuning volume: F         CTRL-', d'B'*, d' '
 tuning_note_line
-    dta d' Note: C#4  up(,)/down(.) +SHIFT Octave '
+    dta d' Note: C#4  up(', d','*, d')/down(', d'.'*, d') +SHIFT Octave '
 
 ; ---------------------------------------------------------------------------
 
