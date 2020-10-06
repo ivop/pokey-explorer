@@ -931,7 +931,7 @@ display_tuning_variables .proc
                   tuning_enabled_strlen
 
     lda var_tuning_volume
-    and #$0f
+    and #$0f                ; because the UI treats it as an 8-bit value
     tax
     lda hextab,x
     sta loc_tuning_volume
@@ -1222,10 +1222,11 @@ no_polyreset
     lda stereo_pokey
     beq no_tuning_keys
 
+    ; Tuning keys
     lda keybuf
     case_var_ctrl_key 'T', var_tuning_enabled, 1
 
-    ; be sure to and #$0f before using this variable :)
+    ; be sure to AND #$0f before using this variable
     case_inc1_key 'V'-64, var_tuning_volume
     case_dec1_key 'B'-64, var_tuning_volume
 
