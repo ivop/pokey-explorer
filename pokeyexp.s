@@ -134,7 +134,7 @@ var_sweep_value
 var_tuning_enabled
     dta $00
 var_tuning_volume
-    dta $00
+    dta $0a
 var_tuning_note
     dta $00
 
@@ -160,6 +160,12 @@ no_2nd_pokey
     mva #$ff          NOCLIK
 
 loop
+    lda stereo_pokey
+    beq skip_display_tuning_variables
+
+    jsr display_tuning_variables
+
+skip_display_tuning_variables
     jsr display_sweep_variables
     jsr display_shadow_pokey
     jsr play_shadow_pokey
@@ -915,6 +921,21 @@ end_value_done
 ; DISPLAY Tuning Variables
 
 display_tuning_variables .proc
+    lda var_tuning_enabled
+
+    case_sweep 0, loc_tuning_string, \
+                  tuning_off_string,   \
+                  tuning_enabled_strlen
+    case_sweep 1, loc_tuning_string, \
+                  tuning_on_string,   \
+                  tuning_enabled_strlen
+
+    lda var_tuning_volume
+    and #$0f
+    tax
+    lda hextab,x
+    sta loc_tuning_volume
+
     rts
     .endp
 
@@ -1198,10 +1219,15 @@ no_polyreset
     case_inc_16bit_key 'W'-64, var_sweep_end_value
     case_dec_16bit_key 'E'-64, var_sweep_end_value
 
-    ldx stereo_pokey
+    lda stereo_pokey
     beq no_tuning_keys
 
+    lda keybuf
     case_var_ctrl_key 'T', var_tuning_enabled, 1
+
+    ; be sure to and #$0f before using this variable :)
+    case_inc1_key 'V'-64, var_tuning_volume
+    case_dec1_key 'B'-64, var_tuning_volume
 
 no_tuning_keys
     rts
@@ -1387,6 +1413,7 @@ tuning_on_string
 two_tone_on_string
     dta d'on ' 
 two_tone_strlen = *-two_tone_on_string
+tuning_enabled_strlen = two_tone_strlen
 
 ; ---------------------------------------------------------------------------
 
@@ -1524,9 +1551,136 @@ tuning_enabled_line
 loc_tuning_string
     dta d'off              '
 tuning_volume_line
-    dta d' CTRL-', d'V'*, d' Tuning volume: F         CTRL-', d'B'*, d' '
+    dta d' CTRL-', d'V'*, d' Tuning volume: '
+loc_tuning_volume
+    dta d'F         CTRL-', d'B'*, d' '
 tuning_note_line
     dta d' Note: C#4  up(', d','*, d')/down(', d'.'*, d') +SHIFT Octave '
+
+; ---------------------------------------------------------------------------
+
+tone_string_strlen = 3
+
+tone_strings
+; octave 1
+    dta d'C1 '
+    dta d'C#1'
+    dta d'D1 '
+    dta d'D#1'
+    dta d'E1 '
+    dta d'F1 '
+    dta d'F#1'
+    dta d'G1 '
+    dta d'G#1'
+    dta d'A1 '
+    dta d'A#1'
+    dta d'B1 '
+; octave 2
+    dta d'C2 '
+    dta d'C#2'
+    dta d'D2 '
+    dta d'D#2'
+    dta d'E2 '
+    dta d'F2 '
+    dta d'F#2'
+    dta d'G2 '
+    dta d'G#2'
+    dta d'A2 '
+    dta d'A#2'
+    dta d'B2 '
+; octave 3
+    dta d'C3 '
+    dta d'C#3'
+    dta d'D3 '
+    dta d'D#3'
+    dta d'E3 '
+    dta d'F3 '
+    dta d'F#3'
+    dta d'G3 '
+    dta d'G#3'
+    dta d'A3 '
+    dta d'A#3'
+    dta d'B3 '
+; octave 4
+    dta d'C4 '
+    dta d'C#4'
+    dta d'D4 '
+    dta d'D#4'
+    dta d'E4 '
+    dta d'F4 '
+    dta d'F#4'
+    dta d'G4 '
+    dta d'G#4'
+    dta d'A4 '
+    dta d'A#4'
+    dta d'B4 '
+; octave 5
+    dta d'C5 '
+    dta d'C#5'
+    dta d'D5 '
+    dta d'D#5'
+    dta d'E5 '
+    dta d'F5 '
+    dta d'F#5'
+    dta d'G5 '
+    dta d'G#5'
+    dta d'A5 '
+    dta d'A#5'
+    dta d'B5 '
+; octave 6
+    dta d'C6 '
+    dta d'C#6'
+    dta d'D6 '
+    dta d'D#6'
+    dta d'E6 '
+    dta d'F6 '
+    dta d'F#6'
+    dta d'G6 '
+    dta d'G#6'
+    dta d'A6 '
+    dta d'A#6'
+    dta d'B6 '
+; octave 7
+    dta d'C7 '
+    dta d'C#7'
+    dta d'D7 '
+    dta d'D#7'
+    dta d'E7 '
+    dta d'F7 '
+    dta d'F#7'
+    dta d'G7 '
+    dta d'G#7'
+    dta d'A7 '
+    dta d'A#7'
+    dta d'B7 '
+; octave 8
+    dta d'C8 '
+    dta d'C#8'
+    dta d'D8 '
+    dta d'D#8'
+    dta d'E8 '
+    dta d'F8 '
+    dta d'F#8'
+    dta d'G8 '
+    dta d'G#8'
+    dta d'A8 '
+    dta d'A#8'
+    dta d'B8 '
+; octave 9
+    dta d'C9 '
+    dta d'C#9'
+    dta d'D9 '
+    dta d'D#9'
+    dta d'E9 '
+    dta d'F9 '
+    dta d'F#9'
+    dta d'G9 '
+    dta d'G#9'
+    dta d'A9 '
+    dta d'A#9'
+    dta d'B9 '
+; octave 10
+    dta d'C10'
 
 ; ---------------------------------------------------------------------------
 
