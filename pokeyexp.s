@@ -1179,12 +1179,12 @@ no_polyreset
     case_inc_16bit_key 'W'-64, var_sweep_end_value
     case_dec_16bit_key 'E'-64, var_sweep_end_value
 
-    cmp #'T'-64
-    bne dont_switch_to_tuning_screen
+    ldx stereo_pokey
+    beq no_tuning_keys
 
-    ; switch to tuning screen here
+;    cmp #'T'-64            et cetera...
 
-dont_switch_to_tuning_screen
+no_tuning_keys
     rts
     .endp
 
