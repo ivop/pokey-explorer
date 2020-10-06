@@ -1181,8 +1181,12 @@ sweep_line_dl_location
     dta $00
     dta $42, a(sweep_ui_updown_line)
     dta $10
-    dta $42, a(tuning_line)
-    dta $02, $02
+tuning_line_one = *+1
+    dta $42, a(empty_line)
+tuning_line_two = *+1
+    dta $42, a(tuning_disabled_line)
+tuning_line_three = *+1
+    dta $42, a(empty_line)
 
     dta $41, a(display_list)
 
@@ -1445,12 +1449,14 @@ sweep_ui_updown_strlen = *-sweep_ui_updown_3_string
 
 ; ---------------------------------------------------------------------------
 
-tuning_line
-    dta d'   This line intentionally left blank   '
 tuning_disabled_line
     dta d' No 2nd Pokey detected, tuning disabled '
 tuning_enabled_line
-    dta d'   This line intentionally left blank   '
+    dta d' CTRL-', d'T'*, d' Tuning note  : off              '
+tuning_volume_line
+    dta d' CTRL-', d'V'*, d' Tuning volume: F         CTRL-', d'B'*, d' '
+tuning_note_line
+    dta d' Note: C#4  up(,)/down(.) +SHIFT Octave '
 
 ; ---------------------------------------------------------------------------
 
