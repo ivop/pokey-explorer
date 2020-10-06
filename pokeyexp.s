@@ -134,7 +134,14 @@ var_sweep_value
 ; MAIN
 
 main    .proc
+    jsr detect_2nd_pokey
+    beq no_2nd_pokey
 
+    mwa #tuning_enabled_line tuning_line_one
+    mwa #tuning_volume_line tuning_line_two
+    mwa #tuning_note_line tuning_line_three
+
+no_2nd_pokey
     open 1, 4, 0, "K"
 
     mva #>font        CHBAS
@@ -177,6 +184,47 @@ no_start_key
 
 keybuf
     dta 0
+stereo_pokey
+    dta 0
+
+; ---------------------------------------------------------------------------
+
+; Detect 2nd Pokey. Result in A and also store to stereo_pokey
+
+detect_2nd_pokey .proc
+    wait_for_vertical_blank
+
+    ; Clear SKCTL. This stops all poly counters
+
+    mva #0 SSKCTL
+    mva #0 SKCTL
+    mva #0 SKCTL+$10        ; make sure a potential 2nd pokey is cleared
+
+    wait_for_vertical_blank
+
+    ; Restart SKCTL. This starts all the poly counters
+
+    mva #3 SSKCTL
+    mva #3 SKCTL
+
+    wait_for_vertical_blank
+
+    ; Except when there's a seconds pokey!! Its counters are not restarted.
+    ; Its RANDOM should not change.
+
+    lda RANDOM+$10
+    cmp RANDOM+$10
+    beq detected_stereo         ; so equal means there's a 2nd pokey
+
+detected_mono
+    mva #0 stereo_pokey
+    rts
+
+detected_stereo
+    mva #1 stereo_pokey
+    rts
+
+    .endp
 
 ; ---------------------------------------------------------------------------
 
