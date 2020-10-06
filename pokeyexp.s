@@ -129,6 +129,15 @@ var_sweep_poly_reset_copy
 var_sweep_value
     dta $00, $00, $00   ; 24-bit LE for easily detecting 16-bit overflow
 
+; Tuning Variables
+
+var_tuning_enabled
+    dta $00
+var_tuning_volume
+    dta $00
+var_tuning_note
+    dta $00
+
 ; ---------------------------------------------------------------------------
 
 ; MAIN
@@ -140,6 +149,8 @@ main    .proc
     mwa #tuning_enabled_line tuning_line_one
     mwa #tuning_volume_line tuning_line_two
     mwa #tuning_note_line tuning_line_three
+
+    jsr display_tuning_variables
 
 no_2nd_pokey
     open 1, 4, 0, "K"
@@ -901,6 +912,14 @@ end_value_done
 
 ; ---------------------------------------------------------------------------
 
+; DISPLAY Tuning Variables
+
+display_tuning_variables .proc
+    rts
+    .endp
+
+; ---------------------------------------------------------------------------
+
 ; PLAY SHADOW POKEY
 
 play_shadow_pokey .proc
@@ -989,7 +1008,7 @@ case_skctl_toggle_key .macro key, mask
 nope
     .mend
 
-case_sweep_var_ctrl_key .macro key, var, max
+case_var_ctrl_key .macro key, var, max
     cmp #:key-64
     bne nope
 
@@ -1162,12 +1181,12 @@ polyreset
     rts
 no_polyreset
 
-    case_sweep_var_ctrl_key 'R', var_sweep_resolution, 2
-    case_sweep_var_ctrl_key 'C', var_sweep_channels, 3
-    case_sweep_var_ctrl_key 'X', var_sweep_poly_reset, 2
-    case_sweep_var_ctrl_key 'P', var_sweep_play_time, 3
-    case_sweep_var_ctrl_key 'G', var_sweep_gap_time, 3
-    case_sweep_var_ctrl_key 'U', var_sweep_ui_updown, 3
+    case_var_ctrl_key 'R', var_sweep_resolution, 2
+    case_var_ctrl_key 'C', var_sweep_channels, 3
+    case_var_ctrl_key 'X', var_sweep_poly_reset, 2
+    case_var_ctrl_key 'P', var_sweep_play_time, 3
+    case_var_ctrl_key 'G', var_sweep_gap_time, 3
+    case_var_ctrl_key 'U', var_sweep_ui_updown, 3
 
     ; KEY-64 equals CTRL-KEY
     case_inc1_key 'I'-64, var_sweep_interval
@@ -1182,7 +1201,7 @@ no_polyreset
     ldx stereo_pokey
     beq no_tuning_keys
 
-;    cmp #'T'-64            et cetera...
+    case_var_ctrl_key 'T', var_tuning_enabled, 1
 
 no_tuning_keys
     rts
@@ -1361,8 +1380,10 @@ two_tone_line
 loc_two_tone_string
     dta d'off                ' 
 
+tuning_off_string
 two_tone_off_string
     dta d'off' 
+tuning_on_string
 two_tone_on_string
     dta d'on ' 
 two_tone_strlen = *-two_tone_on_string
@@ -1499,7 +1520,9 @@ sweep_ui_updown_strlen = *-sweep_ui_updown_3_string
 tuning_disabled_line
     dta d' No 2nd Pokey detected, tuning disabled '
 tuning_enabled_line
-    dta d' CTRL-', d'T'*, d' Tuning note  : off              '
+    dta d' CTRL-', d'T'*, d' Tuning note  : '
+loc_tuning_string
+    dta d'off              '
 tuning_volume_line
     dta d' CTRL-', d'V'*, d' Tuning volume: F         CTRL-', d'B'*, d' '
 tuning_note_line
