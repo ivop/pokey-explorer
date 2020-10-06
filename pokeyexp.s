@@ -62,6 +62,7 @@
     AUDC4  = $d207
     AUDCTL = $d208
     STIMER = $d209
+    RANDOM = $d20a
     SKCTL  = $d20f
     WSYNC  = $d40a
 
@@ -131,8 +132,6 @@ var_sweep_value
 ; ---------------------------------------------------------------------------
 
 ; MAIN
-
-    org $2080
 
 main    .proc
 
