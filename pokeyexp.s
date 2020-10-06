@@ -1559,23 +1559,28 @@ tuning_note_line
 
 ; ---------------------------------------------------------------------------
 
-tone_string_strlen = 3
+; Note Strings
+; 12 * 2 = 24 bytes
+
+tone_string_strlen = 2
 
 tone_strings
-    dta d'C-1'
-    dta d'C#1'
-    dta d'D-1'
-    dta d'D#1'
-    dta d'E-1'
-    dta d'F-1'
-    dta d'F#1'
-    dta d'G-1'
-    dta d'G#1'
-    dta d'A-1'
-    dta d'A#1'
-    dta d'B-1'
+    dta d'C-'
+    dta d'C#'
+    dta d'D-'
+    dta d'D#'
+    dta d'E-'
+    dta d'F-'
+    dta d'F#'
+    dta d'G-'
+    dta d'G#'
+    dta d'A-'
+    dta d'A#'
+    dta d'B-'
 
-octave_strings = hextab
+; C1 - B9 which is 9 octaves
+octave_strings = hextab+1
+; which should be dta d'123456789' :)
 
 ; ---------------------------------------------------------------------------
 
