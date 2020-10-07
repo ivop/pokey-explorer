@@ -12,12 +12,15 @@
 #define C9  (53)
 #define C10 (63)
 
-#define F0 (440.0)                  // Hz
-#define a (pow(2.0,(1.0/12.0)))     //  100 cents
+#define F0 (440.0) // Hz
+#define a_100cents (pow(2.0,(1.0/12.0)))
 
-#define FORMULA(n) ((F0) * (pow(a,(n))))
+#define FORMULA(n) ((F0) * (pow(a_100cents,(n))))
 
 #define NUMBER_OF_OCTAVES 9
+
+#define MAIN_CLOCK_PAL  1773447
+#define MAIN_CLOCK_NTSC 1789790
 
 double equal_tempered_frequencies[NUMBER_OF_OCTAVES*12];
 
