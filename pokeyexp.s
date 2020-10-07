@@ -136,9 +136,9 @@ var_tuning_enabled
 var_tuning_volume
     dta $0a
 var_tuning_note
-    dta $00
+    dta $09             ; A
 var_tuning_octave
-    dta $03
+    dta $03             ; 4
 var_tuning_key_was_pressed
     dta $01             ; display first run
 
@@ -943,6 +943,17 @@ display_tuning_variables .proc
     lda hextab,x
     sta loc_tuning_volume
 
+    lda var_tuning_note
+    asl
+    tax
+
+    mva tone_strings,x loc_tuning_note
+    mva tone_strings+1,x loc_tuning_note+1
+
+    ldx var_tuning_octave
+    lda octave_strings,x
+    sta loc_tuning_octave
+
     rts
     .endp
 
@@ -1566,7 +1577,11 @@ tuning_volume_line
 loc_tuning_volume
     dta d'F         CTRL-', d'B'*, d' '
 tuning_note_line
-    dta d' Note: ---  up(', d','*, d')/down(', d'.'*, d') +SHIFT Octave '
+    dta d' Note: '
+loc_tuning_note
+    dta d'xx'
+loc_tuning_octave
+    dta d'x  up(', d','*, d')/down(', d'.'*, d') +SHIFT Octave '
 
 ; ---------------------------------------------------------------------------
 
