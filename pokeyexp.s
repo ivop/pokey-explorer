@@ -1250,6 +1250,10 @@ no_polyreset
     case_inc1_key 'V'-64, var_tuning_volume
     case_dec1_key 'B'-64, var_tuning_volume
 
+    ; reuse macro. +64 voids control press
+    case_var_ctrl_key ','+64, var_tuning_note, 11
+    case_var_ctrl_key '.'+64, var_tuning_octave, 8
+
 no_tuning_keys
     dec var_tuning_key_was_pressed
     rts
@@ -1577,11 +1581,11 @@ tuning_volume_line
 loc_tuning_volume
     dta d'F         CTRL-', d'B'*, d' '
 tuning_note_line
-    dta d' Note: '
+    dta d' Tune to: '
 loc_tuning_note
     dta d'xx'
 loc_tuning_octave
-    dta d'x  up(', d','*, d')/down(', d'.'*, d') +SHIFT Octave '
+    dta d'x           ', d','*, d'=note ', d'.'*, d'=octave '
 
 ; ---------------------------------------------------------------------------
 
