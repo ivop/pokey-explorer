@@ -137,6 +137,8 @@ var_tuning_volume
     dta $0a
 var_tuning_note
     dta $00
+var_tuning_octave
+    dta $03
 var_tuning_key_was_pressed
     dta $01             ; display first run
 
@@ -1565,7 +1567,7 @@ tuning_volume_line
 loc_tuning_volume
     dta d'F         CTRL-', d'B'*, d' '
 tuning_note_line
-    dta d' Note: C#4  up(', d','*, d')/down(', d'.'*, d') +SHIFT Octave '
+    dta d' Note: ---  up(', d','*, d')/down(', d'.'*, d') +SHIFT Octave '
 
 ; ---------------------------------------------------------------------------
 
