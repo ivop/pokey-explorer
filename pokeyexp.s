@@ -1226,13 +1226,12 @@ no_polyreset
     case_inc_16bit_key 'W'-64, var_sweep_end_value
     case_dec_16bit_key 'E'-64, var_sweep_end_value
 
-    lda #1
-    sta var_tuning_key_was_pressed
+    ; Tuning keys
+    mva #1 var_tuning_key_was_pressed
 
     lda stereo_pokey
     beq no_tuning_keys
 
-    ; Tuning keys
     lda keybuf
     case_var_ctrl_key 'T', var_tuning_enabled, 1
 
