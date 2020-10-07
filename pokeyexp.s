@@ -137,6 +137,8 @@ var_tuning_volume
     dta $0a
 var_tuning_note
     dta $00
+var_tuning_key_was_pressed
+    dta $01             ; display first run
 
 ; ---------------------------------------------------------------------------
 
@@ -161,6 +163,9 @@ no_2nd_pokey
 
 loop
     lda stereo_pokey
+    beq skip_display_tuning_variables
+
+    lda var_tuning_key_was_pressed
     beq skip_display_tuning_variables
 
     jsr display_tuning_variables
@@ -1223,6 +1228,9 @@ no_polyreset
     beq no_tuning_keys
 
     ; Tuning keys
+    lda #1
+    sta var_tuning_key_was_pressed
+
     lda keybuf
     case_var_ctrl_key 'T', var_tuning_enabled, 1
 
@@ -1231,6 +1239,7 @@ no_polyreset
     case_dec1_key 'B'-64, var_tuning_volume
 
 no_tuning_keys
+    dec var_tuning_key_was_pressed
     rts
     .endp
 
