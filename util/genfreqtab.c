@@ -30,7 +30,7 @@ int main(int argc, char **argv) {
     printf("n, equal_tempered, nearest_PAL, nearest_NTSC, "
            "PAL hex, NTSC hex\n");
     for (i=0; i<(NUMBER_OF_OCTAVES*12); i++) {
-        equal_tempered_frequencies[i] = FORMULA(i-45);
+        equal_tempered_frequencies[i] = FORMULA(i+C1);
         printf("%i, %0.2f\n", i, equal_tempered_frequencies[i]);
     }
 }
