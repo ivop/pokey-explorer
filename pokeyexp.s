@@ -47,6 +47,7 @@
     RTCLOK = $0012
     SDLSTL = $0230
     SSKCTL = $0232
+    SHFLOK = $02be
     NOCLIK = $02db
     CHBAS  = $02f4
     CH     = $02fc
@@ -176,9 +177,10 @@ skip_display_tuning_variables
     jsr display_sweep_variables
     jsr display_shadow_pokey
     jsr play_shadow_pokey
+
     mwa #sweep_line sweep_line_dl_location
 
-    mva #$00 $02be  ; SHFLOK, set lower case, always lower case
+    mva #$00 SHFLOK     ; set lower case, always lower case
 
     mva #$ff CH
 
