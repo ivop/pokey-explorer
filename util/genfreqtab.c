@@ -54,11 +54,16 @@
 #define FREQ_TO_VALUE(sysclock, freq) ((sysclock/(2*freq))-7)
 #define VALUE_TO_FREQ(sysclock, value) (sysclock/(value+7)/2)
 
-double equal_tempered_frequencies[NUMBER_OF_OCTAVES*12];
+#define SIZE (NUMBER_OF_OCTAVES*12)
+
+double equal_tempered_frequencies[SIZE], pal_frequencies[SIZE], \
+           ntsc_frequencies[SIZE];
+int pal_values[SIZE], ntsc_values[SIZE];
+
 
 int main(int argc, char **argv) {
-    int i, v_pal, v_ntsc;
-    double e, f_pal, f_ntsc;
+    int i;
+    double e;
 
     printf("n, equal_tempered_frequency, PAL_hex, NTSC_hex, "
            "PAL_frequency, NTSC_frequency\n");
@@ -66,15 +71,17 @@ int main(int argc, char **argv) {
     for (i=0; i<(NUMBER_OF_OCTAVES*12); i++) {
         e = equal_tempered_frequencies[i] = FORMULA(i+C0);
 
-        v_pal  = round(FREQ_TO_VALUE(SYSCLOCK_PAL,  e));
-        v_ntsc = round(FREQ_TO_VALUE(SYSCLOCK_NTSC, e));
+        pal_values[i]  = round(FREQ_TO_VALUE(SYSCLOCK_PAL,  e));
+        ntsc_values[i] = round(FREQ_TO_VALUE(SYSCLOCK_NTSC, e));
 
-        f_pal  = VALUE_TO_FREQ(SYSCLOCK_PAL,  v_pal );
-        f_ntsc = VALUE_TO_FREQ(SYSCLOCK_NTSC, v_ntsc);
+
+        pal_frequencies[i]  = VALUE_TO_FREQ(SYSCLOCK_PAL,  pal_values[i]);
+        ntsc_frequencies[i] = VALUE_TO_FREQ(SYSCLOCK_NTSC, ntsc_values[i]);
+
 
         printf("%i, %0.2f, %04x, %04x, %0.2f, %0.2f\n",
                 i, equal_tempered_frequencies[i],
-                v_pal, v_ntsc,
-                f_pal, f_ntsc);
+                pal_values[i], ntsc_values[i],
+                pal_frequencies[i], ntsc_frequencies[i]);
     }
 }
