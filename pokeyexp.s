@@ -135,7 +135,7 @@ var_sweep_value
 var_tuning_enabled
     dta $00
 var_tuning_volume
-    dta $0a
+    dta $07
 var_tuning_note
     dta $09             ; A
 var_tuning_octave
