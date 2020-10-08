@@ -6,6 +6,9 @@
 
 #define TUNE_TO_A (440.0)   // floating point in Hertz
 
+//#define PRINT_CSV
+#define PRINT_MADS_DTA
+
 // ---------------------------------------------------------------------------
 
 #include "stdio.h"
@@ -62,11 +65,13 @@ int pal_values[SIZE], ntsc_values[SIZE];
 
 
 int main(int argc, char **argv) {
-    int i;
+    int i, j;
     double e;
 
+#ifdef PRINT_CSV
     printf("n, equal_tempered_frequency, PAL_hex, NTSC_hex, "
            "PAL_frequency, NTSC_frequency\n");
+#endif
 
     for (i=0; i<(NUMBER_OF_OCTAVES*12); i++) {
         e = equal_tempered_frequencies[i] = FORMULA(i+C0);
@@ -78,10 +83,40 @@ int main(int argc, char **argv) {
         pal_frequencies[i]  = VALUE_TO_FREQ(SYSCLOCK_PAL,  pal_values[i]);
         ntsc_frequencies[i] = VALUE_TO_FREQ(SYSCLOCK_NTSC, ntsc_values[i]);
 
-
+#ifdef PRINT_CSV
         printf("%i, %0.2f, %04x, %04x, %0.2f, %0.2f\n",
                 i, equal_tempered_frequencies[i],
                 pal_values[i], ntsc_values[i],
                 pal_frequencies[i], ntsc_frequencies[i]);
+#endif
     }
+
+#ifdef PRINT_MADS_DTA
+
+    printf("\npal_16bit_frequency_table\n");
+
+    for (i=0; i<NUMBER_OF_OCTAVES; i++) {       // octaves
+        printf("; Octave %i\n", i);
+        printf("    dta ");
+        for (j=0; j<11; j++) {                  // notes
+            printf("$%04x,", pal_values[i*12+j]);
+        }
+        printf("$%04x\n", pal_values[i*12+j]);
+    }
+
+    // code duplication ;)
+
+    printf("\nntsc_16bit_frequency_table\n");
+
+    for (i=0; i<NUMBER_OF_OCTAVES; i++) {       // octaves
+        printf("; Octave %i\n", i);
+        printf("    dta ");
+        for (j=0; j<11; j++) {                  // notes
+            printf("$%04x,", ntsc_values[i*12+j]);
+        }
+        printf("$%04x\n", ntsc_values[i*12+j]);
+    }
+
+    printf("\n");
+#endif
 }
