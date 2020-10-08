@@ -1608,7 +1608,7 @@ tone_strings
     dta d'A#'
     dta d'B-'
 
-; C0 - B9 which is 9 octaves
+; C0 - B9 which is 10 octaves
 octave_strings = hextab
 ; which should be dta d'0123456789'
 
