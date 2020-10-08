@@ -1,9 +1,10 @@
 // ---------------------------------------------------------------------------
-// Generate tuning tables -- by Ivo van Poorten (C)2020 - 0BSD
+// Generate tuning tables -- by Ivo van Poorten (C)2020 - License: 0BSD
 // output RFC4180 CSV table with header
+// build with gcc -o genfreqtab genfreqtab.c -lm 
 // ---------------------------------------------------------------------------
 
-#define TUNE_TO_A (440.0)   // floating point double in Hertz
+#define TUNE_TO_A (440.0)   // floating point in Hertz
 
 // ---------------------------------------------------------------------------
 
@@ -29,14 +30,14 @@
 
 // Atari XL main clocks
 
-#define MAIN_CLOCK_PAL  1773447.0
-#define MAIN_CLOCK_NTSC 1789790.0
+#define SYSCLOCK_PAL  1773447.0
+#define SYSCLOCK_NTSC 1789790.0
 
 // Well-tempered tuning
 //
 // Fn = F0 * a^n
 
-#define F0 (TUNE_TO_A) // Hz
+#define F0 (TUNE_TO_A)
 #define a_100cents (pow(2.0,(1.0/12.0)))
 
 #define FORMULA(n) ((F0) * (pow(a_100cents,(n))))
@@ -47,7 +48,7 @@
 //
 // so
 //
-// v = sysclock/(2*f) - 7
+// v = sysclock/(2*f)-7
 
 #define FREQ_TO_VALUE(sysclock, freq) ((sysclock/(2*freq))-7)
 #define VALUE_TO_FREQ(sysclock, value) (sysclock/(value+7)/2)
@@ -64,11 +65,11 @@ int main(int argc, char **argv) {
     for (i=0; i<(NUMBER_OF_OCTAVES*12); i++) {
         e = equal_tempered_frequencies[i] = FORMULA(i+C1);
 
-        v_pal  = round(FREQ_TO_VALUE(MAIN_CLOCK_PAL,  e));
-        v_ntsc = round(FREQ_TO_VALUE(MAIN_CLOCK_NTSC, e));
+        v_pal  = round(FREQ_TO_VALUE(SYSCLOCK_PAL,  e));
+        v_ntsc = round(FREQ_TO_VALUE(SYSCLOCK_NTSC, e));
 
-        f_pal  = VALUE_TO_FREQ(MAIN_CLOCK_PAL,  v_pal );
-        f_ntsc = VALUE_TO_FREQ(MAIN_CLOCK_NTSC, v_ntsc);
+        f_pal  = VALUE_TO_FREQ(SYSCLOCK_PAL,  v_pal );
+        f_ntsc = VALUE_TO_FREQ(SYSCLOCK_NTSC, v_ntsc);
 
         printf("%i, %0.2f, %04x, %04x, %0.2f, %0.2f\n",
                 i, equal_tempered_frequencies[i],
