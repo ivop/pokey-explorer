@@ -13,10 +13,11 @@
 
 // ---------------------------------------------------------------------------
 
-#define NUMBER_OF_OCTAVES 9
+#define NUMBER_OF_OCTAVES 10
 
 // semitone offsets
 
+#define C0  (-57)
 #define C1  (-45)
 #define C2  (-33)
 #define C3  (-21)
@@ -63,7 +64,7 @@ int main(int argc, char **argv) {
            "PAL_frequency, NTSC_frequency\n");
 
     for (i=0; i<(NUMBER_OF_OCTAVES*12); i++) {
-        e = equal_tempered_frequencies[i] = FORMULA(i+C1);
+        e = equal_tempered_frequencies[i] = FORMULA(i+C0);
 
         v_pal  = round(FREQ_TO_VALUE(SYSCLOCK_PAL,  e));
         v_ntsc = round(FREQ_TO_VALUE(SYSCLOCK_NTSC, e));

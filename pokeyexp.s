@@ -138,7 +138,7 @@ var_tuning_volume
 var_tuning_note
     dta $09             ; A
 var_tuning_octave
-    dta $03             ; 4
+    dta $04
 var_tuning_key_was_pressed
     dta $01             ; display first run
 
@@ -1252,7 +1252,7 @@ no_polyreset
 
     ; reuse macro. +64 voids control press
     case_var_ctrl_key ','+64, var_tuning_note, 11
-    case_var_ctrl_key '.'+64, var_tuning_octave, 8
+    case_var_ctrl_key '.'+64, var_tuning_octave, 9
 
 no_tuning_keys
     dec var_tuning_key_was_pressed
@@ -1608,9 +1608,9 @@ tone_strings
     dta d'A#'
     dta d'B-'
 
-; C1 - B9 which is 9 octaves
-octave_strings = hextab+1
-; which should be dta d'123456789' :)
+; C0 - B9 which is 9 octaves
+octave_strings = hextab
+; which should be dta d'0123456789'
 
 ; ---------------------------------------------------------------------------
 
