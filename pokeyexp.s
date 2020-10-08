@@ -155,6 +155,8 @@ main    .proc
     mwa #tuning_volume_line tuning_line_two
     mwa #tuning_note_line tuning_line_three
 
+    jsr clear_second_pokey
+
     jsr display_tuning_variables
 
 no_2nd_pokey
@@ -168,9 +170,10 @@ loop
     lda stereo_pokey
     beq skip_display_tuning_variables
 
-    lda var_tuning_key_was_pressed
+    lda var_tuning_key_was_pressed          ; always enabled on first run
     beq skip_display_tuning_variables
 
+    jsr play_tuning_note                    ; play when settings are changed
     jsr display_tuning_variables
 
 skip_display_tuning_variables
@@ -251,6 +254,68 @@ detected_stereo
     rts
 
     .endp
+
+; ---------------------------------------------------------------------------
+
+; CLEAR second Pokey
+
+clear_second_pokey .proc
+    ldx #$0f
+    lda #0
+clear_loop
+    sta $d210,x
+    dex
+    bpl clear_loop
+    rts
+    .endp
+
+; ---------------------------------------------------------------------------
+
+; PLAY tuning note on second Pokey
+
+play_tuning_note .proc
+    lda var_tuning_enabled
+    bne play_the_note
+
+play_silence
+    mva #0 AUDF1+$10
+    mva #0 AUDC1+$10
+    mva #0 AUDF2+$10
+    mva #0 AUDC2+$10
+    mva #0 AUDCTL+$10
+    mva #0 SKCTL+$10
+    rts
+
+play_the_note
+    mva #$50 AUDCTL+$10         ; join 1+2, ch1 clock 1.79MHz
+    mva #$83 SKCTL+$10          ; start poly counters
+
+    ldx var_tuning_octave       ; 0-9
+    lda mul_by_12_tab,x         ; A = octave*12
+    clc
+    adc var_tuning_note
+
+    asl                         ; mul by 2
+    tax
+
+    lda tuning_table,x
+    sta AUDF1+$10
+    lda tuning_table+1,x
+    sta AUDF2+$10
+
+    mva #$a0 AUDC1+$10
+
+    lda var_tuning_volume
+    and #$0f                    ; UI treats it as an 8-bit value
+    clc
+    adc #$a0
+    sta AUDC2+$10
+
+    rts
+    .endp
+
+mul_by_12_tab
+    dta 0, 12, 24, 36, 48, 60, 72, 84, 96, 108
 
 ; ---------------------------------------------------------------------------
 
