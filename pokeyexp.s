@@ -102,7 +102,7 @@ var_sweep_channel
 var_sweep_channels      dta $00
 var_sweep_start_value   dta $00, $00
 var_sweep_end_value     dta $ff, $ff
-var_sweep_interval      dta $01
+var_sweep_interval      dta $01, $00 ; dummy value for 16-bit math
 var_sweep_play_time     dta $01
 var_sweep_gap_time      dta $01
 var_sweep_poly_reset    dta $00
