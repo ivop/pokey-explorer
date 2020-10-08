@@ -1614,6 +1614,17 @@ octave_strings = hextab
 
 ; ---------------------------------------------------------------------------
 
+; TUNING Table
+
+tuning_table
+    .if SYSTEM == PAL
+        icl 'tuning-16bit-pal.s'
+    .else
+        icl 'tuning-16bit-ntsc.s'
+    .fi
+
+; ---------------------------------------------------------------------------
+
 ; HTT FONT
 
    org $3800

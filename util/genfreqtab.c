@@ -97,11 +97,11 @@ int main(int argc, char **argv) {
 
     for (i=0; i<NUMBER_OF_OCTAVES; i++) {       // octaves
         printf("; Octave %i\n", i);
-        printf("    dta ");
+        printf(" dta a(");
         for (j=0; j<11; j++) {                  // notes
             printf("$%04x,", pal_values[i*12+j]);
         }
-        printf("$%04x\n", pal_values[i*12+j]);
+        printf("$%04x)\n", pal_values[i*12+j]);
     }
 
     // code duplication ;)
@@ -110,11 +110,11 @@ int main(int argc, char **argv) {
 
     for (i=0; i<NUMBER_OF_OCTAVES; i++) {       // octaves
         printf("; Octave %i\n", i);
-        printf("    dta ");
+        printf(" dta a(");
         for (j=0; j<11; j++) {                  // notes
             printf("$%04x,", ntsc_values[i*12+j]);
         }
-        printf("$%04x\n", ntsc_values[i*12+j]);
+        printf("$%04x)\n", ntsc_values[i*12+j]);
     }
 
     printf("\n");
