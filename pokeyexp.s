@@ -1388,7 +1388,7 @@ title
     .else
         dta d'NTSC'*
     .fi
-    dta d'        POKEY EXPLORER   v0.2beta8 '*
+    dta d'        POKEY EXPLORER     v1.0rc1 '*
 
 author
     dta d'    by Ivo van Poorten   (C)2020 TGK    '
