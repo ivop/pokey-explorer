@@ -58,4 +58,20 @@ By pressing **START**, you can start an automated sweep of either an 8-bit value
 
 **CTRL-U** Selects the step size for increasing and decreasing sweep values. This can greatly reduce the time to reach a value like $7654 :) Step size can be $0001, $0010, $0100 or $1000. The last two have no effect on the interval.
 
-Sweeps can be recorded on real hardware or with an emulator. If the play time is at least 1 second at 44.1kHz, one can automate frequency detection, for example with aubiopitch of the [aubio](https://aubio.org/) project.
+Sweeps can be recorded on real hardware or with an emulator. If the play time is at least 1 second at 44.1kHz, one can automate frequency detection, for example with aubiopitch of the [aubio](https://aubio.org/) project. If you compile from source, be sure to configure with --enable-fftw3, otherwise you won't be able to use buffer/hop sizes that are not a multiple of 2. And you need 44100, and 48510, and whatever you want.
+
+
+Tuning Notes
+------------
+
+If a second pokey is detected, it is possible to generate a 16-bit equal tempered tuning note to which you can tune by ear.
+
+**CTRL-T** toggle tuning note on/off
+
+**CTRL-V** and **CTRL-B** increase or decrease the volume of the tuning note
+
+**,** and **.** cycle through 12 notes and 10 octaves respectively
+
+That's C0-B9. 
+
+
