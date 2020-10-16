@@ -507,6 +507,10 @@ do_8bit_sweep
     mva #0 var_sweep_value+1
 
 loop_8bit_sweep
+    lda CONSOL
+    cmp #6
+    jeq done_8bit_sweep
+
     ; set sweep value to shadow_pokey channel
     lda var_sweep_channel       ; 0,1,2,3
     asl                         ; 0,2,4,6
@@ -590,6 +594,9 @@ do_16bit_sweep
     mva #0 var_sweep_value+2
 
 loop_16bit_sweep
+    lda CONSOL
+    cmp #6
+    jeq done_16bit_sweep
 
     ; X and Y become AUDF offsets for specific channel combinations
     ; v=(x-1)*2
@@ -1388,7 +1395,7 @@ title
     .else
         dta d'NTSC'*
     .fi
-    dta d'        POKEY EXPLORER        v1.0 '*
+    dta d'        POKEY EXPLORER     v1.1rc1 '*
 
 author
     dta d'    by Ivo van Poorten   (C)2020 TGK    '
@@ -1523,13 +1530,13 @@ down_keys_line
 sweep_line
     dta d'         Press ', d' START '*, d' to sweep         '
 sweep_error
-    dta d' Sweep Error: Start is greater than End  '*
+    dta d' Sweep Error: Start is greater than End '*
 sweep_countdown
-    dta d' Sweep Countdown... 4... 3... 2... 1...  '*
+    dta d' Sweep Countdown... 4... 3... 2... 1... '*
 sweep_busy
-    dta d'             Executing Sweep             '*
+    dta d' EXECUTING SWEEP!    Hold START to STOP '*
 sweep_done
-    dta d'             Sweep Finished!             '*
+    dta d'             Sweep Finished!            '*
 
 sweep_parameters_lines
     dta d' CTRL-', d'R'*, d' Resolution   : '
