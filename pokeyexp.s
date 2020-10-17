@@ -642,10 +642,8 @@ channels_selection_done
 
 no_reverse_16_bit
 
-    lda var_sweep_value
-    sta shadow_pokey,x
-    lda var_sweep_value+1
-    sta shadow_pokey,y
+    mva var_sweep_value   shadow_pokey,x
+    mva var_sweep_value+1 shadow_pokey,y
 
     jsr display_shadow_pokey
 
@@ -708,8 +706,7 @@ done_whatever_sweep
 mute_real_pokey .proc
     ldx #8
 loop
-    lda shadow_pokey_default_values,x
-    sta AUDF1,x
+    mva shadow_pokey_default_values,x AUDF1,x
     dex
     bpl loop
 ; leave SKCTL alone
@@ -723,10 +720,7 @@ loop
 print_byte_to_hex    .macro register, location
     lda :register
     tay
-    lsr
-    lsr
-    lsr
-    lsr
+    :+4 lsr
     tax
     mva hextab,x :location
     tya
@@ -738,8 +732,7 @@ print_byte_to_hex    .macro register, location
 memcpyshort  .macro src, dst, len
     ldx #0
 copyloop
-    lda :src,x
-    sta :dst,x
+    mva :src,x :dst,x
     inx
     cpx #:len
     bne copyloop
@@ -1025,8 +1018,7 @@ display_tuning_variables .proc
     mva tone_strings+1,x loc_tuning_note+1
 
     ldx var_tuning_octave
-    lda octave_strings,x
-    sta loc_tuning_octave
+    mva octave_strings,x loc_tuning_octave
 
     rts
     .endp
