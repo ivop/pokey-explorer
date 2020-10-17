@@ -145,16 +145,9 @@ var_tuning_key_was_pressed
 
 ; ---------------------------------------------------------------------------
 
-; MAIN BATCH
+; MAIN
 
-main_batch .proc
-endless
-    jmp endless
-    .endp
-
-; MAIN INTERACTIVE
-
-main_interactive .proc
+main .proc
     jsr detect_2nd_pokey
     beq no_2nd_pokey
 
@@ -167,11 +160,24 @@ main_interactive .proc
     jsr display_tuning_variables
 
 no_2nd_pokey
-    open 1, 4, 0, "K"
-
     mva #>font        CHBAS
     mwa #display_list SDLSTL
     mva #$ff          NOCLIK
+
+    .if BATCH == 0
+        jmp main_interactive
+    .else
+        jmp main_batch
+    .fi
+    .endp
+
+main_batch .proc
+endless
+    jmp endless
+    .endp
+
+main_interactive .proc
+    open 1, 4, 0, "K"
 
 loop
     lda stereo_pokey
@@ -1706,12 +1712,4 @@ font
 
 ; ---------------------------------------------------------------------------
 
-    INTERACTIVE = 0
-    BATCH       = 1
-
-.if MAIN == INTERACTIVE
-    RUN main_interactive
-.else
-    RUN main_batch
-.fi
-
+    RUN main
