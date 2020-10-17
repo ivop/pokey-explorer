@@ -380,7 +380,7 @@ do_poly_reset_if_necessary .proc
     cmp #2
     beq sweep_poly_reset_each
 
-    ; fall through, must be 1 (once)
+    ; fall through, must be 1 (once), decrement so next loop it will be none
     dec var_sweep_poly_reset_copy
     ; fall though again and do one Polycounter Reset
 
