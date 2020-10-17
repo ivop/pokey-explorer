@@ -145,9 +145,16 @@ var_tuning_key_was_pressed
 
 ; ---------------------------------------------------------------------------
 
-; MAIN
+; MAIN BATCH
 
-main    .proc
+main_batch .proc
+endless
+    jmp endless
+    .endp
+
+; MAIN INTERACTIVE
+
+main_interactive .proc
     jsr detect_2nd_pokey
     beq no_2nd_pokey
 
@@ -1699,4 +1706,12 @@ font
 
 ; ---------------------------------------------------------------------------
 
-    RUN main
+    INTERACTIVE = 0
+    BATCH       = 1
+
+.if MAIN == INTERACTIVE
+    RUN main_interactive
+.else
+    RUN main_batch
+.fi
+
