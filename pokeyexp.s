@@ -176,7 +176,6 @@ no_2nd_pokey
 ; MAIN BATCH
 
 main_batch .proc
-    jsr display_tuning_variables
     jsr display_sweep_variables
     jsr display_shadow_pokey
     mwa #empty_line sweep_line_dl_location
