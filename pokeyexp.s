@@ -509,7 +509,7 @@ do_8bit_sweep
 loop_8bit_sweep
     lda CONSOL
     cmp #6
-    jeq done_8bit_sweep
+    jeq done_8bit_sweep         ; hold START to end sweep prematurely
 
     ; set sweep value to shadow_pokey channel
     lda var_sweep_channel       ; 0,1,2,3
@@ -596,7 +596,7 @@ do_16bit_sweep
 loop_16bit_sweep
     lda CONSOL
     cmp #6
-    jeq done_16bit_sweep
+    jeq done_16bit_sweep        ; hold START to end sweep prematurely
 
     ; X and Y become AUDF offsets for specific channel combinations
     ; v=(x-1)*2
