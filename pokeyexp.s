@@ -1486,7 +1486,7 @@ loc_audctl = *+33
 loc_skctl = *+36
 
 pokey_values_line
-    dta d'  |00 01||02 03||04 05||06 07|   08 0f  '
+    dta d'  |     ||     ||     ||     |          '
 
 pokey_values_decoration_bottom
     dta d'  ', c'ZRRRRRCZRRRRRCZRRRRRCZRRRRRC', d'          '
