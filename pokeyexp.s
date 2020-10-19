@@ -323,10 +323,8 @@ play_the_note
     asl                         ; mul by 2
     tax
 
-    lda tuning_table,x
-    sta AUDF1+$10
-    lda tuning_table+1,x
-    sta AUDF2+$10
+    mva tuning_table,x   AUDF1+$10
+    mva tuning_table+1,x AUDF2+$10
 
     mva #$a0 AUDC1+$10
 
@@ -457,6 +455,8 @@ wait_sweep_gap_time .proc
 do_sweep_gap_time_0
     jmp gap_time_done                           ; 0s
 
+; Mute here, because we don't want to mute for 0s, so don't factorize this!
+
 do_sweep_gap_time_1
     jsr mute_real_pokey
     wait_number_of_frames #WAIT_TIME_100ms
@@ -552,7 +552,7 @@ loop_8bit_sweep
 
     jsr wait_sweep_play_time
 
-    jsr wait_sweep_gap_time
+    jsr wait_sweep_gap_time     ; if non-zero, pokey will be muted
 
     ; increase var_sweep_value by interval
     lda var_sweep_value
@@ -678,7 +678,7 @@ no_reverse_16_bit
 
     jsr wait_sweep_play_time 
 
-    jsr wait_sweep_gap_time
+    jsr wait_sweep_gap_time     ; if non-zero, pokey will be muted
 
     ; - do sweep increment
     lda var_sweep_value
