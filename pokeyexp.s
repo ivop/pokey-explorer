@@ -178,7 +178,8 @@ no_2nd_pokey
 main_batch .proc
     jsr display_sweep_variables
     jsr display_shadow_pokey
-    mwa #empty_line sweep_line_dl_location
+
+    jsr handle_start_key
 
 endless
     jmp endless
@@ -1412,7 +1413,11 @@ title
     .else
         dta d'NTSC'*
     .fi
-    dta d'        POKEY EXPLORER     v1.1rc1 '*
+    .if BATCH == 0
+        dta d'        POKEY EXPLORER     v1.1rc1 '*
+    .else
+        dta d'     POKEY BATCH EXPLORER  v1.1rc1 '*
+    .fi
 
 author
     dta d'    by Ivo van Poorten   (C)2020 TGK    '
