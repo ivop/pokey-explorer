@@ -483,10 +483,12 @@ gap_time_done
 
 handle_start_key .proc
 
+    .if BATCH == 0
 wait_for_release
     lda CONSOL
     cmp #7
     bne wait_for_release
+    .fi
 
     jsr mute_real_pokey
 
@@ -533,9 +535,11 @@ do_8bit_sweep
     mva #0 var_sweep_value+1
 
 loop_8bit_sweep
+    .if BATCH == 0
     lda CONSOL
     cmp #6
     jeq done_8bit_sweep         ; hold START to end sweep prematurely
+    .fi
 
     ; set sweep value to shadow_pokey channel
     lda var_sweep_channel       ; 0,1,2,3
@@ -620,9 +624,11 @@ do_16bit_sweep
     mva #0 var_sweep_value+2
 
 loop_16bit_sweep
+    .if BATCH == 0
     lda CONSOL
     cmp #6
     jeq done_16bit_sweep        ; hold START to end sweep prematurely
+    .fi
 
     ; X and Y become AUDF offsets for specific channel combinations
     ; v=(x-1)*2
@@ -1555,8 +1561,15 @@ sweep_error
     dta d' Sweep Error: Start is greater than End '*
 sweep_countdown
     dta d' Sweep Countdown... 4... 3... 2... 1... '*
+
+    .if BATCH == 0
 sweep_busy
     dta d' EXECUTING SWEEP!    Hold START to STOP '*
+    .else
+sweep_busy
+    dta d'          EXECUTING SWEEP!              '*
+    .fi
+
 sweep_done
     dta d'             Sweep Finished!            '*
 
