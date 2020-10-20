@@ -103,7 +103,7 @@ var_sweep_channel
 var_sweep_channels      dta $00
 var_sweep_start_value   dta $00, $00
 var_sweep_end_value     dta $ff, $ff
-var_sweep_interval      dta $01, $00 ; dummy value for 16-bit math
+var_sweep_interval      dta $01, $00
 var_sweep_play_time     dta $01
 var_sweep_gap_time      dta $01
 var_sweep_poly_reset    dta $00
@@ -960,7 +960,19 @@ do_8bit_end_value
 
 end_value_done
 
+    lda var_sweep_resolution
+    beq do_8bit_interval
+
+do_16bit_interval
+    print_byte_to_hex var_sweep_interval+1, loc_sweep_interval_string
+    print_byte_to_hex var_sweep_interval,   loc_sweep_interval_string+2
+    jmp interval_done
+
+do_8bit_interval
     print_byte_to_hex var_sweep_interval, loc_sweep_interval_string
+    memcpyshort two_spaces, loc_sweep_interval_string+2, 2
+
+interval_done
 
     lda var_sweep_poly_reset
 
@@ -1326,8 +1338,8 @@ no_polyreset
     case_var_ctrl_key 'U', var_sweep_ui_updown, 3
 
     ; KEY-64 equals CTRL-KEY
-    case_inc1_key 'I'-64, var_sweep_interval
-    case_dec1_key 'O'-64, var_sweep_interval
+    case_inc_16bit_key 'I'-64, var_sweep_interval
+    case_dec_16bit_key 'O'-64, var_sweep_interval
 
     case_inc_16bit_key 'S'-64, var_sweep_start_value
     case_dec_16bit_key 'D'-64, var_sweep_start_value
@@ -1420,7 +1432,7 @@ title
         dta d'NTSC'*
     .fi
     .if BATCH == 0
-        dta d'        POKEY EXPLORER     v1.1rc1 '*
+        dta d'        POKEY EXPLORER     v1.1rc2 '*
     .else
         dta d'     POKEY BATCH EXPLORER  v1.1rc1 '*
     .fi
