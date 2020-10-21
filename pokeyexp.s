@@ -69,6 +69,10 @@
 
 ; ---------------------------------------------------------------------------
 
+    zp = $fe
+
+; ---------------------------------------------------------------------------
+
     org $2000
 
 ; ---------------------------------------------------------------------------
@@ -176,10 +180,18 @@ no_2nd_pokey
 ; MAIN BATCH
 
 main_batch .proc
-    jsr display_sweep_variables
-    jsr display_shadow_pokey
 
-    jsr handle_start_key
+    ; init (zp) to sweep batch table
+loop
+    ; set shadow pokey
+    jsr display_shadow_pokey
+    ; set sweep variables
+    jsr display_sweep_variables
+    jsr handle_start_key            ; execute sweep
+
+    ; proceed to next entry in sweep batch table
+    ; check end of sweep batch table
+    jmp loop
 
 endless
     jmp endless
@@ -241,6 +253,10 @@ keybuf
     dta 0
 stereo_pokey
     dta 0
+
+    .if BATCH == 1
+; include sweep batch table
+    .fi
 
 ; ---------------------------------------------------------------------------
 
@@ -1432,10 +1448,11 @@ title
         dta d'NTSC'*
     .fi
     .if BATCH == 0
-        dta d'        POKEY EXPLORER     v1.1rc2 '*
+        dta d'        POKEY EXPLORER     '*
     .else
-        dta d'     POKEY BATCH EXPLORER  v1.1rc1 '*
+        dta d'     POKEY BATCH EXPLORER  '*
     .fi
+    dta d'v1.1rc2 '*
 
 author
     dta d'    by Ivo van Poorten   (C)2020 TGK    '
@@ -1579,7 +1596,7 @@ sweep_busy
     dta d' EXECUTING SWEEP!    Hold START to STOP '*
     .else
 sweep_busy
-    dta d'          EXECUTING SWEEP!              '*
+    dta d'            EXECUTING SWEEP!            '*
     .fi
 
 sweep_done
