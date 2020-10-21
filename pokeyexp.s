@@ -177,11 +177,27 @@ no_2nd_pokey
 
 main_batch .proc
 
-    ; init (zp) to sweep batch table
+    mwa #sweep_batch_table zp   ; init (zp)
+
 loop
-    ; set shadow pokey
+    ldy #9
+
+loop_set_sweep_pokey
+    mva (zp),y shadow_pokey,y
+    dey
+    bpl loop_set_sweep_pokey
+
     jsr display_shadow_pokey
-    ; set sweep variables
+
+    ldy #20
+    ldx #10
+
+loop_set_sweep_variables
+    mva (zp),y sweep_variables,x
+    dey
+    dex
+    bpl loop_set_sweep_variables
+
     jsr display_sweep_variables
     jsr handle_start_key            ; execute sweep
 
