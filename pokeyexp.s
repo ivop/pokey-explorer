@@ -201,9 +201,21 @@ loop_set_sweep_variables
     jsr display_sweep_variables
     jsr handle_start_key            ; execute sweep
 
-    ; proceed to next entry in sweep batch table
-    ; check end of sweep batch table
-    jmp loop
+    lda zp
+    clc
+    adc #21
+    sta zp
+    lda zp+1
+    adc #0
+    sta zp+1
+
+    lda zp
+    cmp #<sweep_batch_table_end
+    bne loop
+
+    lda zp+1
+    cmp #>sweep_batch_table_end
+    bne loop
 
 endless
     jmp endless
