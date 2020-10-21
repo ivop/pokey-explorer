@@ -179,7 +179,7 @@ main_batch .proc
 
     mwa #sweep_batch_table zp   ; init (zp)
 
-loop
+loop_batch
     ldy #9
 
 loop_set_sweep_pokey
@@ -199,6 +199,7 @@ loop_set_sweep_variables
     bpl loop_set_sweep_variables
 
     jsr display_sweep_variables
+
     jsr handle_start_key            ; execute sweep
 
     lda zp
@@ -211,11 +212,11 @@ loop_set_sweep_variables
 
     lda zp
     cmp #<sweep_batch_table_end
-    bne loop
+    bne loop_batch
 
     lda zp+1
     cmp #>sweep_batch_table_end
-    bne loop
+    bne loop_batch
 
 endless
     jmp endless
