@@ -65,3 +65,23 @@
 
 ; ---------------------------------------------------------------------------
 
+; SWEEP 3
+
+; $8x, poly counter 9-bit, channel 1 clock 1.79MHz, 8-bit sweep
+; $03 + n*7
+
+    dta $03, $8f, $00, $a0, $00, $a0, $00, $a0
+    dta $c0
+    dta $83
+
+    dta $00 ; 8-bit
+    dta $00 ; channel 1
+    dta a($0003)
+    dta a($ffff)
+    dta a($0007)
+    dta $01 ; 1s            slower than previous sweeps
+    dta $01 ; 0.1s          and with a gap!
+    dta $00 ; off
+
+; ---------------------------------------------------------------------------
+
