@@ -112,11 +112,6 @@ var_sweep_play_time     dta $01
 var_sweep_gap_time      dta $01
 var_sweep_poly_reset    dta $00
 
-; Sweep Variables default values
-
-var_sweep_default_values
-    dta $00, $00, $00, $ff, $01, $01, $01, $00
-
 ; Sweep UI Variables
 
 var_sweep_ui_updown
