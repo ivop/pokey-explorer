@@ -1,8 +1,15 @@
+; ---------------------------------------------------------------------------
+
 ; sweep_batch_table
 
-; SWEEP 1
+; ---------------------------------------------------------------------------
 
-    ; Pokey settings
+; SWEEP 1
+;
+; Synthpopalooza's 1+3 filter, 1 and 3 @1.79MHz
+; Interval of $0101 and reverse 16-bit
+
+    ; Pokey settings (copy manually from UI)
 
     ; Pokey $d200-$d207 (AUDF/AUDC pairs)
     dta $00, $af, $00, $a0, $00, $a0, $00, $a0
@@ -36,4 +43,25 @@
 
     ; Poly reset, (0,1,2) = (off, once, each)
     dta $00
+
+; ---------------------------------------------------------------------------
+
+; SWEEP 2
+
+; Plain $Ax sweep
+
+    dta $00, $af, $00, $a0, $00, $a0, $00, $a0
+    dta $00
+    dta $83
+
+    dta $00 ; 8-bit
+    dta $00 ; channel 1
+    dta a($0000)
+    dta a($ffff)
+    dta a($0001)
+    dta $00 ; 0.1s
+    dta $00 ; 0s
+    dta $00 ; off
+
+; ---------------------------------------------------------------------------
 
