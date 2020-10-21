@@ -102,6 +102,7 @@ shadow_pokey_storage
 
 ; Sweep Variables
 
+sweep_variables
 var_sweep_resolution    dta $00
 var_sweep_channel
 var_sweep_channels      dta $00
@@ -249,9 +250,13 @@ keybuf
 stereo_pokey
     dta 0
 
+sweep_batch_table
+
     .if BATCH == 1
-; include sweep batch table
+        icl 'sweeps.s'
     .fi
+
+sweep_batch_table_end
 
 ; ---------------------------------------------------------------------------
 
