@@ -64,14 +64,14 @@
     scancode_f4        = 20
     scancode_help      = 17
 
-; scan code modifiers
+; scan code modifiers           e.g. scancode_x + scancode shift
 ; these work for all keys
 
-    scancode_shift     = +64 
-    scancode_control   = +128
+    scancode_shift     = 64
+    scancode_control   = 128
 
 ; control+shift
-; non-working keys are: JKL;+* ZXCVB F1 F2 F3 F4 and HELP
+; non-working keys are: jkl semicolon plus asterisk zxcvb f1 f2 f3 f4 help
 
-    scancode_control_shift = +192
+    scancode_control_shift = 192
 
