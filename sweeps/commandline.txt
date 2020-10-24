@@ -1,0 +1,1 @@
+aubiopitch -i $Ax\ AUDCTL\=$64\ $0001\ -\ $0101\ -\ cleaned\ up.wav -B 48510 -H 48510 -u hertz -v -s -90 -p yinfast | less
