@@ -56,7 +56,7 @@ By pressing **START**, you can start an automated sweep of either an 8-bit value
 
 **CTRL-X** Selects whether the poly counter is reset by writing a non-zero value to STIMER. Can be off, once (at the start of the sweep), or each (each new tone).
 
-**CTRL-U** Selects the step size for increasing and decreasing sweep values. This can greatly reduce the time to reach a value like $7654. Step size can be $0001, $0010, $0100 or $1000. The last two have no effect on the interval.
+**CTRL-U** Selects the step size for increasing and decreasing sweep values. This can greatly reduce the time to reach a value like $7654. Step size can be $0001, $0010, $0100 or $1000. The last two have no effect on the interval if the sweep resolution is 8-bit.
 
 Sweeps can be recorded on real hardware or with an emulator. If the play time is at least 1 second at 44.1kHz, one can automate frequency detection, for example with aubiopitch of the [aubio](https://aubio.org/) project. If you compile from source, be sure to configure with --enable-fftw3, otherwise you won't be able to use buffer/hop sizes that are not a multiple of 2. And you need 44100, and 48510, and whatever you want.
 
