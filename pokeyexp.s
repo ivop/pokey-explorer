@@ -24,6 +24,14 @@
     PAL    = 0
     NTSC   = 1
 
+; Note that the _exact_ hardware framerate is not 50Hz (PAL) or 60Hz (NTSC),
+; but 49.8607Hz (PAL) and 59.9277Hz (NTSC).
+
+; Emulator settings might vary between exact 50Hz/60Hz, hardware framerate
+; or broadcast framerate.
+
+; When post-processing audio recordings, keep this in mind and adjust for it.
+
     .if SYSTEM == PAL
         FRAMES_PER_SECOND = 50
     .else
