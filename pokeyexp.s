@@ -684,7 +684,6 @@ loop_16bit_sweep
     .fi
 
     ; X and Y become AUDF offsets for specific channel combinations
-    ; v=(x-1)*2
 
     lda var_sweep_channel           ; four options
     beq do_sweep_channels_0
@@ -1489,7 +1488,7 @@ title
     .else
         dta d'     POKEY BATCH EXPLORER  '*
     .fi
-    dta d'   v1.1 '*
+    dta d'v1.2rc1 '*
 
 author
     dta d'    by Ivo van Poorten   (C)2020 TGK    '
