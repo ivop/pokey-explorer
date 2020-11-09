@@ -1489,7 +1489,7 @@ title
     .else
         dta d'     POKEY BATCH EXPLORER  '*
     .fi
-    dta d'v1.1rc2 '*
+    dta d'   v1.1 '*
 
 author
     dta d'    by Ivo van Poorten   (C)2020 TGK    '
