@@ -210,13 +210,7 @@ loop_set_sweep_variables
 
     jsr handle_start_key            ; execute sweep
 
-    lda zp
-    clc
-    adc #21
-    sta zp
-    lda zp+1
-    adc #0
-    sta zp+1
+    adw zp #21
 
     lda zp
     cmp #<sweep_batch_table_end
